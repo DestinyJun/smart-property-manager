@@ -31,95 +31,104 @@ export interface NavData {
 
 export const navItems: NavData[] = [
   {
-    name: 'Dashboard',
-    url: '/dashboard',
+    name: '首页',
+    url: '/home',
     icon: 'icon-speedometer',
     badge: {
       variant: 'info',
       text: 'NEW'
     }
   },
-  {
+  /*{
     title: true,
     name: 'Theme'
-  },
+  },*/
   {
-    name: 'Colors',
+    name: '组织管理',
     url: '/theme/colors',
-    icon: 'icon-drop'
-  },
-  {
-    name: 'Typography',
-    url: '/theme/typography',
-    icon: 'icon-pencil'
-  },
-  {
-    title: true,
-    name: 'Components'
-  },
-  {
-    name: 'Base',
-    url: '/base',
-    icon: 'icon-puzzle',
+    icon: 'icon-drop',
     children: [
       {
-        name: 'Cards',
+        name: '机构管理',
         url: '/base/cards',
         icon: 'icon-puzzle'
       },
       {
-        name: 'Carousels',
+        name: '部门管理',
+        url: '/base/carousels',
+        icon: 'icon-puzzle'
+      },
+    ]
+  },
+  {
+    name: '区划管理',
+    url: '/theme/typography',
+    icon: 'icon-pencil',
+    children: [
+      {
+        name: '省管理',
+        url: '/base/cards',
+        icon: 'icon-puzzle'
+      },
+      {
+        name: ' 市管理',
         url: '/base/carousels',
         icon: 'icon-puzzle'
       },
       {
-        name: 'Collapses',
+        name: '县/区管理',
         url: '/base/collapses',
         icon: 'icon-puzzle'
       },
       {
-        name: 'Forms',
+        name: '小区管理',
+        url: '/base/forms',
+        icon: 'icon-puzzle'
+      },
+    ]
+  },
+  /*{
+    title: true,
+    name: 'Components'
+  },*/
+  {
+    name: '权限管理',
+    url: '/base',
+    icon: 'icon-puzzle',
+    children: [
+      {
+        name: '用户管理',
+        url: '/base/cards',
+        icon: 'icon-puzzle'
+      },
+      {
+        name: '权限管理',
+        url: '/base/carousels',
+        icon: 'icon-puzzle'
+      },
+      {
+        name: '角色管理',
+        url: '/base/collapses',
+        icon: 'icon-puzzle'
+      },
+      {
+        name: '用户角色配置',
         url: '/base/forms',
         icon: 'icon-puzzle'
       },
       {
-        name: 'Pagination',
+        name: '角色权限配置',
         url: '/base/paginations',
         icon: 'icon-puzzle'
       },
-      {
-        name: 'Popovers',
-        url: '/base/popovers',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Progress',
-        url: '/base/progress',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Switches',
-        url: '/base/switches',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Tables',
-        url: '/base/tables',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Tabs',
-        url: '/base/tabs',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Tooltips',
-        url: '/base/tooltips',
-        icon: 'icon-puzzle'
-      }
     ]
   },
   {
+    name: '系统设置',
+    url: '/charts',
+    icon: 'icon-pie-chart'
+  },
+  /*{
     name: 'Buttons',
     url: '/buttons',
     icon: 'icon-cursor',
@@ -270,5 +279,5 @@ export const navItems: NavData[] = [
     icon: 'icon-layers',
     variant: 'danger',
     attributes: { target: '_blank', rel: 'noopener' }
-  }
+  }*/
 ];
