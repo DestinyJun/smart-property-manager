@@ -47,7 +47,7 @@ export const navItems: NavData[] = [
     name: '组织管理',
     url: '/theme/colors',
     icon: 'icon-drop',
-    children: [
+    /*children: [
       {
         name: '机构管理',
         url: '/base/cards',
@@ -58,13 +58,13 @@ export const navItems: NavData[] = [
         url: '/base/carousels',
         icon: 'icon-puzzle'
       },
-    ]
+    ]*/
   },
   {
     name: '区划管理',
     url: '/theme/typography',
     icon: 'icon-pencil',
-    children: [
+    /*children: [
       {
         name: '省管理',
         url: '/base/cards',
@@ -85,7 +85,7 @@ export const navItems: NavData[] = [
         url: '/base/forms',
         icon: 'icon-puzzle'
       },
-    ]
+    ]*/
   },
   /*{
     title: true,
@@ -95,7 +95,7 @@ export const navItems: NavData[] = [
     name: '权限管理',
     url: '/base',
     icon: 'icon-puzzle',
-    children: [
+    /*children: [
       {
         name: '用户管理',
         url: '/base/cards',
@@ -121,12 +121,19 @@ export const navItems: NavData[] = [
         url: '/base/paginations',
         icon: 'icon-puzzle'
       },
-    ]
+    ]*/
   },
   {
     name: '系统设置',
     url: '/charts',
-    icon: 'icon-pie-chart'
+    icon: 'icon-pie-chart',
+    children: [
+      {
+        name: '基础字段配置',
+        url: '/base/cards',
+        icon: 'icon-puzzle'
+      },
+    ]
   },
   /*{
     name: 'Buttons',
