@@ -1,0 +1,12 @@
+<ul class="pagination" *ngIf="showPaging">
+    <li class="page-item" (click)="firstClick()"><a class="page-link">首页</a></li>
+    <li class="page-item" (click)="pClick()"><a class="page-link">上一页</a></li>
+    <li class="page-item"><a class="page-link">第{{nowPage}}页/共{{totalPage}}页</a></li>
+    <li class="page-item ml-1 mr-1" *ngIf="true">
+      <input class="form-control" type="number" [(ngModel)]="skpPage" (keydown)="appointPage($event)">
+    </li>
+    <li class="page-item"><a class="page-link" (click)="appointPage($event)">跳转</a></li>
+    <li class="page-item" (click)="nClick()"><a class="page-link">下一页</a></li>
+    <li class="page-item" (click)="lastClick()"><a class="page-link">尾页</a></li>
+  </ul>
+

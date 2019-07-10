@@ -26,6 +26,22 @@ export const routes: Routes = [
         path: 'home',
         loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)
       },
+      {
+        path: 'settings',
+        loadChildren: () => import('./views/settings/settings.module').then(m => m.SettingsModule)
+      },
+      {
+        path: 'org',
+        loadChildren: () => import('./views/organization/organization.module').then(m => m.OrganizationModule)
+      },
+      {
+        path: 'permis',
+        loadChildren: () => import('./views/permission/permission.module').then(m => m.PermissionModule)
+      },
+      {
+        path: 'region',
+        loadChildren: () => import('./views/region/region.module').then(m => m.RegionModule)
+      },
     ]
   },
   {

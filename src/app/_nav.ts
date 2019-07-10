@@ -39,102 +39,102 @@ export const navItems: NavData[] = [
       text: 'NEW'
     }
   },
-  /*{
-    title: true,
-    name: 'Theme'
-  },*/
   {
     name: '组织管理',
-    url: '/theme/colors',
+    url: '/org',
     icon: 'icon-drop',
-    /*children: [
+    children: [
       {
         name: '机构管理',
-        url: '/base/cards',
+        url: '/org/agency',
         icon: 'icon-puzzle'
       },
       {
         name: '部门管理',
-        url: '/base/carousels',
-        icon: 'icon-puzzle'
-      },
-    ]*/
-  },
-  {
-    name: '区划管理',
-    url: '/theme/typography',
-    icon: 'icon-pencil',
-    /*children: [
-      {
-        name: '省管理',
-        url: '/base/cards',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: ' 市管理',
-        url: '/base/carousels',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: '县/区管理',
-        url: '/base/collapses',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: '小区管理',
-        url: '/base/forms',
-        icon: 'icon-puzzle'
-      },
-    ]*/
-  },
-  /*{
-    title: true,
-    name: 'Components'
-  },*/
-  {
-    name: '权限管理',
-    url: '/base',
-    icon: 'icon-puzzle',
-    /*children: [
-      {
-        name: '用户管理',
-        url: '/base/cards',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: '权限管理',
-        url: '/base/carousels',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: '角色管理',
-        url: '/base/collapses',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: '用户角色配置',
-        url: '/base/forms',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: '角色权限配置',
-        url: '/base/paginations',
-        icon: 'icon-puzzle'
-      },
-    ]*/
-  },
-  {
-    name: '系统设置',
-    url: '/charts',
-    icon: 'icon-pie-chart',
-    children: [
-      {
-        name: '基础字段配置',
-        url: '/base/cards',
+        url: '/org/department',
         icon: 'icon-puzzle'
       },
     ]
   },
+  {
+     name: '区划管理',
+     url: '/region',
+     icon: 'icon-pencil',
+     children: [
+       {
+         name: '省管理',
+         url: '/region/province',
+         icon: 'icon-puzzle'
+       },
+       {
+         name: ' 市管理',
+         url: '/region/city',
+         icon: 'icon-puzzle'
+       },
+       {
+         name: '县/区管理',
+         url: '/region/county',
+         icon: 'icon-puzzle'
+       },
+       {
+         name: '小区管理',
+         url: '/region/community',
+         icon: 'icon-puzzle'
+       },
+     ]
+   },
+  {
+     name: '权限管理',
+     url: '/permis',
+     icon: 'icon-puzzle',
+     children: [
+       {
+         name: '用户管理',
+         url: '/permis/user',
+         icon: 'icon-puzzle'
+       },
+       {
+         name: '权限管理',
+         url: '/permis/limit',
+         icon: 'icon-puzzle'
+       },
+       {
+         name: '角色管理',
+         url: '/permis/role',
+         icon: 'icon-puzzle'
+       },
+       {
+         name: '用户角色配置',
+         url: '/permis/userm',
+         icon: 'icon-puzzle'
+       },
+       {
+         name: '角色权限配置',
+         url: '/permis/rolem',
+         icon: 'icon-puzzle'
+       },
+     ]
+   },
+  {
+     name: '系统设置',
+     url: '/settings',
+     icon: 'icon-pie-chart',
+     children: [
+       {
+         name: '基础字段配置',
+         url: '/settings/field',
+         icon: 'icon-puzzle'
+       },
+     ]
+   },
+  /*{
+    title: true,
+    name: 'Theme'
+  },*/
+  /*{
+    title: true,
+    name: 'Components'
+  },*/
   /*{
     name: 'Buttons',
     url: '/buttons',
