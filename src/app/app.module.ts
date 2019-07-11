@@ -38,6 +38,8 @@ import { AppRoutingModule } from './app.routing';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {SmartInterceptor} from './commons/services/smart-interceptor';
 
 @NgModule({
   imports: [
@@ -52,7 +54,8 @@ import { ChartsModule } from 'ng2-charts';
     PerfectScrollbarModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
-    ChartsModule
+    ChartsModule,
+    HttpClientModule,
   ],
   declarations: [
     AppComponent,
@@ -62,10 +65,10 @@ import { ChartsModule } from 'ng2-charts';
     LoginComponent,
     RegisterComponent
   ],
-  providers: [{
-    provide: LocationStrategy,
-    useClass: HashLocationStrategy
-  }],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: SmartInterceptor, multi: true},
+    {provide: LocationStrategy, useClass: HashLocationStrategy}
+    ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

@@ -4,5 +4,7 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  http_url: 'http://192.168.2.1',
+  appkey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJBUFAiLCJpc3MiOiJTZXJ2aWNlIiwiZXhwIjoxNTYyMzMyOTM2LCJ1c2VySWQiOiIxNTU4NDkyMzY0NDMzNTUiL'
 };
