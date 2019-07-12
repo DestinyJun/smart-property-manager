@@ -1,6 +1,8 @@
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {EMPTY, Observable, of} from 'rxjs';
+import { finalize, tap } from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
+import {Router} from '@angular/router';
 
 export class SmartInterceptor implements HttpInterceptor {
   public clonedRequest: any;
@@ -10,7 +12,9 @@ export class SmartInterceptor implements HttpInterceptor {
     '/wx/getticket', '/member/signin', '/member/recommenderWorkId',
     '/member/sendSMS', '/member/verifySMS'
   ];
-  constructor () {}
+  constructor (
+    private router: Router
+  ) {}
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return this.debug_http(req, next);
   }
@@ -24,13 +28,29 @@ export class SmartInterceptor implements HttpInterceptor {
     }
     else {
       this.clonedRequest = req.clone({
-        url: environment.http_url,
+        url: environment.http_url + req.url,
         headers: req.headers
           .set('Content-type', 'application/json')
           .set('appkey', environment.appkey)
       });
     }
-    return next.handle(this.clonedRequest);
+    return next.handle(this.clonedRequest).pipe(
+      tap(
+        (event: any) => {
+          if (event.status === 200) {
+            if (event.body.status === '1000') {
+              return of(event);
+            }
+            this.router.navigate(['/login']);
+            return EMPTY;
+          }
+        },
+         (err) => {
+          this.router.navigate(['/login']);
+          return EMPTY;
+        }
+      )
+    );
   }
   // is skip url
   public isSkipUrl(url: string) {

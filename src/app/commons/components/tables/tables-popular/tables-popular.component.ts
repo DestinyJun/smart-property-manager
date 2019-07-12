@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {ModalDirective} from 'ngx-bootstrap';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {TextArea, Textbox, FieldBase} from './dynamic-form/form-field';
@@ -10,7 +10,7 @@ import {Radiosbox} from './dynamic-form/form-field/radiosbox';
   templateUrl: './tables-popular.component.html',
   styleUrls: ['./tables-popular.component.scss']
 })
-export class TablesPopularComponent implements OnInit {
+export class TablesPopularComponent implements OnInit, OnChanges{
   @Input() thead: any = [
     {theadName: '姓名', theadLabel: 'username'},
     {theadName: '日期', theadLabel: 'date'},
@@ -18,16 +18,18 @@ export class TablesPopularComponent implements OnInit {
     {theadName: '状态', theadLabel: 'status'}
   ];
   @Input() tbody: any = [
-    {id: 1, username: 'Samppa Nori', date: '2012/01/01', role: 'Member', status: 'Active'},
-    {id: 2, username: 'Samppa Nori', date: '2012/01/01', role: 'Member', status: 'Active'},
+    {username: 'Samppa Nori', id: 1, date: '2012/01/01', role: 'Member', status: 'Active'},
+    {username: '哈哈哈', id: 2, date: '2012/01/01', role: 'Member', status: 'Active'},
     {id: 5, username: 'Samppa Nori', date: '2012/01/01', role: 'Member', status: 'Active'},
   ];
   @Input() totalItems: number = 64;
   @Input() itemsPerPage: number = 10;
   @Input() modalTitle: any = '基础字段添加';
+  @Output() pageChange = new EventEmitter();
+  @Output() deleteChange = new EventEmitter();
   @ViewChild('successModal', {static: false}) public successModal: ModalDirective;
-  currentPage: number = 4;
-  public ids: any = [];
+  currentPage: number = 1;
+  public ids = [];
   public check_status = [];
   // form
   public form: FormGroup;
@@ -110,11 +112,18 @@ export class TablesPopularComponent implements OnInit {
     this.form = this.toFormGroup(this.fields);
     this.form.valueChanges.subscribe(data => this.onValueChanged(data));
     this.onValueChanged();
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.tbody) {
+     this.tableInit();
+    }
+  }
+  public tableInit(): void {
+    this.check_status = [];
     this.tbody.map(() => {
       this.check_status.push(false);
     });
   }
-
   public addClick() {
     if (this.form.valid) {
       console.log(this.form.value);
@@ -126,9 +135,13 @@ export class TablesPopularComponent implements OnInit {
 
   public upDateClick() {
   }
+  // delete click
   public deleteClick() {
-    console.log(this.ids);
+    if (this.ids.length > 0) {
+      this.deleteChange.emit(this.ids);
+    }
   }
+  // select table
   public theadOnInput(e) {
     this.ids = [];
     this.check_status = [];
@@ -138,7 +151,7 @@ export class TablesPopularComponent implements OnInit {
         this.ids.push(val.id);
       });
     } else {
-      this.tbody.map((val) => {
+      this.tbody.map(() => {
         this.check_status.push(false);
       });
       this.ids = [];
@@ -155,12 +168,14 @@ export class TablesPopularComponent implements OnInit {
       this.ids = Array.from(set);
     }
   }
+  // page change
   public pageChanged(event: any): void {
-    // console.log(this.currentPage);
+    this.ids = [];
+    this.tableInit();
     this.currentPage = event.page;
-    console.log('当前页为第: ' + event.page + '页');
-    console.log('每页数量： ' + event.itemsPerPage + '条');
+    this.pageChange.emit({page: event.page});
   }
+  // form verify
   public toFormGroup(fields: FieldBase<any>[]) {
     const group: any = {};
     fields.forEach(field => {

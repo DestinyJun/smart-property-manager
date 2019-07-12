@@ -1,3 +1,14 @@
 <div class="org-agency">
-  <app-tables-popular></app-tables-popular>
+  <app-tables-popular
+    [itemsPerPage] = '10'
+    [totalItems]="orgSearchData?.totalRecord"
+    [thead]="orgThead"
+    [tbody]="orgSearchData?.contents"
+    (pageChange)="orgPageChange($event)"
+    (deleteChange)="orgDelete($event)"
+  ></app-tables-popular>
 </div>
+<ngx-loading
+  [show]="orgLoading"
+  [config]="{backdropBorderRadius: '3px'}">
+</ngx-loading>
