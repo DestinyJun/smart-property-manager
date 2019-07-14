@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, OnChanges} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {FieldBase} from './form-field';
 
@@ -13,8 +13,5 @@ export class FormControlComponent implements OnInit {
   constructor() {
   }
 
-  ngOnInit() {
-
-  }
-
+  ngOnInit() {}
 }

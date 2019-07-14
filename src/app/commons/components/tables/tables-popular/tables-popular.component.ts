@@ -1,9 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {ModalDirective} from 'ngx-bootstrap';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {TextArea, Textbox, FieldBase} from './dynamic-form/form-field';
-import {Dropdownbox} from './dynamic-form/form-field/dropdownbox';
-import {Radiosbox} from './dynamic-form/form-field/radiosbox';
+import {FieldBase} from './dynamic-form/form-field';
 
 @Component({
   selector: 'app-tables-popular',
@@ -25,38 +23,9 @@ export class TablesPopularComponent implements OnInit, OnChanges{
   @Input() totalItems: number = 64;
   @Input() itemsPerPage: number = 10;
   @Input() modalTitle: any = '基础字段添加';
-  @Output() pageChange = new EventEmitter();
-  @Output() deleteChange = new EventEmitter();
-  @ViewChild('successModal', {static: false}) public successModal: ModalDirective;
-  currentPage: number = 1;
-  public ids = [];
-  public check_status = [];
-  // form
-  public form: FormGroup;
-  public formErrors = {
-    'email': '',
-    'password': '',
-    'confirmPassword': '',
-    'formError': '',
-    'vcode': ''
-  };
-  public validationMessages = {
-    'email': {
-      'required': '邮箱必须输入。',
-      'pattern': '请输入正确的邮箱地址。'
-    },
-    'password': {
-      'required': '密码必须输入。',
-      'minlength': '密码至少要8位。'
-    },
-    'confirmPassword': {
-      'required': '重复密码必须输入。',
-      'minlength': '密码至少要8位。',
-      'validateEqual': '两次输入的密码不一致。'
-    }
-  };
+  @Input() updateTitle: any = '基础字段修改';
   @Input() fields: FieldBase<any>[] = [
-    new Textbox({
+   /* new Textbox({
       label: '头像:',
       placeholder: '上传头像',
       type: 'file',
@@ -102,46 +71,112 @@ export class TablesPopularComponent implements OnInit, OnChanges{
       list: [{name: '是', type: 1}, {name: '否', type: 0}],
       label: '是否是收费:',
       key: 'money'
-    })
+    })*/
   ];
-
+  @Output() pageChange = new EventEmitter();
+  @Output() deleteChange = new EventEmitter();
+  @Output() addChange = new EventEmitter();
+  @Output() updateChange = new EventEmitter();
+  @ViewChild('successModal', {static: false}) public successModal: ModalDirective;
+  @ViewChild('primaryModal', {static: false}) public primaryModal: ModalDirective;
+  @ViewChild('dangerModal', {static: false}) public dangerModal: ModalDirective;
+  currentPage: number = 1;
+  public ids = [];
+  public inx = [];
+  public check_status = [];
+  public tablesAlertsDis: any = [];
+  // form
+  public form: FormGroup;
+  public formErrors = {};
+  public validationMessages: any = {
+    /*'email': {
+      'required': '邮箱必须输入。',
+      'pattern': '请输入正确的邮箱地址。'
+    },
+    'password': {
+      'required': '密码必须输入。',
+      'minlength': '密码至少要8位。'
+    },
+    'confirmPassword': {
+      'required': '重复密码必须输入。',
+      'minlength': '密码至少要8位。',
+      'validateEqual': '两次输入的密码不一致。'
+    }*/
+  };
   constructor() {
   }
 
-  ngOnInit() {
-    this.form = this.toFormGroup(this.fields);
-    this.form.valueChanges.subscribe(data => this.onValueChanged(data));
-    this.onValueChanged();
-  }
+  ngOnInit() {}
   ngOnChanges(changes: SimpleChanges): void {
+    if (this.fields) {
+      this.ids = [];
+      this.form = this.toFormGroup(this.fields);
+      this.form.valueChanges.subscribe(() => this.onValueChanged());
+      this.onValueChanged();
+    }
     if (this.tbody) {
      this.tableInit();
+     this.validationInit();
     }
   }
+  // table初始化
   public tableInit(): void {
     this.check_status = [];
     this.tbody.map(() => {
       this.check_status.push(false);
     });
   }
-  public addClick() {
+  // add按钮事件
+  public addShowModal(): void {
+    this.successModal.show();
+    this.addChange.emit(false);
+  }
+  public addSaveClick() {
     if (this.form.valid) {
-      console.log(this.form.value);
       this.successModal.hide();
-    } else {
-      console.log('表单有不合格项');
+      this.addChange.emit(this.form.value);
+      this.form.reset();
     }
   }
-
-  public upDateClick() {
+  // update事件
+  public updateShowModal(): void{
+    if (this.ids.length !== 1) {
+      this.tablesAlertsDis.push({
+        type: 'danger',
+        msg: `操作有误，请选择一项进行操作！`,
+        timeout: 2000
+      });
+      return;
+    }
+    console.log(this.ids);
+    this.primaryModal.show();
+    this.updateChange.emit({saving: false, value: this.cloneObj(this.tbody[this.ids[0]])});
   }
-  // delete click
-  public deleteClick() {
-    if (this.ids.length > 0) {
-      this.deleteChange.emit(this.ids);
+  public upDateSaveClick() {
+    if (this.form.valid) {
+      this.primaryModal.hide();
+      this.updateChange.emit({saving: true, value: this.form.value});
+      this.form.reset();
     }
   }
-  // select table
+  // delete事件
+  public deleteShowModal(): void {
+    if (this.ids.length <= 0) {
+      this.tablesAlertsDis.push({
+        type: 'danger',
+        msg: `操作有误，请选择一项或多项进行操作！`,
+        timeout: 2000
+      });
+      return;
+    }
+    this.dangerModal.show();
+  }
+  public deleteSaveClick() {
+    this.deleteChange.emit(this.ids);
+    this.ids = [];
+    this.primaryModal.hide();
+  }
+  // table 选择
   public theadOnInput(e) {
     this.ids = [];
     this.check_status = [];
@@ -168,26 +203,41 @@ export class TablesPopularComponent implements OnInit, OnChanges{
       this.ids = Array.from(set);
     }
   }
-  // page change
+  // 页数事件
   public pageChanged(event: any): void {
     this.ids = [];
     this.tableInit();
     this.currentPage = event.page;
     this.pageChange.emit({page: event.page});
   }
-  // form verify
+  // 表单初始化及动态校验
   public toFormGroup(fields: FieldBase<any>[]) {
     const group: any = {};
     fields.forEach(field => {
-      if (field.key === 'password') {
-        group[field.key] = new FormControl(field.value || '', Validators.required);
+      if (field.disabled) {
+        group[field.key] = new FormControl({value: field.value || '', disabled: true});
       } else {
-        group[field.key] = new FormControl(field.value || '');
+        group[field.key] = new FormControl({value: field.value || '', disabled: false});
+      }
+      if (field.required) {
+        group[field.key].validator = Validators.required;
       }
     });
     return new FormGroup(group);
   }
-  public onValueChanged(data?: any) {
+  public validationInit(): void {
+    this.formErrors = {};
+    this.validationMessages = {};
+    this.fields.map((val) => {
+      const a = {};
+      this.formErrors[val.key] = '';
+      if (val.required) {
+        a['required'] = `${val.label}是必填项`;
+        this.validationMessages[val.key] = a;
+      }
+    });
+  }
+  public onValueChanged() {
     if (!this.form) {
       return;
     }
@@ -206,5 +256,15 @@ export class TablesPopularComponent implements OnInit, OnChanges{
         }
       }
     }
+  }
+  // 遍历赋值操作
+  public cloneObj(c: any): any {
+    const obj = {};
+    for (const prop in c) {
+      if (c.hasOwnProperty(prop) ) {
+        obj[prop] = c[prop];
+      }
+    }
+    return obj;
   }
 }

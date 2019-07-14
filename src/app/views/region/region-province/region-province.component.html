@@ -1,4 +1,17 @@
 <div class="region-province">
-  <h1>省管理</h1>
+  <app-tables-popular
+    [itemsPerPage]="10"
+    [totalItems]="provinceList?.totalRecord"
+    [thead]="provinceThead"
+    [tbody]="provinceList?.contents"
+    (pageChange)="provinceChange($event)"
+    (deleteChange)="provinceDelete($event)"
+    [fields]="provinceFields"
+    [modalTitle]="'省级添加'"
+    (addChange)="provinceAdd($event)"
+    (updateChange)="provinceUpdate($event)"
+  >
+  </app-tables-popular>
+  <ngx-loading [show]="provinceLoading" [config]="{backdropBorderRadius: '3px'}"></ngx-loading>
+  <app-smart-alert [alertsDismiss]="provinceAlertsDis"></app-smart-alert>
 </div>
-

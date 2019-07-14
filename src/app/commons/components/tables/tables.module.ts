@@ -4,6 +4,7 @@ import { TablesPopularComponent } from './tables-popular/tables-popular.componen
 import {ModalModule, PaginationModule} from 'ngx-bootstrap';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FormControlComponent} from './tables-popular/dynamic-form/form-control.component';
+import {SmartAlertModule} from '../smart-alert/smart-alert.module';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import {FormControlComponent} from './tables-popular/dynamic-form/form-control.c
     FormsModule,
     ReactiveFormsModule,
     ModalModule.forRoot(),
+    SmartAlertModule
   ],
   exports: [
     TablesPopularComponent

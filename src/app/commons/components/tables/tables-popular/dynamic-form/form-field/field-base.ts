@@ -5,12 +5,14 @@ export class FieldBase<T> {
   controlType: string;
   placeholder: string;
   required?: boolean;
+  disabled?: boolean;
 
   constructor(options: {
     value?: T,
     key?: string,
     label?: string,
     required?: boolean,
+    disabled?: boolean;
     order?: number,
     controlType?: string,
     placeholder?: string
@@ -20,6 +22,7 @@ export class FieldBase<T> {
     this.label = options.label || '';
     this.controlType = options.controlType || '';
     this.placeholder = options.placeholder || '';
-    this.required = options.required || null;
+    this.required = options.required || false;
+    this.disabled = options.disabled || false;
   }
 }

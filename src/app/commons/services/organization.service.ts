@@ -8,7 +8,7 @@ import {Observable} from 'rxjs';
 export class OrganizationService {
 
   constructor(
-    private orgHttp: HttpClient
+    private orgHttp: HttpClient,
   ) { }
   public orgPageSearch(params): Observable<any> {
     return this.orgHttp.post('/organization/findByPage', params);

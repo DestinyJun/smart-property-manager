@@ -1,52 +1,52 @@
 <div [formGroup]="form" class="form-group row">
-  <label class="col-md-4 col-form-label" [for]="field.key">{{field.label}}</label>
+  <label class="col-md-4 col-form-label" [for]="field?.key">{{field?.label}}</label>
   <div class="col-md-8">
-    <div [ngSwitch]="field.controlType">
+    <div [ngSwitch]="field?.controlType">
       <!--text-->
       <ng-container *ngSwitchCase="'textbox'">
         <input
-          [required]="field.required"
-          [id]="field.key"
+          [id]="field?.key"
           class="form-control"
-          value="{{field.value}}"
-          [formControlName]="field.key"
-          [type]="field.type"
-          placeholder="{{field.placeholder}}"
+          value="{{field?.value}}"
+          [formControlName]="field?.key"
+          [type]="field?.type"
+          placeholder="{{field?.placeholder}}"
         />
-        <span *ngIf="formErrors[field.key]" class="text-danger">
-          {{ formErrors.password }}
+        <span *ngIf="formErrors[field?.key]" class="text-danger">
+          {{formErrors[field?.key]}}
         </span>
       </ng-container>
       <!--textarea-->
       <ng-container *ngSwitchCase="'textarea'">
          <textarea
-           [id]="field.key"
-           [value]="field.value"
-           rows="{{field.rows}}"
+           [id]="field?.key"
+           [value]="field?.value"
+           rows="{{field?.rows}}"
            class="form-control"
-           [formControlName]="field.key"
-           placeholder="{{field.placeholder}}">
+           [ngClass]="{'is-invalid': formErrors.email}"
+           [formControlName]="field?.key"
+           placeholder="{{field?.placeholder}}">
       </textarea>
       </ng-container>
      <!--image-->
       <ng-container *ngSwitchCase="'image'" >
-        <img [src]="field.src" alt="无图"/>
+        <img [src]="field?.src" alt="无图"/>
       </ng-container>
       <!--select-->
       <ng-container *ngSwitchCase="'dropdownbox'">
         <select
-          [id]="field.key"
-          [formControlName]="field.key"
+          [id]="field?.key"
+          [formControlName]="field?.key"
           class="form-control">
           <option value="0">下拉选着组织...</option>
-          <option *ngFor="let item of field.list" [value]="item.id" [selected]="item.id === field.value">{{item.name}}</option>
+          <option *ngFor="let item of field?.list" [value]="item.id" [selected]="item.id === field?.value">{{item.name}}</option>
         </select>
       </ng-container>
       <!--radio-->
       <ng-container *ngSwitchCase="'radiosbox'">
         <div class="form-control">
-          <div class="form-check form-check-inline mr-1" *ngFor="let item of field.list">
-            <input class="form-check-input" type="radio" [formControlName]="field.key" [checked]="item.type === field.value" id="{{'inlineRadio'+item.type}}" value="{{item.type}}">
+          <div class="form-check form-check-inline mr-1" *ngFor="let item of field?.list">
+            <input class="form-check-input" type="radio" [formControlName]="field?.key" [checked]="item.type === field?.value" id="{{'inlineRadio'+item.type}}" value="{{item.type}}">
             <label class="form-check-label" for="{{'inlineRadio'+item.type}}">{{item.name}}</label>
           </div>
         </div>

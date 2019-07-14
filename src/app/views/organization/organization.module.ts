@@ -8,7 +8,10 @@ import {TablesModule} from '../../commons/components/tables/tables.module';
 import {NgxLoadingModule} from 'ngx-loading';
 
 @NgModule({
-  declarations: [OrgAgencyComponent, OrgDepartmentComponent],
+  declarations: [
+    OrgAgencyComponent,
+    OrgDepartmentComponent
+  ],
   imports: [
     CommonModule,
     OrganizationRoutingModule,
