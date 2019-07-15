@@ -38,8 +38,11 @@
           [id]="field?.key"
           [formControlName]="field?.key"
           class="form-control">
-          <option value="0">下拉选着组织...</option>
-          <option *ngFor="let item of field?.list" [value]="item.id" [selected]="item.id === field?.value">{{item.name}}</option>
+          <option
+            *ngFor="let item of field?.list;let i = index"
+            [value]="i">
+            {{item[field?.optionName]}}
+          </option>
         </select>
       </ng-container>
       <!--radio-->

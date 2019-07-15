@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RegionService} from '../../../commons/services/region.service';
 import {FieldBase, Textbox} from '../../../commons/components/tables/tables-popular/dynamic-form/form-field';
 
@@ -18,9 +18,58 @@ export class RegionProvinceComponent implements OnInit {
     {theadName: '创建时间', theadLabel: 'idt'},
     {theadName: '最后修改时间', theadLabel: 'udt'},
   ];
-  public provinceFields: FieldBase<any>[] = [];
+  public provinceFields: FieldBase<any>[] = [
+    /* new Textbox({
+     label: '头像:',
+     placeholder: '上传头像',
+     type: 'file',
+     key: 'upload'
+   }),
+   new Textbox({
+     label: '用户名:',
+     placeholder: '用户名',
+     key: 'username'
+   }),
+   new Textbox({
+     label: '常用邮箱:',
+     placeholder: '常用邮箱',
+     key: 'email'
+   }),
+   new Textbox({
+     label: '密码:',
+     type: 'password',
+     placeholder: '密码，至少8位',
+     key: 'password'
+   }),
+   new Textbox({
+     label: '重复密码:',
+     type: 'password',
+     placeholder: '重复密码',
+     key: 'fireword'
+   }),
+   new TextArea({
+     value: '还是到付哈是否',
+     label: '个人简介:',
+     placeholder: '个人简介，最多140字，不能放链接。',
+     rows: 3,
+     key: 'intro'
+   }),
+   new Dropdownbox({
+     value: 1,
+     list: [{name: '公司1', id: 1}, {name: '公司2', id: 2}],
+     label: '请选择组织:',
+     key: 'origami'
+   }),
+   new Radiosbox({
+     value: 0,
+     list: [{name: '是', type: 1}, {name: '否', type: 0}],
+     label: '是否是收费:',
+     key: 'money'
+   })*/
+  ];
   public provinceAlertsDis: any = [];
   public provinceUpdateData: any;
+  public provinceCurrentPage: number = 1;
   constructor(
     private regionSrv: RegionService
   ) { }
@@ -33,7 +82,6 @@ export class RegionProvinceComponent implements OnInit {
     this.provinceLoading = true;
     this.regionSrv.regionProvinceSearch(param).subscribe(
       (val) => {
-        console.log(val);
         this.provinceLoading = false;
         this.provinceList = val.data;
       }
@@ -97,7 +145,6 @@ export class RegionProvinceComponent implements OnInit {
   }
   // province 修改操作
   public provinceUpdate(e): void {
-    console.log(e);
     if (e.saving) {
       this.provinceLoading = true;
       for (const item in e.value) {
@@ -108,10 +155,16 @@ export class RegionProvinceComponent implements OnInit {
       this.regionSrv.regionProvinceUpdate(this.provinceUpdateData).subscribe(
         (val) => {
           this.provinceLoading = false;
+          this.provinceAlertsDis.push({
+            type: 'success',
+            msg: `${val.message}(操作时间: ${new Date().toLocaleTimeString('it-IT', {hour12: false})})`,
+            timeout: 2000
+          });
           this.provinceListInit(this.provincePage);
         }
       );
-    } else {
+    }
+    else {
       this.provinceUpdateData = e.value;
       if (this.provinceUpdateData.hasOwnProperty('udt')) {
         delete this.provinceUpdateData.udt;

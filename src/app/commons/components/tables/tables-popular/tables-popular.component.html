@@ -48,19 +48,7 @@
             </tr>
             </tbody>
           </table>
-          <pagination
-            [boundaryLinks]="true"
-            [totalItems]="totalItems"
-            [itemsPerPage]= 'itemsPerPage'
-            [(ngModel)]="currentPage"
-            (pageChanged)="pageChanged($event)"
-            class="pagination-sm"
-            [maxSize]="6"
-            previousText="上一页"
-            nextText="下一页"
-            firstText="首页"
-            lastText="尾页">
-          </pagination>
+          <ng-content></ng-content>
         </div>
       </div>
     </div>
@@ -126,7 +114,7 @@
         <button type="button" class="btn btn-secondary" (click)="primaryModal.hide()">关闭</button>
         <button type="button" class="btn btn-primary" [disabled]="form.invalid" (click)="upDateSaveClick()">保存</button>
       </div>
-    </div><!-- /.modal-content -->
+    </div>
   </div>
 </div>
 <!--delete提醒-->
@@ -149,8 +137,8 @@
         <button type="button" class="btn btn-secondary" (click)="dangerModal.hide()">取消</button>
         <button type="button" class="btn btn-danger" (click)="deleteSaveClick()">确认</button>
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
+    </div>
+  </div>
 </div>
 <!--alert提醒弹窗-->
 <app-smart-alert [alertsDismiss]="tablesAlertsDis"></app-smart-alert>

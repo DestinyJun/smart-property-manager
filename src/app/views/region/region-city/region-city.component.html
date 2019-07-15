@@ -1,3 +1,28 @@
 <div class="region-city">
-  <h1>市管理</h1>
+  <app-tables-popular
+    [thead]="cityThead"
+    [tbody]="cityList?.contents"
+    (pageChange)="cityChange($event)"
+    (deleteChange)="cityDelete($event)"
+    [fields]="cityFields"
+    [modalTitle]="'市级添加'"
+    (addChange)="cityAdd($event)"
+    (updateChange)="cityUpdate($event)"
+  >
+    <pagination
+      [boundaryLinks]="true"
+      [totalItems]="cityList?.totalRecord"
+      [itemsPerPage]='10'
+      [(ngModel)]="cityCurrentPage"
+      (pageChanged)="cityChange($event)"
+      class="pagination-sm"
+      [maxSize]="6"
+      previousText="上一页"
+      nextText="下一页"
+      firstText="首页"
+      lastText="尾页">
+    </pagination>
+  </app-tables-popular>
+  <ngx-loading [show]="cityLoading" [config]="{backdropBorderRadius: '3px'}"></ngx-loading>
+  <app-smart-alert [alertsDismiss]="cityAlertsDis"></app-smart-alert>
 </div>

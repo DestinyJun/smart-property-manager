@@ -20,8 +20,6 @@ export class TablesPopularComponent implements OnInit, OnChanges{
     {username: '哈哈哈', id: 2, date: '2012/01/01', role: 'Member', status: 'Active'},
     {id: 5, username: 'Samppa Nori', date: '2012/01/01', role: 'Member', status: 'Active'},
   ];
-  @Input() totalItems: number = 64;
-  @Input() itemsPerPage: number = 10;
   @Input() modalTitle: any = '基础字段添加';
   @Input() updateTitle: any = '基础字段修改';
   @Input() fields: FieldBase<any>[] = [
@@ -80,9 +78,7 @@ export class TablesPopularComponent implements OnInit, OnChanges{
   @ViewChild('successModal', {static: false}) public successModal: ModalDirective;
   @ViewChild('primaryModal', {static: false}) public primaryModal: ModalDirective;
   @ViewChild('dangerModal', {static: false}) public dangerModal: ModalDirective;
-  currentPage: number = 1;
   public ids = [];
-  public inx = [];
   public check_status = [];
   public tablesAlertsDis: any = [];
   // form
@@ -109,12 +105,12 @@ export class TablesPopularComponent implements OnInit, OnChanges{
   ngOnInit() {}
   ngOnChanges(changes: SimpleChanges): void {
     if (this.fields) {
-      this.ids = [];
       this.form = this.toFormGroup(this.fields);
-      this.form.valueChanges.subscribe(() => this.onValueChanged());
+      this.form.valueChanges.subscribe((data) => this.onValueChanged(data));
       this.onValueChanged();
     }
     if (this.tbody) {
+     this.ids = [];
      this.tableInit();
      this.validationInit();
     }
@@ -148,7 +144,6 @@ export class TablesPopularComponent implements OnInit, OnChanges{
       });
       return;
     }
-    console.log(this.ids);
     this.primaryModal.show();
     this.updateChange.emit({saving: false, value: this.cloneObj(this.tbody[this.ids[0]])});
   }
@@ -172,18 +167,22 @@ export class TablesPopularComponent implements OnInit, OnChanges{
     this.dangerModal.show();
   }
   public deleteSaveClick() {
-    this.deleteChange.emit(this.ids);
-    this.ids = [];
-    this.primaryModal.hide();
+    const arr = [];
+    this.ids.map((val) => {
+      arr.push(this.tbody[val].id);
+    });
+    this.deleteChange.emit(arr);
+    this.dangerModal.hide();
   }
   // table 选择
   public theadOnInput(e) {
     this.ids = [];
     this.check_status = [];
     if (e.target.checked) {
-      this.tbody.map((val) => {
+      this.tbody.map((val, index) => {
         this.check_status.push(true);
-        this.ids.push(val.id);
+        // this.ids.push(val.id);
+        this.ids.push(index);
       });
     } else {
       this.tbody.map(() => {
@@ -195,20 +194,13 @@ export class TablesPopularComponent implements OnInit, OnChanges{
   public tbodyOnInput(e, i) {
     if (e.target.checked) {
       this.check_status[i] = true;
-      this.ids.push(this.tbody[i].id);
+      this.ids.push(i);
     } else {
       this.check_status[i] = false;
       const set = new Set(this.ids);
-      set.delete(this.tbody[i].id);
+      set.delete(i);
       this.ids = Array.from(set);
     }
-  }
-  // 页数事件
-  public pageChanged(event: any): void {
-    this.ids = [];
-    this.tableInit();
-    this.currentPage = event.page;
-    this.pageChange.emit({page: event.page});
   }
   // 表单初始化及动态校验
   public toFormGroup(fields: FieldBase<any>[]) {
@@ -237,7 +229,7 @@ export class TablesPopularComponent implements OnInit, OnChanges{
       }
     });
   }
-  public onValueChanged() {
+  public onValueChanged(data?: any) {
     if (!this.form) {
       return;
     }

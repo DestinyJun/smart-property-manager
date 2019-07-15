@@ -1,6 +1,6 @@
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {EMPTY, Observable, of} from 'rxjs';
-import { finalize, tap } from 'rxjs/operators';
+import {delay, finalize, tap, timeout} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {Router} from '@angular/router';
 
@@ -35,6 +35,7 @@ export class SmartInterceptor implements HttpInterceptor {
       });
     }
     return next.handle(this.clonedRequest).pipe(
+      delay(300),
       tap(
         (event: any) => {
           if (event.status === 200) {

@@ -9,15 +9,24 @@ import { RegionCommunityComponent } from './region-community/region-community.co
 import {TablesModule} from '../../commons/components/tables/tables.module';
 import {NgxLoadingModule} from 'ngx-loading';
 import {SmartAlertModule} from '../../commons/components/smart-alert/smart-alert.module';
+import {PaginationModule} from 'ngx-bootstrap';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
-  declarations: [RegionProvinceComponent, RegionCityComponent, RegionCountyComponent, RegionCommunityComponent],
+  declarations: [
+    RegionProvinceComponent,
+    RegionCityComponent,
+    RegionCountyComponent,
+    RegionCommunityComponent
+  ],
   imports: [
     CommonModule,
     RegionRoutingModule,
     TablesModule,
     NgxLoadingModule.forRoot({}),
-    SmartAlertModule
+    SmartAlertModule,
+    PaginationModule.forRoot(),
+    FormsModule
   ]
 })
 export class RegionModule { }
