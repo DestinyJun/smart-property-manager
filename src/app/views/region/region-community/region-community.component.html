@@ -1,3 +1,28 @@
 <div class="region-community">
-  <h1>区县管理</h1>
+  <app-tables-popular
+    [thead]="communityThead"
+    [tbody]="communityList?.contents"
+    (pageChange)="communityChange($event)"
+    (deleteChange)="communityDelete($event)"
+    [fields]="communityFields"
+    [modalTitle]="'小区添加'"
+    (addChange)="communityAdd($event)"
+    (updateChange)="communityUpdate($event)"
+  >
+    <pagination
+      [boundaryLinks]="true"
+      [totalItems]="communityList?.totalRecord"
+      [itemsPerPage]='10'
+      [(ngModel)]="communityCurrentPage"
+      (pageChanged)="communityChange($event)"
+      class="pagination-sm"
+      [maxSize]="6"
+      previousText="上一页"
+      nextText="下一页"
+      firstText="首页"
+      lastText="尾页">
+    </pagination>
+  </app-tables-popular>
+  <ngx-loading [show]="communityLoading" [config]="{backdropBorderRadius: '3px'}"></ngx-loading>
+  <app-smart-alert [alertsDismiss]="communityAlertsDis"></app-smart-alert>
 </div>

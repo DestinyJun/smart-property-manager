@@ -119,7 +119,6 @@ export class RegionCityComponent implements OnInit {
   // city 修改操作
   public cityUpdate(e): void {
     if (e.saving) {
-      console.log(e);
       let i = null;
       const obj = this.cityUpdateData;
       for (const prop in obj) {
@@ -128,7 +127,6 @@ export class RegionCityComponent implements OnInit {
         }
       }
       if (!(isNaN(e.value.provinceName)) || !(e.value.provinceName === 'null')) {
-        console.log('进来了');
         i = e.value.provinceName;
         this.cityUpdateData.provinceName = this.provinceList[i].provinceName;
         this.cityUpdateData.provinceCode = this.provinceList[i].provinceCode;
@@ -148,7 +146,6 @@ export class RegionCityComponent implements OnInit {
     }
     else {
       this.cityUpdateData = e.value;
-      console.log(this.cityUpdateData);
       if (this.cityUpdateData.hasOwnProperty('udt')) {
         delete this.cityUpdateData.udt;
       }
