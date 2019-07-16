@@ -47,7 +47,14 @@ export const navItems: NavData[] = [
       {
         name: '省管理',
         url: '/region/province',
-        icon: 'icon-puzzle'
+        icon: 'icon-puzzle',
+        children: [
+          {
+            name: ' 我市第三季孩子',
+            url: '',
+            icon: 'icon-puzzle'
+          }
+        ]
       },
       {
         name: ' 市管理',

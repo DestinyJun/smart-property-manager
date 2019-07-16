@@ -7,5 +7,5 @@ export const environment = {
   production: false,
   http_url: 'http://120.78.156.30:8847/cloud_house_admin',
   // http_url: 'http://192.168.28.151:7848/cloud_house_admin',
-  appkey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJBUFAiLCJpc3MiOiJTZXJ2aWNlIiwiZXhwIjoxNTYzNTM3MzYwLCJ1c2VySWQiOiIxNTU4NDkyMzY0NDMzNTUiLCJpYXQiOjE1NjMxNzczNjB9.GhJSfzwp7tEkKfOE_gFNDpIe4NoWTI9kneI8Iv2q4_Y'
+  appkey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJBUFAiLCJpc3MiOiJTZXJ2aWNlIiwiZXhwIjoxNTYzNjMwMzQwLCJ1c2VySWQiOiIxNTU4NDkyMzY0NDMzNTUiLCJpYXQiOjE1NjMyNzAzNDB9.C9UlHk69H5FxH7y_bSQzekZeCNU5O5DrQkPpW6F28mA'
 };
