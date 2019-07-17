@@ -62,4 +62,5 @@ export class RegionService {
   public regionCommunityUpdate(params): Observable<any> {
     return this.orgHttp.post('/village/update', params);
   }
+
 }

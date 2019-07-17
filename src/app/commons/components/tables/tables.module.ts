@@ -5,6 +5,7 @@ import {ModalModule} from 'ngx-bootstrap';
 import {ReactiveFormsModule} from '@angular/forms';
 import {FormControlComponent} from './tables-popular/dynamic-form/form-control.component';
 import {SmartAlertModule} from '../smart-alert/smart-alert.module';
+import {NgxTreeOneModule} from '../ngx-tree-one/ngx-tree-one.module';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import {SmartAlertModule} from '../smart-alert/smart-alert.module';
     CommonModule,
     ReactiveFormsModule,
     ModalModule.forRoot(),
-    SmartAlertModule
+    SmartAlertModule,
+    NgxTreeOneModule,
   ],
   exports: [
     TablesPopularComponent

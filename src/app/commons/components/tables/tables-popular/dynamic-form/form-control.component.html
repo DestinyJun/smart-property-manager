@@ -5,6 +5,7 @@
       <!--text-->
       <ng-container *ngSwitchCase="'textbox'">
         <input
+          (input)="onInput($event)"
           [id]="field?.key"
           class="form-control"
           value="{{field?.value}}"
@@ -37,6 +38,7 @@
         <select
           [id]="field?.key"
           [formControlName]="field?.key"
+          (input)="onInput($event)"
           class="form-control">
           <option
             *ngFor="let item of field?.list;let i = index"

@@ -1,0 +1,31 @@
+.tree-popular{
+  ::ng-deep .list-group{
+    .list-group-item{
+      border: none;
+      div{
+        height: 30px;
+        line-height: 30px;
+        i,span{
+          display: inline-block;
+          min-width: 30px;
+          height: 30px;
+          vertical-align: top;
+          margin-right: 10px;
+          text-align: center;
+        }
+        i{
+          font-size: 16px;
+          line-height: 20px;
+        }
+       span{
+         line-height: 30px;
+       }
+        &:hover{
+          cursor: pointer;
+          background-color: cornflowerblue;
+        }
+      }
+    }
+  }
+
+}

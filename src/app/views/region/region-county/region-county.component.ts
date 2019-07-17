@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {FieldBase, Textbox} from '../../../commons/components/tables/tables-popular/dynamic-form/form-field';
+import {FieldBase, Textbox, Dropdownbox} from '../../../commons/components/tables/tables-popular/dynamic-form/form-field';
 import {RegionService} from '../../../commons/services/region.service';
-import {Dropdownbox} from '../../../commons/components/tables/tables-popular/dynamic-form/form-field/dropdownbox';
 
 @Component({
   selector: 'app-region-county',
@@ -89,7 +88,7 @@ export class RegionCountyComponent implements OnInit {
         }
       );
     } else {
-      this.regionSrv.regionCitySearch({pageNo: 1, pageSize: 100}).subscribe(
+      this.regionSrv.regionProvinceSearch({pageNo: 1, pageSize: 100}).subscribe(
         (val) => {
           this.cityList = val.data.contents;
           this.countyFields = [
@@ -107,14 +106,17 @@ export class RegionCountyComponent implements OnInit {
             }),
             new Dropdownbox({
               list: val.data.contents,
-              label: '请选择所属市:',
-              placeholder: '下拉选择市份...',
-              key: 'cityName',
-              optionName: 'cityName',
+              label: '请选择所属省:',
+              placeholder: '下拉选择省...',
+              key: 'provinceName',
+              optionName: 'provinceName',
               required: true,
+              linkage: true,
+              linkageType: 'zoning'
             }),
           ];
-        });
+        }
+      );
     }
   }
   // county 修改操作

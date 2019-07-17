@@ -10,16 +10,9 @@ export class SmartPublicService {
   constructor(
     private orgHttp: HttpClient
   ) { }
-  // 省级列表查询
-  public provinceSelect(params): Observable<any> {
-    return this.orgHttp.post('/province/findByPage', params);
-  }
-  // 根据省级code查询市级
-  public citySelect(params): Observable<any> {
-    return this.orgHttp.post('/zoning/findByProvinceCode', params);
-  }
-  // 根据市级code查询县级
-  public countySelect(params): Observable<any> {
-    return this.orgHttp.post('/zoning/findByCityCode', params);
+  /******************************联动接口*************************/
+  // 查询区域树
+  public selectAreaTree(): Observable<any> {
+    return this.orgHttp.post('/divison/choosePid', {});
   }
 }

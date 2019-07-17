@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {OrganizationService} from '../../../commons/services/organization.service';
-import {FieldBase, TextArea, Textbox} from '../../../commons/components/tables/tables-popular/dynamic-form/form-field';
-import {Dropdownbox} from '../../../commons/components/tables/tables-popular/dynamic-form/form-field/dropdownbox';
+import {FieldBase, TextArea, Textbox, Dropdownbox} from '../../../commons/components/tables/tables-popular/dynamic-form/form-field';
 import {Radiosbox} from '../../../commons/components/tables/tables-popular/dynamic-form/form-field/radiosbox';
 import {SmartPublicService} from '../../../commons/services/smart-public.service';
 import {concat} from 'rxjs';
@@ -93,11 +92,11 @@ export class OrgAgencyComponent implements OnInit {
   }
   // ord添加之前数据初始化
   public orgAddInit(): void {
-    concat(this.smtSrv.provinceSelect({})).subscribe(
+    /*concat(this.smtSrv.provinceSelect({})).subscribe(
       (val) => {
         console.log(val);
       }
-    );
+    );*/
   }
   // org分页操作
   public orgPageChange(e): void {

@@ -35,7 +35,7 @@ export class SmartInterceptor implements HttpInterceptor {
       });
     }
     return next.handle(this.clonedRequest).pipe(
-      delay(300),
+      // delay(300),
       tap(
         (event: any) => {
           if (event.status === 200) {

@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import {ModalDirective} from 'ngx-bootstrap';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {FieldBase} from './dynamic-form/form-field';
+import {TreeNode} from '../../api';
 
 @Component({
   selector: 'app-tables-popular',
@@ -21,6 +22,8 @@ export class TablesPopularComponent implements OnInit, OnChanges{
     {id: 5, username: 'Samppa Nori', date: '2012/01/01', role: 'Member', status: 'Active'},
   ];
   @Input() modalTitle: any = '基础字段添加';
+  @Input() tableType: any = 'table';
+  @Input() treeTitle: any = '请选择区域树';
   @Input() updateTitle: any = '基础字段修改';
   @Input() fields: FieldBase<any>[] = [
    /* new Textbox({
@@ -75,9 +78,11 @@ export class TablesPopularComponent implements OnInit, OnChanges{
   @Output() deleteChange = new EventEmitter();
   @Output() addChange = new EventEmitter();
   @Output() updateChange = new EventEmitter();
+  @Output() linkageChange = new EventEmitter();
   @ViewChild('successModal', {static: false}) public successModal: ModalDirective;
   @ViewChild('primaryModal', {static: false}) public primaryModal: ModalDirective;
   @ViewChild('dangerModal', {static: false}) public dangerModal: ModalDirective;
+  @ViewChild('warningModal', {static: false}) public warningModal: ModalDirective;
   public ids = [];
   public check_status = [];
   public tablesAlertsDis: any = [];
@@ -110,9 +115,13 @@ export class TablesPopularComponent implements OnInit, OnChanges{
       this.onValueChanged();
     }
     if (this.tbody) {
-     this.ids = [];
-     this.tableInit();
-     this.validationInit();
+      this.ids = [];
+      if (this.tableType === 'tree') {
+        this.tbody = this.treeInit(this.tbody);
+      } else {
+        this.tableInit();
+        this.validationInit();
+      }
     }
   }
   // table初始化
@@ -258,5 +267,31 @@ export class TablesPopularComponent implements OnInit, OnChanges{
       }
     }
     return obj;
+  }
+  // 数据联动
+  public onLinkageChange(e): void {
+    this.linkageChange.emit(e);
+  }
+  // tree数据初始化
+  public treeInit(data): any {
+    const oneChild: TreeNode[] = [];
+    for (let i = 0; i < data.length; i++) {
+      const childnode: TreeNode = {};
+      childnode.id = data[i]['id'];
+      childnode.name = data[i]['divisonName'];
+      childnode['divisonCode'] = data[i]['divisonCode'];
+      childnode['flag'] = data[i]['flag'];
+      childnode['idt'] = data[i]['idt'];
+      childnode['pid'] = data[i]['pid'];
+      childnode['udt'] = data[i]['udt'];
+      if (data[i].divisonDTO) {
+        childnode.children = this.treeInit(data[i].divisonDTO);
+      }
+      else {
+        childnode.children = [];
+      }
+      oneChild.push(childnode);
+    }
+    return oneChild;
   }
 }

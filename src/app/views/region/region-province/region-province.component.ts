@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {RegionService} from '../../../commons/services/region.service';
 import {FieldBase, Textbox} from '../../../commons/components/tables/tables-popular/dynamic-form/form-field';
+import {SmartPublicService} from '../../../commons/services/smart-public.service';
 
 @Component({
   selector: 'app-region-province',
@@ -9,12 +10,13 @@ import {FieldBase, Textbox} from '../../../commons/components/tables/tables-popu
 })
 export class RegionProvinceComponent implements OnInit {
   public provinceList: any;
-  public provincePage = {pageNo: '1', pageSize: '10'};
   public provinceLoading = false;
   public provinceThead = [
     {theadName: '唯一标识', theadLabel: 'id'},
-    {theadName: '名称', theadLabel: 'provinceName'},
-    {theadName: '标识码', theadLabel: 'provinceCode'},
+    {theadName: '区划名称', theadLabel: 'divisonName'},
+    {theadName: '子节点', theadLabel: 'divisonDTO'},
+    {theadName: '区划编号', theadLabel: 'divisonCode'},
+    {theadName: '区划标识', theadLabel: 'flag'},
     {theadName: '创建时间', theadLabel: 'idt'},
     {theadName: '最后修改时间', theadLabel: 'udt'},
   ];
@@ -69,29 +71,30 @@ export class RegionProvinceComponent implements OnInit {
   ];
   public provinceAlertsDis: any = [];
   public provinceUpdateData: any;
-  public provinceCurrentPage: number = 1;
   constructor(
-    private regionSrv: RegionService
+    private regionSrv: RegionService,
+    private smartPublicSrv: SmartPublicService,
   ) { }
 
   ngOnInit() {
-    this.provinceListInit(this.provincePage);
+    this.provinceListInit();
   }
   // province数据初始化
-  public provinceListInit(param): void {
+  public provinceListInit(): void {
     this.provinceLoading = true;
-    this.regionSrv.regionProvinceSearch(param).subscribe(
+    this.smartPublicSrv.selectAreaTree().subscribe(
       (val) => {
+        console.log(val);
         this.provinceLoading = false;
         this.provinceList = val.data;
       }
     );
   }
-  // province分页操作
+  /*// province分页操作
   public provinceChange(e): void {
     this.provincePage.pageNo = e.page;
     this.provinceListInit(this.provincePage);
-  }
+  }*/
   // province删除操作
   public provinceDelete(e): void {
     const arr = [];
@@ -107,7 +110,7 @@ export class RegionProvinceComponent implements OnInit {
           msg: `${val.message}(操作时间: ${new Date().toLocaleTimeString('it-IT', {hour12: false})})`,
           timeout: 2000
         });
-        this.provinceListInit(this.provincePage);
+        this.provinceListInit();
       }
     );
   }
@@ -123,7 +126,7 @@ export class RegionProvinceComponent implements OnInit {
             timeout: 2000
           });
           this.provinceLoading = false;
-          this.provinceListInit(this.provincePage);
+          this.provinceListInit();
         }
       );
     } else {
@@ -160,7 +163,7 @@ export class RegionProvinceComponent implements OnInit {
             msg: `${val.message}(操作时间: ${new Date().toLocaleTimeString('it-IT', {hour12: false})})`,
             timeout: 2000
           });
-          this.provinceListInit(this.provincePage);
+          this.provinceListInit();
         }
       );
     }
