@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {RegionService} from '../../../commons/services/region.service';
-import {FieldBase, Textbox} from '../../../commons/components/tables/tables-popular/dynamic-form/form-field';
+import {FieldBase, Textbox, Treebox} from '../../../commons/components/tables/tables-popular/dynamic-form/form-field';
 import {SmartPublicService} from '../../../commons/services/smart-public.service';
 
 @Component({
@@ -72,17 +72,16 @@ export class RegionProvinceComponent implements OnInit {
   public provinceAlertsDis: any = [];
   public provinceUpdateData: any;
   constructor(
-    private regionSrv: RegionService,
     private smartPublicSrv: SmartPublicService,
   ) { }
 
   ngOnInit() {
     this.provinceListInit();
   }
-  // province数据初始化
+  // province初始化查询
   public provinceListInit(): void {
     this.provinceLoading = true;
-    this.smartPublicSrv.selectAreaTree().subscribe(
+    this.smartPublicSrv.areaTreeSelect().subscribe(
       (val) => {
         console.log(val);
         this.provinceLoading = false;
@@ -90,11 +89,6 @@ export class RegionProvinceComponent implements OnInit {
       }
     );
   }
-  /*// province分页操作
-  public provinceChange(e): void {
-    this.provincePage.pageNo = e.page;
-    this.provinceListInit(this.provincePage);
-  }*/
   // province删除操作
   public provinceDelete(e): void {
     const arr = [];
@@ -102,7 +96,7 @@ export class RegionProvinceComponent implements OnInit {
       arr.push({id: val});
     });
     this.provinceLoading = true;
-    this.regionSrv.regionProvinceDelete({data: arr}).subscribe(
+    this.smartPublicSrv.areaTreeDelete({data: arr}).subscribe(
       (val) => {
         this.provinceLoading = false;
         this.provinceAlertsDis.push({
@@ -117,8 +111,9 @@ export class RegionProvinceComponent implements OnInit {
   // province新增操作
   public provinceAdd(e): void {
     if (e) {
+      console.log(e);
       this.provinceLoading = true;
-      this.regionSrv.regionProvinceAdd(e).subscribe(
+      this.smartPublicSrv.areaTreeAdd(e).subscribe(
         (val) => {
           this.provinceAlertsDis.push({
             type: 'success',
@@ -132,16 +127,41 @@ export class RegionProvinceComponent implements OnInit {
     } else {
       this.provinceFields = [
         new Textbox({
-          label: '省名称',
-          placeholder: '请输入省名称',
-          key: 'provinceName',
+          label: '区域名称',
+          placeholder: '请输入区域名称',
+          key: 'divisonName',
+          type: 'text',
           required: true,
         }),
         new Textbox({
-          label: '省编号',
-          placeholder: '请输入省编号',
-          key: 'provinceCode',
+          label: '区域编号',
+          placeholder: '请输入区域编号',
+          type: 'number',
+          key: 'divisonCode',
           required: true,
+        }),
+        new Treebox({
+          label: '请选择所属区域',
+          placeholder: '点击选择所属区域',
+          type: 'text',
+          key: 'name',
+          required: true,
+          disabled: true
+        }),
+        new Treebox({
+          label: '区域flag',
+          placeholder: '区域flag',
+          type: 'text',
+          key: 'flag',
+          required: false,
+        }),
+        new Treebox({
+          label: '区域pid',
+          placeholder: '请输入区域pid',
+          type: 'text',
+          key: 'pid',
+          parent: 'divisonCode',
+          required: false,
         }),
       ];
     }
@@ -155,7 +175,7 @@ export class RegionProvinceComponent implements OnInit {
           this.provinceUpdateData[item] = e.value[item];
         }
       }
-      this.regionSrv.regionProvinceUpdate(this.provinceUpdateData).subscribe(
+      this.smartPublicSrv.areaTreeUpdate(this.provinceUpdateData).subscribe(
         (val) => {
           this.provinceLoading = false;
           this.provinceAlertsDis.push({

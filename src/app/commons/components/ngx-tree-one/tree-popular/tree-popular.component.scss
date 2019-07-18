@@ -1,7 +1,14 @@
 .tree-popular{
   ::ng-deep .list-group{
+    padding-left: 10px;
+    transition: all .3s ease-in;
     .list-group-item{
-      border: none;
+      border-left: 1px dotted #A3C0D4;
+      border-bottom: none;
+      border-top: none;
+      border-right: none;
+      padding: 0;
+      transition: all .3s ease-in;
       div{
         height: 30px;
         line-height: 30px;
@@ -10,12 +17,12 @@
           min-width: 30px;
           height: 30px;
           vertical-align: top;
-          margin-right: 10px;
           text-align: center;
         }
         i{
           font-size: 16px;
-          line-height: 20px;
+          transition: all .3s ease-in;
+          //line-height: 30px;
         }
        span{
          line-height: 30px;
@@ -23,6 +30,7 @@
         &:hover{
           cursor: pointer;
           background-color: cornflowerblue;
+          color: white;
         }
       }
     }

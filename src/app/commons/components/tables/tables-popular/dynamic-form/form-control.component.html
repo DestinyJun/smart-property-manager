@@ -1,11 +1,12 @@
 <div [formGroup]="form" class="form-group row">
-  <label class="col-md-4 col-form-label" [for]="field?.key">{{field?.label}}</label>
+  <label class="col-md-4 col-form-label" [for]="field?.key" [hidden]="field?.hidden">{{field?.label}}</label>
   <div class="col-md-8">
     <div [ngSwitch]="field?.controlType">
       <!--text-->
       <ng-container *ngSwitchCase="'textbox'">
         <input
-          (input)="onInput($event)"
+          [hidden]="field?.hidden"
+          (input)="onInput($event,field)"
           [id]="field?.key"
           class="form-control"
           value="{{field?.value}}"
@@ -13,7 +14,7 @@
           [type]="field?.type"
           placeholder="{{field?.placeholder}}"
         />
-        <span *ngIf="formErrors[field?.key]" class="text-danger">
+        <span *ngIf="formErrors[field?.key]" [hidden]="field?.hidden" class="text-danger">
           {{formErrors[field?.key]}}
         </span>
       </ng-container>
@@ -55,6 +56,29 @@
             <label class="form-check-label" for="{{'inlineRadio'+item.type}}">{{item.name}}</label>
           </div>
         </div>
+      </ng-container>
+      <!--tree-->
+      <ng-container *ngSwitchCase="'treebox'">
+        <input
+          [hidden]="field?.hidden"
+          (input)="onInput($event)"
+          [id]="field?.key"
+          class="form-control"
+          value="{{field?.value}}"
+          [formControlName]="field?.key"
+          [type]="field?.type"
+          placeholder="{{field?.placeholder}}"
+        />
+        <span *ngIf="formErrors[field?.key]" [hidden]="field?.hidden" class="text-danger">
+          {{formErrors[field?.key]}}
+        </span>
+        <span (click)="treeShow(field)"
+          [hidden]="field?.hidden"
+          style="position: absolute;
+          top: 0;
+          width: 88%;
+          height: 100%;">
+        </span>
       </ng-container>
     </div>
   </div>

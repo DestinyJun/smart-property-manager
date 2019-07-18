@@ -12,7 +12,16 @@ export class SmartPublicService {
   ) { }
   /******************************联动接口*************************/
   // 查询区域树
-  public selectAreaTree(): Observable<any> {
+  public areaTreeSelect(): Observable<any> {
     return this.orgHttp.post('/divison/choosePid', {});
+  }
+  public areaTreeAdd(params): Observable<any> {
+    return this.orgHttp.post('/divison/add', params);
+  }
+  public areaTreeDelete(params): Observable<any> {
+    return this.orgHttp.post('/division/delete', params);
+  }
+  public areaTreeUpdate(params): Observable<any> {
+    return this.orgHttp.post('/division/update', params);
   }
 }

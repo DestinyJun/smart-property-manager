@@ -75,14 +75,14 @@
           <div class="row">
             <div *ngFor="let field of fields" class="col-6">
               <app-form-control
+                (treeSelected)="onInputTreeSelected($event)"
                 [formErrors]="formErrors"
                 [form]="form" [field]="field"
-                (linkage)="onLinkageChange($event)">
+                (inputChange)="onInputChange($event)">
               </app-form-control>
             </div>
           </div>
         </form>
-        <button class="btn btn-success" (click)="warningModal.show()">区域树</button>
       </div>
       <div class="modal-footer">
     <!--    <div class="text-danger" *ngIf="form.invalid">
@@ -125,7 +125,7 @@
     </div>
   </div>
 </div>
-<!--warning模态框-->
+<!--tree模态框-->
 <div bsModal #warningModal="bs-modal"
      class="modal fade" tabindex="-1"
      role="dialog" aria-labelledby="myModalLabel"
@@ -139,11 +139,14 @@
         </button>
       </div>
       <div class="modal-body">
-        <h3>区域树</h3>
+        <app-tree-popular
+          (selected)="onTreeSelected($event)"
+          [trees]="tbody"
+        ></app-tree-popular>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="warningModal.hide()">关闭</button>
-        <button type="button" class="btn btn-warning" [disabled]="form.invalid" (click)="upDateSaveClick()">保存</button>
+        <button type="button" class="btn btn-warning" (click)="treeSelectSave();warningModal.hide()">保存</button>
       </div>
     </div>
   </div>

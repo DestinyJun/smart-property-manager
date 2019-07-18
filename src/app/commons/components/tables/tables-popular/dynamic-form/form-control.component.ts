@@ -11,13 +11,16 @@ export class FormControlComponent implements OnInit {
   @Input() form: FormGroup;
   @Input() formErrors: any;
   @Output() linkage = new EventEmitter();
+  @Output() inputChange = new EventEmitter();
+  @Output() treeSelected = new EventEmitter();
   constructor() {
   }
 
   ngOnInit() {}
-  public onInput(e): void {
-    if (this.field['linkage']) {
-      this.linkage.emit({value: this.field['list'][e.target.value], type: this.field['linkageType']});
-    }
+  public onInput(e, field): void {
+    this.inputChange.emit({value: e.target.value, obj: field});
+  }
+  public treeShow(e): void {
+    this.treeSelected.emit(e);
   }
 }

@@ -89,6 +89,8 @@ export class TablesPopularComponent implements OnInit, OnChanges{
   // form
   public form: FormGroup;
   public formErrors = {};
+  public treeSelectInput: any;
+  public treeSelectValue: any;
   public validationMessages: any = {
     /*'email': {
       'required': '邮箱必须输入。',
@@ -117,7 +119,9 @@ export class TablesPopularComponent implements OnInit, OnChanges{
     if (this.tbody) {
       this.ids = [];
       if (this.tableType === 'tree') {
-        this.tbody = this.treeInit(this.tbody);
+        if (!('name' in this.tbody[0])) {
+          this.tbody = this.treeInit(this.tbody);
+        }
       } else {
         this.tableInit();
         this.validationInit();
@@ -269,8 +273,13 @@ export class TablesPopularComponent implements OnInit, OnChanges{
     return obj;
   }
   // 数据联动
-  public onLinkageChange(e): void {
-    this.linkageChange.emit(e);
+  public onInputChange(e): void {
+    this.fields.map((val, index) => {
+      if (val.key === e.obj.key) {
+        this.fields[index].value = e.value;
+      }
+    });
+    this.form = this.toFormGroup(this.fields);
   }
   // tree数据初始化
   public treeInit(data): any {
@@ -293,5 +302,25 @@ export class TablesPopularComponent implements OnInit, OnChanges{
       oneChild.push(childnode);
     }
     return oneChild;
+  }
+  public onTreeSelected(e): void {
+    this.treeSelectValue = e;
+  }
+  public treeSelectSave(): void {
+    this.fields.map((val, index) => {
+     if (val.controlType === this.treeSelectInput.controlType) {
+       if (this.fields[index].key in this.treeSelectValue || this.fields[index].parent in this.treeSelectValue) {
+         this.fields[index].value = this.treeSelectValue[this.fields[index].key];
+       }
+       if (this.fields[index].parent in this.treeSelectValue) {
+         this.fields[index].value = this.treeSelectValue[this.fields[index].parent];
+       }
+     }
+   });
+   this.form = this.toFormGroup(this.fields);
+  }
+  public onInputTreeSelected(e): void {
+    this.treeSelectInput = e;
+    this.warningModal.show();
   }
 }
