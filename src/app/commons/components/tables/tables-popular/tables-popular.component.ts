@@ -149,16 +149,20 @@ export class TablesPopularComponent implements OnInit, OnChanges{
   }
   // update事件
   public updateShowModal(): void{
-    if (this.ids.length !== 1) {
-      this.tablesAlertsDis.push({
-        type: 'danger',
-        msg: `操作有误，请选择一项进行操作！`,
-        timeout: 2000
-      });
-      return;
+    if (this.tableType === 'table') {
+      if (this.ids.length !== 1) {
+        this.tablesAlertsDis.push({
+          type: 'danger',
+          msg: `操作有误，请选择一项进行操作！`,
+          timeout: 2000
+        });
+        return;
+      }
+      this.updateChange.emit({saving: false, value: this.cloneObj(this.tbody[this.ids[0]])});
+    } else {
+      this.updateChange.emit({saving: false, value: this.treeSelectValue});
     }
     this.primaryModal.show();
-    this.updateChange.emit({saving: false, value: this.cloneObj(this.tbody[this.ids[0]])});
   }
   public upDateSaveClick() {
     if (this.form.valid) {
@@ -169,22 +173,28 @@ export class TablesPopularComponent implements OnInit, OnChanges{
   }
   // delete事件
   public deleteShowModal(): void {
-    if (this.ids.length <= 0) {
-      this.tablesAlertsDis.push({
-        type: 'danger',
-        msg: `操作有误，请选择一项或多项进行操作！`,
-        timeout: 2000
-      });
-      return;
+    if (this.tableType === 'table') {
+      if (this.ids.length <= 0) {
+        this.tablesAlertsDis.push({
+          type: 'danger',
+          msg: `操作有误，请选择一项或多项进行操作！`,
+          timeout: 2000
+        });
+        return;
+      }
     }
     this.dangerModal.show();
   }
   public deleteSaveClick() {
-    const arr = [];
-    this.ids.map((val) => {
-      arr.push(this.tbody[val].id);
-    });
-    this.deleteChange.emit(arr);
+    if (this.tableType === 'table') {
+      const arr = [];
+      this.ids.map((val) => {
+        arr.push(this.tbody[val].id);
+      });
+      this.deleteChange.emit(arr);
+    } else {
+      this.deleteChange.emit( this.treeSelectValue);
+    }
     this.dangerModal.hide();
   }
   // table 选择

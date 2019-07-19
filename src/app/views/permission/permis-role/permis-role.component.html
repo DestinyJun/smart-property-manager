@@ -1,3 +1,31 @@
 <div class="permis-role">
-  <h1>角色管理</h1>
+  <div class="region-city">
+    <app-tables-popular
+      [thead]="roleThead"
+      [tbody]="roleList?.contents"
+      (pageChange)="roleChange($event)"
+      (deleteChange)="roleDelete($event)"
+      [fields]="roleFields"
+      [modalTitle]="'市级添加'"
+      (addChange)="roleAdd($event)"
+      (updateChange)="roleUpdate($event)"
+    >
+      <pagination
+        [boundaryLinks]="true"
+        [totalItems]="roleList?.totalRecord"
+        [itemsPerPage]='10'
+        [(ngModel)]="roleCurrentPage"
+        (pageChanged)="roleChange($event)"
+        class="pagination-sm"
+        [maxSize]="6"
+        previousText="上一页"
+        nextText="下一页"
+        firstText="首页"
+        lastText="尾页">
+      </pagination>
+    </app-tables-popular>
+    <ngx-loading [show]="roleLoading" [config]="{backdropBorderRadius: '3px'}"></ngx-loading>
+    <app-smart-alert [alertsDismiss]="roleAlertsDis"></app-smart-alert>
+  </div>
+
 </div>

@@ -51,7 +51,10 @@
           <ng-content></ng-content>
         </div>
         <div class="card-body" *ngSwitchCase="'tree'">
-          <app-tree-popular [trees]="tbody"></app-tree-popular>
+          <app-tree-popular
+            [trees]="tbody"
+            (selected)="onTreeSelected($event)">
+          </app-tree-popular>
         </div>
       </div>
     </div>
@@ -113,7 +116,11 @@
         <form class="form-horizontal" role="form" [formGroup]="form">
           <div class="row">
             <div *ngFor="let field of fields" class="col-6">
-              <app-form-control [formErrors]="formErrors" [form]="form" [field]="field"></app-form-control>
+              <app-form-control
+                (treeSelected)="onInputTreeSelected($event)"
+                [formErrors]="formErrors"
+                [form]="form"
+                [field]="field"></app-form-control>
             </div>
           </div>
         </form>

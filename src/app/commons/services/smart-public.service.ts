@@ -19,9 +19,9 @@ export class SmartPublicService {
     return this.orgHttp.post('/divison/add', params);
   }
   public areaTreeDelete(params): Observable<any> {
-    return this.orgHttp.post('/division/delete', params);
+    return this.orgHttp.post('/divison/deleteByIds', params);
   }
   public areaTreeUpdate(params): Observable<any> {
-    return this.orgHttp.post('/division/update', params);
+    return this.orgHttp.post('/divison/update', params);
   }
 }

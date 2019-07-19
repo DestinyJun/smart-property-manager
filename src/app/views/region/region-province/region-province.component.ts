@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {RegionService} from '../../../commons/services/region.service';
 import {FieldBase, Textbox, Treebox} from '../../../commons/components/tables/tables-popular/dynamic-form/form-field';
 import {SmartPublicService} from '../../../commons/services/smart-public.service';
 
@@ -70,7 +69,7 @@ export class RegionProvinceComponent implements OnInit {
    })*/
   ];
   public provinceAlertsDis: any = [];
-  public provinceUpdateData: any;
+  public provinceUpdateData: any = {};
   constructor(
     private smartPublicSrv: SmartPublicService,
   ) { }
@@ -91,12 +90,8 @@ export class RegionProvinceComponent implements OnInit {
   }
   // province删除操作
   public provinceDelete(e): void {
-    const arr = [];
-    e.map((val) => {
-      arr.push({id: val});
-    });
     this.provinceLoading = true;
-    this.smartPublicSrv.areaTreeDelete({data: arr}).subscribe(
+    this.smartPublicSrv.areaTreeDelete({data: [{id: e.id}]}).subscribe(
       (val) => {
         this.provinceLoading = false;
         this.provinceAlertsDis.push({
@@ -111,7 +106,6 @@ export class RegionProvinceComponent implements OnInit {
   // province新增操作
   public provinceAdd(e): void {
     if (e) {
-      console.log(e);
       this.provinceLoading = true;
       this.smartPublicSrv.areaTreeAdd(e).subscribe(
         (val) => {
@@ -124,7 +118,8 @@ export class RegionProvinceComponent implements OnInit {
           this.provinceListInit();
         }
       );
-    } else {
+    }
+    else {
       this.provinceFields = [
         new Textbox({
           label: '区域名称',
@@ -154,6 +149,7 @@ export class RegionProvinceComponent implements OnInit {
           type: 'text',
           key: 'flag',
           required: false,
+          hidden: true
         }),
         new Treebox({
           label: '区域pid',
@@ -162,6 +158,7 @@ export class RegionProvinceComponent implements OnInit {
           key: 'pid',
           parent: 'divisonCode',
           required: false,
+          hidden: true
         }),
       ];
     }
@@ -172,12 +169,22 @@ export class RegionProvinceComponent implements OnInit {
       this.provinceLoading = true;
       for (const item in e.value) {
         if (e.value.hasOwnProperty(item)) {
-          this.provinceUpdateData[item] = e.value[item];
+          if (item in this.provinceUpdateData) {
+            this.provinceUpdateData[item] = e.value[item];
+          }
         }
       }
       this.smartPublicSrv.areaTreeUpdate(this.provinceUpdateData).subscribe(
         (val) => {
           this.provinceLoading = false;
+          if (val.status !== '1000') {
+            this.provinceAlertsDis.push({
+              type: 'danger',
+              msg: `${val.message}(操作时间: ${new Date().toLocaleTimeString('it-IT', {hour12: false})})`,
+              timeout: 3000
+            });
+          return;
+          }
           this.provinceAlertsDis.push({
             type: 'success',
             msg: `${val.message}(操作时间: ${new Date().toLocaleTimeString('it-IT', {hour12: false})})`,
@@ -188,24 +195,62 @@ export class RegionProvinceComponent implements OnInit {
       );
     }
     else {
-      this.provinceUpdateData = e.value;
-      if (this.provinceUpdateData.hasOwnProperty('udt')) {
-        delete this.provinceUpdateData.udt;
+      const ignore = ['udt', 'children'];
+      for (const item in e.value) {
+        if (e.value.hasOwnProperty(item)) {
+          this.provinceUpdateData[item] = e.value[item];
+        }
+      }
+      for (let i = 0; i < ignore.length ; i++) {
+        if (ignore[i] in this.provinceUpdateData) {
+          delete this.provinceUpdateData[ignore[i]];
+        }
+      }
+      if (this.provinceUpdateData.hasOwnProperty('name')) {
+        this.provinceUpdateData['divisonName'] =  this.provinceUpdateData.name;
+        delete this.provinceUpdateData.name;
       }
       this.provinceFields = [
         new Textbox({
-          label: `省名称`,
-          value: `${e.value.provinceName}`,
-          placeholder: '请输入省名称',
-          key: 'provinceName',
+          label: `区域名称`,
+          value: `${e.value.name}`,
+          placeholder: '请输入新区域名称',
+          key: 'divisonName',
           required: true,
         }),
         new Textbox({
-          label: `省编号`,
-          value: `${e.value.provinceCode}`,
-          placeholder: '请输入省编号',
-          key: 'provinceCode',
+          label: `区域编码`,
+          value: `${e.value.divisonCode}`,
+          placeholder: '请输入新区域编码',
+          key: 'divisonCode',
           required: true,
+        }),
+        new Treebox({
+          label: '请选择所属区域',
+          placeholder: '点击选择所属区域',
+          type: 'text',
+          key: 'name',
+          required: true,
+          disabled: true
+        }),
+        new Treebox({
+          label: '区域flag',
+          value: `${e.value.flag}`,
+          placeholder: '区域flag',
+          type: 'text',
+          key: 'flag',
+          required: false,
+          hidden: true
+        }),
+        new Treebox({
+          label: '区域pid',
+          value: `${e.value.id}`,
+          placeholder: '请输入区域pid',
+          type: 'text',
+          key: 'pid',
+          parent: 'divisonCode',
+          required: false,
+          hidden: true
         }),
       ];
     }

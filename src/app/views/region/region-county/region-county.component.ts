@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FieldBase, Textbox, Dropdownbox} from '../../../commons/components/tables/tables-popular/dynamic-form/form-field';
 import {RegionService} from '../../../commons/services/region.service';
+import {SmartPublicService} from '../../../commons/services/smart-public.service';
 
 @Component({
   selector: 'app-region-county',
@@ -25,7 +26,7 @@ export class RegionCountyComponent implements OnInit {
   public countyUpdateData: any;
   public countyCurrentPage: number = 1;
   constructor(
-    private regionSrv: RegionService
+    private smartPublicSrv: SmartPublicService,
   ) { }
 
   ngOnInit() {
@@ -34,7 +35,7 @@ export class RegionCountyComponent implements OnInit {
 // county数据初始化
   public countyListInit(param): void {
     this.countyLoading = true;
-    this.regionSrv.regionCountySearch(param).subscribe(
+    this.smartPublicSrv.areaTreeSelect().subscribe(
       (val) => {
         console.log(val);
         this.countyLoading = false;
@@ -54,7 +55,7 @@ export class RegionCountyComponent implements OnInit {
       arr.push({id: val});
     });
     this.countyLoading = true;
-    this.regionSrv.regionCountyDelete({data: arr}).subscribe(
+    this.smartPublicSrv.areaTreeDelete({data: arr}).subscribe(
       (val) => {
         this.countyLoading = false;
         this.countyAlertsDis.push({
@@ -71,7 +72,7 @@ export class RegionCountyComponent implements OnInit {
     const i = e.cityName;
     if (e) {
       this.countyLoading = true;
-      this.regionSrv.regionCountyAdd({
+      this.smartPublicSrv.areaTreeAdd({
         districtName: e.districtName,
         districtCode: e.districtCode,
         cityName: this.cityList[i].cityName,
@@ -88,7 +89,7 @@ export class RegionCountyComponent implements OnInit {
         }
       );
     } else {
-      this.regionSrv.regionProvinceSearch({pageNo: 1, pageSize: 100}).subscribe(
+      this.smartPublicSrv.areaTreeSelect().subscribe(
         (val) => {
           this.cityList = val.data.contents;
           this.countyFields = [
@@ -135,7 +136,7 @@ export class RegionCountyComponent implements OnInit {
         this.countyUpdateData.cityCode = this.cityList[i].cityCode;
       }
       this.countyLoading = true;
-      this.regionSrv.regionCountyUpdate(this.countyUpdateData).subscribe(
+      this.smartPublicSrv.areaTreeUpdate(this.countyUpdateData).subscribe(
         (val) => {
           this.countyLoading = false;
           this.countyAlertsDis.push({
@@ -152,7 +153,7 @@ export class RegionCountyComponent implements OnInit {
       if (this.countyUpdateData.hasOwnProperty('udt')) {
         delete this.countyUpdateData.udt;
       }
-      this.regionSrv.regionCitySearch({pageNo: 1, pageSize: 100}).subscribe(
+      this.smartPublicSrv.areaTreeSelect().subscribe(
         (val) => {
           this.cityList = val.data.contents;
           this.countyFields = [

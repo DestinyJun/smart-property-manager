@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {FieldBase, Textbox} from '../../../commons/components/tables/tables-popular/dynamic-form/form-field';
+import {FieldBase, Textbox, Dropdownbox} from '../../../commons/components/tables/tables-popular/dynamic-form/form-field';
 import {RegionService} from '../../../commons/services/region.service';
-import {Dropdownbox} from '../../../commons/components/tables/tables-popular/dynamic-form/form-field/dropdownbox';
+import {SmartPublicService} from '../../../commons/services/smart-public.service';
 
 @Component({
   selector: 'app-region-city',
@@ -26,7 +26,8 @@ export class RegionCityComponent implements OnInit {
   public cityUpdateData: any;
   public cityCurrentPage: number = 1;
   constructor(
-    private regionSrv: RegionService
+    private regionSrv: RegionService,
+    private smartPublicSrv: SmartPublicService,
   ) { }
 
   ngOnInit() {
@@ -88,7 +89,7 @@ export class RegionCityComponent implements OnInit {
         }
       );
     } else {
-      this.regionSrv.regionProvinceSearch({pageNo: 1, pageSize: 100}).subscribe(
+      this.smartPublicSrv.areaTreeSelect().subscribe(
         (val) => {
           this.provinceList = val.data.contents;
           this.cityFields = [
@@ -149,7 +150,7 @@ export class RegionCityComponent implements OnInit {
       if (this.cityUpdateData.hasOwnProperty('udt')) {
         delete this.cityUpdateData.udt;
       }
-      this.regionSrv.regionProvinceSearch({pageNo: 1, pageSize: 100}).subscribe(
+      this.smartPublicSrv.areaTreeSelect().subscribe(
         (val) => {
           this.provinceList = val.data.contents;
           this.cityFields = [

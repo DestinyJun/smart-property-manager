@@ -12,6 +12,7 @@ export class SmartInterceptor implements HttpInterceptor {
     '/wx/getticket', '/member/signin', '/member/recommenderWorkId',
     '/member/sendSMS', '/member/verifySMS'
   ];
+  public skipState = [ `1000`, `1005`];
   constructor (
     private router: Router
   ) {}
@@ -39,7 +40,7 @@ export class SmartInterceptor implements HttpInterceptor {
       tap(
         (event: any) => {
           if (event.status === 200) {
-            if (event.body.status === '1000') {
+            if (this.skipState.includes(event.body.status)) {
               return of(event);
             }
             this.router.navigate(['/login']);
