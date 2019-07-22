@@ -52,7 +52,7 @@
         </div>
         <div class="card-body" *ngSwitchCase="'tree'">
           <app-tree-popular
-            [trees]="tbody"
+            [trees]="treeList"
             (selected)="onTreeSelected($event)">
           </app-tree-popular>
         </div>
@@ -137,7 +137,7 @@
      class="modal fade" tabindex="-1"
      role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
-  <div class="modal-dialog modal-warning modal-lg" role="document">
+  <div class="modal-dialog modal-warning" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">{{treeTitle}}</h4>
@@ -148,7 +148,7 @@
       <div class="modal-body">
         <app-tree-popular
           (selected)="onTreeSelected($event)"
-          [trees]="tbody"
+          [trees]="modalTreeList"
         ></app-tree-popular>
       </div>
       <div class="modal-footer">

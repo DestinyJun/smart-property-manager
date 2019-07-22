@@ -12,42 +12,42 @@ export class RegionService {
   ) { }
   // city 相关接口
   public regionCitySearch(params): Observable<any> {
-    return this.orgHttp.post('/city/findByPage', params);
+    return this.orgHttp.post('/cloud_house_admin/city/findByPage', params);
   }
   public regionCityAdd(params): Observable<any> {
-    return this.orgHttp.post('/city/add', params);
+    return this.orgHttp.post('/cloud_house_admin/city/add', params);
   }
   public regionCityDelete(params): Observable<any> {
-    return this.orgHttp.post('/city/deleteByIds', params);
+    return this.orgHttp.post('/cloud_house_admin/city/deleteByIds', params);
   }
   public regionCityUpdate(params): Observable<any> {
-    return this.orgHttp.post('/city/update', params);
+    return this.orgHttp.post('/cloud_house_admin/city/update', params);
   }
   // county相关接口
   public regionCountySearch(params): Observable<any> {
-    return this.orgHttp.post('/district/findByPage', params);
+    return this.orgHttp.post('/cloud_house_admin/district/findByPage', params);
   }
   public regionCountyAdd(params): Observable<any> {
-    return this.orgHttp.post('/district/add', params);
+    return this.orgHttp.post('/cloud_house_admin/district/add', params);
   }
   public regionCountyDelete(params): Observable<any> {
-    return this.orgHttp.post('/district/deleteByIds', params);
+    return this.orgHttp.post('/cloud_house_admin/district/deleteByIds', params);
   }
   public regionCountyUpdate(params): Observable<any> {
-    return this.orgHttp.post('/district/update', params);
+    return this.orgHttp.post('/cloud_house_admin/district/update', params);
   }
   // community相关接口
   public regionCommunitySearch(params): Observable<any> {
-    return this.orgHttp.post('/village/findByPage', params);
+    return this.orgHttp.post('/cloud_house_admin/village/findByPage', params);
   }
   public regionCommunityAdd(params): Observable<any> {
-    return this.orgHttp.post('/village/add', params);
+    return this.orgHttp.post('/cloud_house_admin/village/add', params);
   }
   public regionCommunityDelete(params): Observable<any> {
-    return this.orgHttp.post('/village/deleteByIds', params);
+    return this.orgHttp.post('/cloud_house_admin/village/deleteByIds', params);
   }
   public regionCommunityUpdate(params): Observable<any> {
-    return this.orgHttp.post('/village/update', params);
+    return this.orgHttp.post('/cloud_house_admin/village/update', params);
   }
 
 }

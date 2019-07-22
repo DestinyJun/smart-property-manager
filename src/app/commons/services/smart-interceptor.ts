@@ -6,30 +6,31 @@ import {Router} from '@angular/router';
 
 export class SmartInterceptor implements HttpInterceptor {
   public clonedRequest: any;
-  public skipUrl = [
-    `/login`, '/wx/getOauth', '/wx/userinfo',
-    '/wx/gettoken', '/imageFileUpload',
-    '/wx/getticket', '/member/signin', '/member/recommenderWorkId',
-    '/member/sendSMS', '/member/verifySMS'
-  ];
+  public http_url: any;
+  public skipUrl = [`/login`];
   public skipState = [ `1000`, `1005`];
   constructor (
     private router: Router
   ) {}
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (req.url.indexOf('cloud_house_authentication') < 0) {
+      this.http_url = environment.house_admin_url;
+    } else {
+      this.http_url = environment.house_authentication_url;
+    }
     return this.debug_http(req, next);
   }
   public debug_http(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (this.isSkipUrl(req.url)) {
       this.clonedRequest = req.clone({
-        url: environment.http_url,
+        url: this.http_url,
         headers: req.headers
           .set('Content-type', 'application/json')
       });
     }
     else {
       this.clonedRequest = req.clone({
-        url: environment.http_url + req.url,
+        url: this.http_url + req.url,
         headers: req.headers
           .set('Content-type', 'application/json')
           .set('appkey', environment.appkey)

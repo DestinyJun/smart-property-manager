@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FieldBase, Textbox, Treebox} from '../../../commons/components/tables/tables-popular/dynamic-form/form-field';
 import {SmartPublicService} from '../../../commons/services/smart-public.service';
+import {TreeNode} from '../../../commons/components/api';
 
 @Component({
   selector: 'app-region-province',
@@ -10,15 +11,6 @@ import {SmartPublicService} from '../../../commons/services/smart-public.service
 export class RegionProvinceComponent implements OnInit {
   public provinceList: any;
   public provinceLoading = false;
-  public provinceThead = [
-    {theadName: '唯一标识', theadLabel: 'id'},
-    {theadName: '区划名称', theadLabel: 'divisonName'},
-    {theadName: '子节点', theadLabel: 'divisonDTO'},
-    {theadName: '区划编号', theadLabel: 'divisonCode'},
-    {theadName: '区划标识', theadLabel: 'flag'},
-    {theadName: '创建时间', theadLabel: 'idt'},
-    {theadName: '最后修改时间', theadLabel: 'udt'},
-  ];
   public provinceFields: FieldBase<any>[] = [
     /* new Textbox({
      label: '头像:',
@@ -82,9 +74,8 @@ export class RegionProvinceComponent implements OnInit {
     this.provinceLoading = true;
     this.smartPublicSrv.areaTreeSelect().subscribe(
       (val) => {
-        console.log(val);
         this.provinceLoading = false;
-        this.provinceList = val.data;
+        this.provinceList = this.treeInit(val.data);
       }
     );
   }
@@ -254,5 +245,27 @@ export class RegionProvinceComponent implements OnInit {
         }),
       ];
     }
+  }
+  // tree 数据初始化
+  public treeInit(data): any {
+    const oneChild: TreeNode[] = [];
+    for (let i = 0; i < data.length; i++) {
+      const childnode: TreeNode = {};
+      childnode.id = data[i]['id'];
+      childnode.name = data[i]['divisonName'];
+      childnode['divisonCode'] = data[i]['divisonCode'];
+      childnode['flag'] = data[i]['flag'];
+      childnode['idt'] = data[i]['idt'];
+      childnode['pid'] = data[i]['pid'];
+      childnode['udt'] = data[i]['udt'];
+      if (data[i].divisonDTO) {
+        childnode.children = this.treeInit(data[i].divisonDTO);
+      }
+      else {
+        childnode.children = [];
+      }
+      oneChild.push(childnode);
+    }
+    return oneChild;
   }
 }

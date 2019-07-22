@@ -43,28 +43,11 @@ export const navItems: NavData[] = [
     name: '区划管理',
     url: '/region',
     icon: 'icon-pencil',
-    children: [
-      {
-        name: '省管理',
-        url: '/region/province',
-        icon: 'icon-puzzle',
-      },
-      {
-        name: ' 市管理',
-        url: '/region/city',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: '县/区管理',
-        url: '/region/county',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: '小区管理',
-        url: '/region/community',
-        icon: 'icon-puzzle'
-      },
-    ]
+  },
+  {
+    name: '小区管理',
+    url: '/community',
+    icon: 'icon-pencil',
   },
   {
     name: '组织管理',

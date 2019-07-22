@@ -13,15 +13,19 @@ export class SmartPublicService {
   /******************************联动接口*************************/
   // 查询区域树
   public areaTreeSelect(): Observable<any> {
-    return this.orgHttp.post('/divison/choosePid', {});
+    return this.orgHttp.post('/cloud_house_admin/divison/choosePid', {});
   }
   public areaTreeAdd(params): Observable<any> {
-    return this.orgHttp.post('/divison/add', params);
+    return this.orgHttp.post('/cloud_house_admin/divison/add', params);
   }
   public areaTreeDelete(params): Observable<any> {
-    return this.orgHttp.post('/divison/deleteByIds', params);
+    return this.orgHttp.post('/cloud_house_admin/divison/deleteByIds', params);
   }
   public areaTreeUpdate(params): Observable<any> {
-    return this.orgHttp.post('/divison/update', params);
+    return this.orgHttp.post('/cloud_house_admin/divison/update', params);
+  }
+  // 组织树查询
+  public orgTreeUpdate(params): Observable<any> {
+    return this.orgHttp.post('/cloud_house_admin/organization/choosePid', params);
   }
 }

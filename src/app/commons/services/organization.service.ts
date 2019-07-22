@@ -11,9 +11,9 @@ export class OrganizationService {
     private orgHttp: HttpClient,
   ) { }
   public orgPageSearch(params): Observable<any> {
-    return this.orgHttp.post('/organization/findByPage', params);
+    return this.orgHttp.post('/cloud_house_admin/organization/findByPage', params);
   }
   public orgDelete(params): Observable<any> {
-    return this.orgHttp.post('/organization/deleteByIds', params);
+    return this.orgHttp.post('/cloud_house_admin/organization/deleteByIds', params);
   }
 }

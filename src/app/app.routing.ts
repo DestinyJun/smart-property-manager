@@ -42,6 +42,10 @@ export const routes: Routes = [
         path: 'region',
         loadChildren: () => import('./views/region/region.module').then(m => m.RegionModule)
       },
+      {
+        path: 'community',
+        loadChildren: () => import('./views/community/community.module').then(m => m.CommunityModule)
+      },
     ]
   },
   {

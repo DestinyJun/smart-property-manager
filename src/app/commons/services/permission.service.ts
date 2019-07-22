@@ -12,28 +12,28 @@ export class PermissionService {
   ) { }
   // role 相关接口
   public permisRoleSearch(params): Observable<any> {
-    return this.orgHttp.post('/role/admin/findByPage', params);
+    return this.orgHttp.post('/cloud_house_authentication/role/admin/findByPage', params);
   }
   public permisRoleAdd(params): Observable<any> {
-    return this.orgHttp.post('/role/admin/add', params);
+    return this.orgHttp.post('/cloud_house_authentication/role/admin/add', params);
   }
   public permisRoleDelete(params): Observable<any> {
-    return this.orgHttp.post('/role/deleteByIds', params);
+    return this.orgHttp.post('/cloud_house_authentication/role/deleteByIds', params);
   }
   public permisRoleUpdate(params): Observable<any> {
-    return this.orgHttp.post('/role/update', params);
+    return this.orgHttp.post('/cloud_house_authentication/role/update', params);
   }
   // permis manger 相关接口
   public permisMangerSearch(params): Observable<any> {
-    return this.orgHttp.post('/permit/config/admin/findPermitAll', params);
+    return this.orgHttp.post('/cloud_house_authentication/permit/config/admin/findPermitAll', params);
   }
   public permisMangerAdd(params): Observable<any> {
-    return this.orgHttp.post('/permit/add', params);
+    return this.orgHttp.post('/cloud_house_authentication/permit/add', params);
   }
   public permisMangerDelete(params): Observable<any> {
-    return this.orgHttp.post('/permit/deletePermitByPermitCodes', params);
+    return this.orgHttp.post('/cloud_house_authentication/permit/deletePermitByPermitCodes', params);
   }
   public permisMangerUpdate(params): Observable<any> {
-    return this.orgHttp.post('/permit/update', params);
+    return this.orgHttp.post('/cloud_house_authentication/permit/update', params);
   }
 }

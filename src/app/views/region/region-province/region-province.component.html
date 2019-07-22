@@ -1,9 +1,7 @@
 <div class="region-province">
   <app-tables-popular
     [tableType]="'tree'"
-    [thead]="provinceThead"
-    [tbody]="provinceList"
-    (pageChange)="provinceChange($event)"
+    [treeList]="provinceList"
     (deleteChange)="provinceDelete($event)"
     [fields]="provinceFields"
     [modalTitle]="'省级添加'"

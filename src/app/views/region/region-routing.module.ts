@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import {RegionProvinceComponent} from './region-province/region-province.component';
 import {RegionCityComponent} from './region-city/region-city.component';
 import {RegionCountyComponent} from './region-county/region-county.component';
-import {RegionCommunityComponent} from './region-community/region-community.component';
 
 const routes: Routes = [
   {
@@ -11,7 +10,8 @@ const routes: Routes = [
     data: {
       title: '区划管理'
     },
-    children: [
+    component: RegionProvinceComponent
+    /*children: [
       {
         path: '',
         redirectTo: 'province',
@@ -44,7 +44,7 @@ const routes: Routes = [
           title: '小区'
         }
       },
-    ]
+    ]*/
   }
 ];
 

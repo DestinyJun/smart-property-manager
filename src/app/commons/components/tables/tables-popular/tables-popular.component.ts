@@ -2,7 +2,6 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import {ModalDirective} from 'ngx-bootstrap';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {FieldBase} from './dynamic-form/form-field';
-import {TreeNode} from '../../api';
 
 @Component({
   selector: 'app-tables-popular',
@@ -10,6 +9,7 @@ import {TreeNode} from '../../api';
   styleUrls: ['./tables-popular.component.scss']
 })
 export class TablesPopularComponent implements OnInit, OnChanges{
+  // table list
   @Input() thead: any = [
     {theadName: '姓名', theadLabel: 'username'},
     {theadName: '日期', theadLabel: 'date'},
@@ -21,60 +21,16 @@ export class TablesPopularComponent implements OnInit, OnChanges{
     {username: '哈哈哈', id: 2, date: '2012/01/01', role: 'Member', status: 'Active'},
     {id: 5, username: 'Samppa Nori', date: '2012/01/01', role: 'Member', status: 'Active'},
   ];
-  @Input() modalTitle: any = '基础字段添加';
+  // tree list
+  @Input() treeList: any;
   @Input() tableType: any = 'table';
-  @Input() treeTitle: any = '请选择区域树';
+  // modal
+  @Input() modalTitle: any = '基础字段添加';
+  @Input() modalTreeTitle: any = '请选择区域树';
+  @Input() modalTreeList: any = [];
   @Input() updateTitle: any = '基础字段修改';
-  @Input() fields: FieldBase<any>[] = [
-   /* new Textbox({
-      label: '头像:',
-      placeholder: '上传头像',
-      type: 'file',
-      key: 'upload'
-    }),
-    new Textbox({
-      label: '用户名:',
-      placeholder: '用户名',
-      key: 'username'
-    }),
-    new Textbox({
-      label: '常用邮箱:',
-      placeholder: '常用邮箱',
-      key: 'email'
-    }),
-    new Textbox({
-      label: '密码:',
-      type: 'password',
-      placeholder: '密码，至少8位',
-      key: 'password'
-    }),
-    new Textbox({
-      label: '重复密码:',
-      type: 'password',
-      placeholder: '重复密码',
-      key: 'fireword'
-    }),
-    new TextArea({
-      value: '还是到付哈是否',
-      label: '个人简介:',
-      placeholder: '个人简介，最多140字，不能放链接。',
-      rows: 3,
-      key: 'intro'
-    }),
-    new Dropdownbox({
-      value: 1,
-      list: [{name: '公司1', id: 1}, {name: '公司2', id: 2}],
-      label: '请选择组织:',
-      key: 'origami'
-    }),
-    new Radiosbox({
-      value: 0,
-      list: [{name: '是', type: 1}, {name: '否', type: 0}],
-      label: '是否是收费:',
-      key: 'money'
-    })*/
-  ];
-  @Output() pageChange = new EventEmitter();
+  // operating
+  @Input() fields: FieldBase<any>[] = [];
   @Output() deleteChange = new EventEmitter();
   @Output() addChange = new EventEmitter();
   @Output() updateChange = new EventEmitter();
@@ -118,14 +74,12 @@ export class TablesPopularComponent implements OnInit, OnChanges{
     }
     if (this.tbody) {
       this.ids = [];
-      if (this.tableType === 'tree') {
-        if (!('name' in this.tbody[0])) {
-          this.tbody = this.treeInit(this.tbody);
-        }
-      } else {
-        this.tableInit();
-        this.validationInit();
-      }
+      this.tableInit();
+      this.validationInit();
+    }
+    if (this.modalTreeList) {
+      console.log(this.modalTreeList);
+      this.validationInit();
     }
   }
   // table初始化
@@ -159,16 +113,19 @@ export class TablesPopularComponent implements OnInit, OnChanges{
         return;
       }
       this.updateChange.emit({saving: false, value: this.cloneObj(this.tbody[this.ids[0]])});
-    } else {
+    }
+    else {
+      console.log('我执行了');
       this.updateChange.emit({saving: false, value: this.treeSelectValue});
     }
     this.primaryModal.show();
   }
   public upDateSaveClick() {
     if (this.form.valid) {
-      this.primaryModal.hide();
-      this.updateChange.emit({saving: true, value: this.form.value});
+      console.log(this.form.value);
+      /*this.updateChange.emit({saving: true, value: this.form.value});
       this.form.reset();
+      this.primaryModal.hide();*/
     }
   }
   // delete事件
@@ -292,27 +249,6 @@ export class TablesPopularComponent implements OnInit, OnChanges{
     this.form = this.toFormGroup(this.fields);
   }
   // tree数据初始化
-  public treeInit(data): any {
-    const oneChild: TreeNode[] = [];
-    for (let i = 0; i < data.length; i++) {
-      const childnode: TreeNode = {};
-      childnode.id = data[i]['id'];
-      childnode.name = data[i]['divisonName'];
-      childnode['divisonCode'] = data[i]['divisonCode'];
-      childnode['flag'] = data[i]['flag'];
-      childnode['idt'] = data[i]['idt'];
-      childnode['pid'] = data[i]['pid'];
-      childnode['udt'] = data[i]['udt'];
-      if (data[i].divisonDTO) {
-        childnode.children = this.treeInit(data[i].divisonDTO);
-      }
-      else {
-        childnode.children = [];
-      }
-      oneChild.push(childnode);
-    }
-    return oneChild;
-  }
   public onTreeSelected(e): void {
     this.treeSelectValue = e;
   }
@@ -327,6 +263,7 @@ export class TablesPopularComponent implements OnInit, OnChanges{
        }
      }
    });
+    console.log(this.fields);
    this.form = this.toFormGroup(this.fields);
   }
   public onInputTreeSelected(e): void {

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {FieldBase, Textbox, Image, Dropdownbox} from '../../../commons/components/tables/tables-popular/dynamic-form/form-field';
-import {RegionService} from '../../../commons/services/region.service';
+import {FieldBase, Textbox, Image, Dropdownbox} from '../../commons/components/tables/tables-popular/dynamic-form/form-field';
+import {RegionService} from '../../commons/services/region.service';
 
 @Component({
   selector: 'app-region-community',
-  templateUrl: './region-community.component.html',
-  styleUrls: ['./region-community.component.scss']
+  templateUrl: './community.component.html',
+  styleUrls: ['./community.component.scss']
 })
-export class RegionCommunityComponent implements OnInit {
+export class CommunityComponent implements OnInit {
   public communityList: any;
   public countyList: any;
   public communityPage = {pageNo: '1', pageSize: '10'};

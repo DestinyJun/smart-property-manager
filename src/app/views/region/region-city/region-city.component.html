@@ -2,7 +2,6 @@
   <app-tables-popular
     [thead]="cityThead"
     [tbody]="cityList?.contents"
-    (pageChange)="cityChange($event)"
     (deleteChange)="cityDelete($event)"
     [fields]="cityFields"
     [modalTitle]="'市级添加'"

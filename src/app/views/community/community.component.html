@@ -2,7 +2,6 @@
   <app-tables-popular
     [thead]="communityThead"
     [tbody]="communityList?.contents"
-    (pageChange)="communityChange($event)"
     (deleteChange)="communityDelete($event)"
     [fields]="communityFields"
     [modalTitle]="'小区添加'"

@@ -2,7 +2,6 @@
   <app-tables-popular
     [thead]="countyThead"
     [tbody]="countyList?.contents"
-    (pageChange)="countyChange($event)"
     (deleteChange)="countyDelete($event)"
     [fields]="countyFields"
     [modalTitle]="'市级添加'"

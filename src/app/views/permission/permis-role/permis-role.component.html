@@ -1,12 +1,13 @@
 <div class="permis-role">
   <div class="region-city">
     <app-tables-popular
+      [tableType]="'table'"
       [thead]="roleThead"
       [tbody]="roleList?.contents"
-      (pageChange)="roleChange($event)"
+      [modalTreeList]="roleOrgTree"
       (deleteChange)="roleDelete($event)"
       [fields]="roleFields"
-      [modalTitle]="'市级添加'"
+      [modalTitle]="'角色添加'"
       (addChange)="roleAdd($event)"
       (updateChange)="roleUpdate($event)"
     >
@@ -27,5 +28,4 @@
     <ngx-loading [show]="roleLoading" [config]="{backdropBorderRadius: '3px'}"></ngx-loading>
     <app-smart-alert [alertsDismiss]="roleAlertsDis"></app-smart-alert>
   </div>
-
 </div>
