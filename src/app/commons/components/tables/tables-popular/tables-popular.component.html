@@ -77,11 +77,11 @@
         <form class="form-horizontal" role="form" [formGroup]="form" *ngIf="fields">
           <div class="row">
             <div *ngFor="let field of fields" class="col-6">
+              <!--(inputChange)="onInputChange($event)"-->
               <app-form-control
                 (treeSelected)="onInputTreeSelected($event)"
                 [formErrors]="formErrors"
-                [form]="form" [field]="field"
-                (inputChange)="onInputChange($event)">
+                [form]="form" [field]="field">
               </app-form-control>
             </div>
           </div>
@@ -140,7 +140,7 @@
   <div class="modal-dialog modal-warning" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">{{treeTitle}}</h4>
+        <h4 class="modal-title">{{modalTreeTitle}}</h4>
         <button type="button" class="close" (click)="warningModal.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  Dropdownbox,
   FieldBase,
   TextArea,
   Textbox,
@@ -136,7 +135,7 @@ export class PermisRoleComponent implements OnInit {
       );
     }
     else {
-      this.smartPublicSrv.orgTreeUpdate({}).subscribe(
+      this.smartPublicSrv.orgTreeSelect({}).subscribe(
         (val) => {
           this.roleOrgTree = this.treeInit(val.data);
           this.roleFields = [
@@ -184,20 +183,11 @@ export class PermisRoleComponent implements OnInit {
   // role 修改操作
   public roleUpdate(e): void {
     if (e.saving) {
-      console.log(e);
-      /*let i = null;
-      const obj = this.roleUpdateData;
-      for (const prop in obj) {
+      for (const prop in e.value) {
         if (e.value.hasOwnProperty(prop) ) {
           this.roleUpdateData[prop] = e.value[prop];
         }
       }
-      if (!(isNaN(e.value.provinceName)) || !(e.value.provinceName === 'null')) {
-        i = e.value.provinceName;
-        // this.roleUpdateData.provinceName = this.provinceList[i].provinceName;
-        // this.roleUpdateData.provinceCode = this.provinceList[i].provinceCode;
-      }
-      this.roleLoading = true;
       this.permissSrv.permisRoleUpdate(this.roleUpdateData).subscribe(
         (val) => {
           this.roleLoading = false;
@@ -208,14 +198,14 @@ export class PermisRoleComponent implements OnInit {
           });
           this.roleListInit(this.rolePage);
         }
-      );*/
+      );
     }
     else {
       this.roleUpdateData = e.value;
-     /* if (this.roleUpdateData.hasOwnProperty('udt')) {
-        delete this.roleUpdateData.udt;
-      }*/
-      this.smartPublicSrv.orgTreeUpdate({}).subscribe(
+      if ('udt' in this.roleUpdateData) {
+        delete this.roleUpdateData['udt'];
+      }
+      this.smartPublicSrv.orgTreeSelect({}).subscribe(
         (val) => {
           this.roleOrgTree = this.treeInit(val.data);
           this.roleFields = [

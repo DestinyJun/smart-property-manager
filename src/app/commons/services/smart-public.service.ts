@@ -25,7 +25,7 @@ export class SmartPublicService {
     return this.orgHttp.post('/cloud_house_admin/divison/update', params);
   }
   // 组织树查询
-  public orgTreeUpdate(params): Observable<any> {
+  public orgTreeSelect(params): Observable<any> {
     return this.orgHttp.post('/cloud_house_admin/organization/choosePid', params);
   }
 }

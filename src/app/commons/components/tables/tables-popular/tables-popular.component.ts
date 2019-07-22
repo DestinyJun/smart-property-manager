@@ -69,7 +69,9 @@ export class TablesPopularComponent implements OnInit, OnChanges{
   ngOnChanges(changes: SimpleChanges): void {
     if (this.fields) {
       this.form = this.toFormGroup(this.fields);
-      this.form.valueChanges.subscribe((data) => this.onValueChanged(data));
+      this.form.valueChanges.subscribe((data) => {
+        this.onValueChanged(data);
+      });
       this.onValueChanged();
     }
     if (this.tbody) {
@@ -78,7 +80,6 @@ export class TablesPopularComponent implements OnInit, OnChanges{
       this.validationInit();
     }
     if (this.modalTreeList) {
-      console.log(this.modalTreeList);
       this.validationInit();
     }
   }
@@ -115,17 +116,15 @@ export class TablesPopularComponent implements OnInit, OnChanges{
       this.updateChange.emit({saving: false, value: this.cloneObj(this.tbody[this.ids[0]])});
     }
     else {
-      console.log('我执行了');
       this.updateChange.emit({saving: false, value: this.treeSelectValue});
     }
     this.primaryModal.show();
   }
   public upDateSaveClick() {
     if (this.form.valid) {
-      console.log(this.form.value);
-      /*this.updateChange.emit({saving: true, value: this.form.value});
+      this.updateChange.emit({saving: true, value: this.form.value});
       this.form.reset();
-      this.primaryModal.hide();*/
+      this.primaryModal.hide();
     }
   }
   // delete事件
@@ -161,7 +160,6 @@ export class TablesPopularComponent implements OnInit, OnChanges{
     if (e.target.checked) {
       this.tbody.map((val, index) => {
         this.check_status.push(true);
-        // this.ids.push(val.id);
         this.ids.push(index);
       });
     } else {
@@ -239,7 +237,7 @@ export class TablesPopularComponent implements OnInit, OnChanges{
     }
     return obj;
   }
-  // 数据联动
+  /*// 数据联动
   public onInputChange(e): void {
     this.fields.map((val, index) => {
       if (val.key === e.obj.key) {
@@ -247,24 +245,25 @@ export class TablesPopularComponent implements OnInit, OnChanges{
       }
     });
     this.form = this.toFormGroup(this.fields);
-  }
+  }*/
   // tree数据初始化
   public onTreeSelected(e): void {
     this.treeSelectValue = e;
   }
   public treeSelectSave(): void {
     this.fields.map((val, index) => {
-     if (val.controlType === this.treeSelectInput.controlType) {
-       if (this.fields[index].key in this.treeSelectValue || this.fields[index].parent in this.treeSelectValue) {
-         this.fields[index].value = this.treeSelectValue[this.fields[index].key];
-       }
-       if (this.fields[index].parent in this.treeSelectValue) {
-         this.fields[index].value = this.treeSelectValue[this.fields[index].parent];
+      const a = {};
+      if (val.controlType === this.treeSelectInput.controlType) {
+       for (const prop in this.fields[index]) {
+         if (this.fields[index].hasOwnProperty(prop)) {
+           if (prop === 'key') {
+             a[this.fields[index][prop]] = this.treeSelectValue[this.fields[index][prop]];
+             this.form.patchValue(a);
+           }
+         }
        }
      }
    });
-    console.log(this.fields);
-   this.form = this.toFormGroup(this.fields);
   }
   public onInputTreeSelected(e): void {
     this.treeSelectInput = e;

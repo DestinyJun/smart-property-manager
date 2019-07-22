@@ -2,6 +2,8 @@
   <app-tables-popular
     [tableType]="'tree'"
     [treeList]="provinceList"
+    [modalTreeList]="provinceAreaTree"
+    [modalTreeTitle]="'请选择区域'"
     (deleteChange)="provinceDelete($event)"
     [fields]="provinceFields"
     [modalTitle]="'省级添加'"

@@ -3,10 +3,10 @@
   <div class="col-md-8">
     <div [ngSwitch]="field?.controlType">
       <!--text-->
+      <!-- (input)="onInput($event,field)"-->
       <ng-container *ngSwitchCase="'textbox'">
         <input
           [hidden]="field?.hidden"
-          (input)="onInput($event,field)"
           [id]="field?.key"
           class="form-control"
           value="{{field?.value}}"
@@ -58,10 +58,10 @@
         </div>
       </ng-container>
       <!--tree-->
+      <!-- (input)="onInput($event)"-->
       <ng-container *ngSwitchCase="'treebox'">
         <input
           [hidden]="field?.hidden"
-          (input)="onInput($event)"
           [id]="field?.key"
           class="form-control"
           value="{{field?.value}}"

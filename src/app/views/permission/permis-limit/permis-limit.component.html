@@ -1,4 +1,17 @@
 <div class="permis-limit">
-  <h1>权限管理</h1>
+  <app-tables-popular
+    [tableType]="'tree'"
+    [treeList]="permisLimitList"
+    [modalTreeList]="permisLimitTree"
+    [modalTreeTitle]="'请选择权限树'"
+    [fields]="permisLimitFields"
+    [modalTitle]="'权限字段添加'"
+    (deleteChange)="permisLimitDelete($event)"
+    (addChange)="permisLimitAdd($event)"
+    (updateChange)="permisLimitUpdate($event)"
+  >
+  </app-tables-popular>
+  <ngx-loading [show]="permisLimitLoading" [config]="{backdropBorderRadius: '3px'}"></ngx-loading>
+  <app-smart-alert [alertsDismiss]="permisLimitAlertsDis"></app-smart-alert>
 </div>
 
