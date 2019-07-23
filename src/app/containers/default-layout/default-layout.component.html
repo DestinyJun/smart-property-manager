@@ -1,5 +1,5 @@
 <app-header
-  [navbarBrandRouterLink]="['/dashboard']"
+  [navbarBrandRouterLink]="['/home']"
   [fixed]="true"
   [navbarBrandFull]="{src: 'assets/img/brand/logo.svg', width: 89, height: 25, alt: 'CoreUI Logo'}"
   [navbarBrandMinimized]="{src: 'assets/img/brand/sygnet.svg', width: 30, height: 30, alt: 'CoreUI Logo'}"
@@ -42,9 +42,7 @@
     <app-sidebar-nav [navItems]="navItems" [perfectScrollbar] [disabled]="sidebarMinimized"></app-sidebar-nav>
     <app-sidebar-minimizer></app-sidebar-minimizer>
   </app-sidebar>
-  <!-- Main content -->
   <main class="main">
-    <!-- Breadcrumb  breaking change 'cui-breadcrumb'-->
     <cui-breadcrumb>
       <!-- Breadcrumb Menu-->
       <li class="breadcrumb-menu d-md-down-none">
@@ -55,7 +53,6 @@
         </div>
       </li>
     </cui-breadcrumb>
-    <!-- /.container-fluid -->
     <div class="container-fluid">
       <router-outlet></router-outlet>
     </div>

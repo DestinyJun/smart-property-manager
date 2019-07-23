@@ -1,11 +1,5 @@
 <div class="org-agency">
-  <app-tables-popular
-    [itemsPerPage] = '10'
-    [totalItems]="orgSearchData?.totalRecord"
-    [thead]="orgThead"
-    [tbody]="orgSearchData?.contents"
-    (deleteChange)="orgDelete($event)"
-  ></app-tables-popular>
+  <h1>组织管理</h1>
 </div>
 <ngx-loading
   [show]="orgLoading"

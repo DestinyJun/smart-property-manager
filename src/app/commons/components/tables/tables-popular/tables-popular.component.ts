@@ -257,7 +257,7 @@ export class TablesPopularComponent implements OnInit, OnChanges{
        for (const prop in this.fields[index]) {
          if (this.fields[index].hasOwnProperty(prop)) {
            if (prop === 'key') {
-             a[this.fields[index][prop]] = this.treeSelectValue[this.fields[index][prop]];
+             a[this.fields[index][prop]] = this.treeSelectValue[this.fields[index]['parent']];
              this.form.patchValue(a);
            }
          }

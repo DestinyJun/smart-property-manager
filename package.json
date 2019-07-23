@@ -6,7 +6,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 3600 --open --disable-host-check",
-    "build": "ng build --prod --aot --buildOptimizer --commonChunk --vendorChunk --optimization --progress",
+    "build": "ng build --prod --aot --buildOptimizer --commonChunk --vendorChunk --optimization --progress --base-href /smartm/",
+    "build-prod": "ng build --prod --aot --base-href /smartm/",
+    "build-dev": "ng build --base-href /smartm/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

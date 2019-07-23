@@ -84,7 +84,7 @@ export class PermisLimitComponent implements OnInit {
   // permisLimit删除操作
   public permisLimitDelete(e): void {
     this.permisLimitLoading = true;
-    this.permissSrv.permisMangerDelete({permitCodes: `${e.id}`}).subscribe(
+    this.permissSrv.permisMangerDelete({permitCodes: `${e.permisCode}`}).subscribe(
       (val) => {
         this.permisLimitLoading = false;
         this.permisLimitAlertsDis.push({
@@ -170,6 +170,7 @@ export class PermisLimitComponent implements OnInit {
               placeholder: '权限级别',
               type: 'text',
               key: 'parentCode',
+              parent: 'permisCode',
               required: false,
               hidden: true
             }),
@@ -291,6 +292,7 @@ export class PermisLimitComponent implements OnInit {
           placeholder: '权限级别',
           type: 'text',
           key: 'parentCode',
+          parent: 'id',
           required: false,
           hidden: true
         }),

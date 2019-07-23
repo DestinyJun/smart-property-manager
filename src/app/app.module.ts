@@ -41,6 +41,7 @@ import { ChartsModule } from 'ng2-charts';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {SmartInterceptor} from './commons/services/smart-interceptor';
 import {NgxLoadingModule} from 'ngx-loading';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -57,6 +58,8 @@ import {NgxLoadingModule} from 'ngx-loading';
     TabsModule.forRoot(),
     ChartsModule,
     HttpClientModule,
+    FormsModule,
+    NgxLoadingModule.forRoot({}),
   ],
   declarations: [
     AppComponent,
