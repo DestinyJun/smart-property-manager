@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FieldBase, TextArea, Textbox, Treebox} from '../../../commons/components/tables/tables-popular/dynamic-form/form-field';
+import {FieldBase, Textbox, Treebox} from '../../../commons/components/tables/tables-popular/dynamic-form/form-field';
 import {SmartPublicService} from '../../../commons/services/smart-public.service';
 import {TreeNode} from '../../../commons/components/api';
 
@@ -192,64 +192,70 @@ export class RegionProvinceComponent implements OnInit {
       );
     }
     else {
-      const ignore = ['udt', 'children'];
-      for (const item in e.value) {
-        if (e.value.hasOwnProperty(item)) {
-          this.provinceUpdateData[item] = e.value[item];
+      this.smartPublicSrv.areaTreeSelect().subscribe(
+        (val) => {
+          console.log(val);
+          this.provinceAreaTree = this.treeInit(val.data);
+          const ignore = ['udt', 'children'];
+          for (const item in e.value) {
+            if (e.value.hasOwnProperty(item)) {
+              this.provinceUpdateData[item] = e.value[item];
+            }
+          }
+          for (let i = 0; i < ignore.length ; i++) {
+            if (ignore[i] in this.provinceUpdateData) {
+              delete this.provinceUpdateData[ignore[i]];
+            }
+          }
+          if (this.provinceUpdateData.hasOwnProperty('name')) {
+            this.provinceUpdateData['divisonName'] =  this.provinceUpdateData.name;
+            delete this.provinceUpdateData.name;
+          }
+          this.provinceFields = [
+            new Textbox({
+              label: `区域名称`,
+              value: `${e.value.name}`,
+              placeholder: '请输入新区域名称',
+              key: 'divisonName',
+              required: true,
+            }),
+            new Textbox({
+              label: `区域编码`,
+              value: `${e.value.divisonCode}`,
+              placeholder: '请输入新区域编码',
+              key: 'divisonCode',
+              required: true,
+            }),
+            new Treebox({
+              label: '请选择所属区域',
+              placeholder: '点击选择所属区域',
+              type: 'text',
+              key: 'name',
+              required: true,
+              disabled: true
+            }),
+            new Treebox({
+              label: '区域flag',
+              value: `${e.value.flag}`,
+              placeholder: '区域flag',
+              type: 'text',
+              key: 'flag',
+              required: false,
+              hidden: true
+            }),
+            new Treebox({
+              label: '区域pid',
+              value: `${e.value.id}`,
+              placeholder: '请输入区域pid',
+              type: 'text',
+              key: 'pid',
+              parent: 'divisonCode',
+              required: false,
+              hidden: true
+            }),
+          ];
         }
-      }
-      for (let i = 0; i < ignore.length ; i++) {
-        if (ignore[i] in this.provinceUpdateData) {
-          delete this.provinceUpdateData[ignore[i]];
-        }
-      }
-      if (this.provinceUpdateData.hasOwnProperty('name')) {
-        this.provinceUpdateData['divisonName'] =  this.provinceUpdateData.name;
-        delete this.provinceUpdateData.name;
-      }
-      this.provinceFields = [
-        new Textbox({
-          label: `区域名称`,
-          value: `${e.value.name}`,
-          placeholder: '请输入新区域名称',
-          key: 'divisonName',
-          required: true,
-        }),
-        new Textbox({
-          label: `区域编码`,
-          value: `${e.value.divisonCode}`,
-          placeholder: '请输入新区域编码',
-          key: 'divisonCode',
-          required: true,
-        }),
-        new Treebox({
-          label: '请选择所属区域',
-          placeholder: '点击选择所属区域',
-          type: 'text',
-          key: 'name',
-          required: true,
-          disabled: true
-        }),
-        new Treebox({
-          label: '区域flag',
-          value: `${e.value.flag}`,
-          placeholder: '区域flag',
-          type: 'text',
-          key: 'flag',
-          required: false,
-          hidden: true
-        }),
-        new Treebox({
-          label: '区域pid',
-          value: `${e.value.id}`,
-          placeholder: '请输入区域pid',
-          type: 'text',
-          key: 'pid',
-          parent: 'divisonCode',
-          required: false,
-          hidden: true
-        }),
-      ];
+      );
     }
   }
   // tree 数据初始化

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {SettingFieldComponent} from '../settings/setting-field/setting-field.component';
 import {PermisUserComponent} from './permis-user/permis-user.component';
 import {PermisLimitComponent} from './permis-limit/permis-limit.component';
 import {PermisRoleComponent} from './permis-role/permis-role.component';
