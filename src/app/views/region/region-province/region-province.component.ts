@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FieldBase, Textbox, Treebox} from '../../../commons/components/tables/tables-popular/dynamic-form/form-field';
 import {SmartPublicService} from '../../../commons/services/smart-public.service';
 import {TreeNode} from '../../../commons/components/api';
+import {RegionService} from '../../../commons/services/region.service';
 
 @Component({
   selector: 'app-region-province',
@@ -65,6 +66,7 @@ export class RegionProvinceComponent implements OnInit {
   public provinceUpdateData: any = {};
   constructor(
     private smartPublicSrv: SmartPublicService,
+    private regionSrv: RegionService,
   ) { }
 
   ngOnInit() {
@@ -83,7 +85,7 @@ export class RegionProvinceComponent implements OnInit {
   // province删除操作
   public provinceDelete(e): void {
     this.provinceLoading = true;
-    this.smartPublicSrv.areaTreeDelete({data: [{id: e.id}]}).subscribe(
+    this.regionSrv.regionTreeDelete({data: [{id: e.id}]}).subscribe(
       (val) => {
         this.provinceLoading = false;
         this.provinceAlertsDis.push({
@@ -99,7 +101,7 @@ export class RegionProvinceComponent implements OnInit {
   public provinceAdd(e): void {
     if (e) {
       this.provinceLoading = true;
-      this.smartPublicSrv.areaTreeAdd(e).subscribe(
+      this.regionSrv.regionTreeAdd(e).subscribe(
         (val) => {
           this.provinceAlertsDis.push({
             type: 'success',
@@ -171,7 +173,7 @@ export class RegionProvinceComponent implements OnInit {
           }
         }
       }
-      this.smartPublicSrv.areaTreeUpdate(this.provinceUpdateData).subscribe(
+      this.regionSrv.regionTreeUpdate(this.provinceUpdateData).subscribe(
         (val) => {
           this.provinceLoading = false;
           if (val.status !== '1000') {

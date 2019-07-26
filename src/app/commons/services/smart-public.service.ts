@@ -8,24 +8,19 @@ import {Observable} from 'rxjs';
 export class SmartPublicService {
 
   constructor(
-    private orgHttp: HttpClient
+    private httpClient: HttpClient
   ) { }
   /******************************联动接口*************************/
   // 查询区域树
   public areaTreeSelect(): Observable<any> {
-    return this.orgHttp.post('/cloud_house_admin/divison/choosePid', {});
-  }
-  public areaTreeAdd(params): Observable<any> {
-    return this.orgHttp.post('/cloud_house_admin/divison/add', params);
-  }
-  public areaTreeDelete(params): Observable<any> {
-    return this.orgHttp.post('/cloud_house_admin/divison/deleteByIds', params);
-  }
-  public areaTreeUpdate(params): Observable<any> {
-    return this.orgHttp.post('/cloud_house_admin/divison/update', params);
+    return this.httpClient.post('/cloud_house_admin/divison/choosePid', {});
   }
   // 组织树查询
-  public orgTreeSelect(params): Observable<any> {
-    return this.orgHttp.post('/cloud_house_admin/organization/choosePid', params);
+  public orgTreeSelect(): Observable<any> {
+    return this.httpClient.post('/cloud_house_admin/organization/choosePid', {});
+  }
+  // 部门树查询
+  public departmentTreeSelect(params): Observable<any> {
+    return this.httpClient.post('/cloud_house_admin/department/choosePid', params);
   }
 }

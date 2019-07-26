@@ -4,3 +4,7 @@ export interface TreeNode {
   styleClass?: string;
   children?: TreeNode[];
 }
+export interface SelectList {
+  name: string;
+  value: string;
+}

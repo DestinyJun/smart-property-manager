@@ -47,6 +47,7 @@ export class TablesPopularComponent implements OnInit, OnChanges{
   public formErrors = {};
   public treeSelectInput: any;
   public treeSelectValue: any;
+  @Output() treeSelectChange = new EventEmitter();
   public validationMessages: any = {
     /*'email': {
       'required': '邮箱必须输入。',
@@ -65,15 +66,31 @@ export class TablesPopularComponent implements OnInit, OnChanges{
   constructor() {
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.form = this.toFormGroup(this.fields);
+    this.form.valueChanges.subscribe((data) => {
+      this.onValueChanged(data);
+    });
+    this.onValueChanged();
+  }
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.fields) {
+    let tree = false;
+    if (this.fields.length !== 0) {
+      if ('modalTreeList' in changes) {
+        console.log('11111');
+        tree = true;
+      }
       this.form = this.toFormGroup(this.fields);
       this.form.valueChanges.subscribe((data) => {
         this.onValueChanged(data);
       });
       this.onValueChanged();
+      if (!tree) {
+
+      }
+      tree = false;
     }
+    console.log(tree);
     if (this.tbody) {
       this.ids = [];
       this.tableInit();
@@ -253,7 +270,7 @@ export class TablesPopularComponent implements OnInit, OnChanges{
   public treeSelectSave(): void {
     this.fields.map((val, index) => {
       const a = {};
-      if (val.controlType === this.treeSelectInput.controlType) {
+      if (val.controlType === this.treeSelectInput.controlType && val['treeType'] === this.treeSelectInput['treeType']) {
        for (const prop in this.fields[index]) {
          if (this.fields[index].hasOwnProperty(prop)) {
            if (prop === 'key') {
@@ -267,6 +284,7 @@ export class TablesPopularComponent implements OnInit, OnChanges{
   }
   public onInputTreeSelected(e): void {
     this.treeSelectInput = e;
+    this.treeSelectChange.emit(e);
     this.warningModal.show();
   }
 }

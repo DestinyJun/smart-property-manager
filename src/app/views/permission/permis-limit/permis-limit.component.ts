@@ -234,77 +234,82 @@ export class PermisLimitComponent implements OnInit {
         this.permisLimitUpdateData['title'] =  this.permisLimitUpdateData.name;
         delete this.permisLimitUpdateData.name;
       }
-      this.permisLimitFields = [
-        new Textbox({
-          label: '权限名称',
-          value: this.permisLimitUpdateData.title,
-          placeholder: '请输入权限名称',
-          type: 'text',
-          key: 'title',
-          required: true,
-        }),
-        new Textbox({
-          label: '权限编码',
-          value: e.value.permisCode,
-          placeholder: '请输入权限编码',
-          key: 'permisCode',
-          type: 'text',
-          required: true,
-        }),
-        new Radiosbox({
-          value: `${e.value.menuPermisFlag}`,
-          list: [{name: '菜单权限', type: '1'}, {name: '功能权限', type: '2'}],
-          label: '菜单类型：',
-          key: 'menuPermisFlag'
-        }),
-        new Radiosbox({
-          value: `${e.value.permisOrder}`,
-          list: [{name: '子系统', type: '0'}, {name: '一级菜单', type: '1'}, {name: '二级菜单', type: '2'}],
-          label: '模块：',
-          key: 'permisOrder'
-        }),
-        new Textbox({
-          label: '路由',
-          value: e.value.router,
-          placeholder: '请输入路由',
-          key: 'router',
-          type: 'text',
-          required: true,
-        }),
-        new Textbox({
-          label: '颜色',
-          value: e.value.color,
-          placeholder: '请输入颜色',
-          key: 'color',
-          type: 'text',
-          required: true,
-        }),
-        new Treebox({
-          label: '权限级别',
-          placeholder: '点击选择权限级别',
-          type: 'text',
-          key: 'name',
-          required: true,
-          disabled: true
-        }),
-        new Treebox({
-          label: '权限级别',
-          placeholder: '权限级别',
-          type: 'text',
-          key: 'parentCode',
-          parent: 'id',
-          required: false,
-          hidden: true
-        }),
-        new TextArea({
-          value: e.value.remark,
-          label: '备注',
-          placeholder: '想备注的话就写在这里',
-          row: 5,
-          key: 'remark',
-          required: false,
-        }),
-      ];
+      this.permissSrv.permisMangerSearch({}).subscribe(
+        (val) => {
+          this.permisLimitTree = this.treeInit(val.data);
+          this.permisLimitFields = [
+            new Textbox({
+              label: '权限名称',
+              value: this.permisLimitUpdateData.title,
+              placeholder: '请输入权限名称',
+              type: 'text',
+              key: 'title',
+              required: true,
+            }),
+            new Textbox({
+              label: '权限编码',
+              value: e.value.permisCode,
+              placeholder: '请输入权限编码',
+              key: 'permisCode',
+              type: 'text',
+              required: true,
+            }),
+            new Radiosbox({
+              value: `${e.value.menuPermisFlag}`,
+              list: [{name: '菜单权限', type: '1'}, {name: '功能权限', type: '2'}],
+              label: '菜单类型：',
+              key: 'menuPermisFlag'
+            }),
+            new Radiosbox({
+              value: `${e.value.permisOrder}`,
+              list: [{name: '子系统', type: '0'}, {name: '一级菜单', type: '1'}, {name: '二级菜单', type: '2'}],
+              label: '模块：',
+              key: 'permisOrder'
+            }),
+            new Textbox({
+              label: '路由',
+              value: e.value.router,
+              placeholder: '请输入路由',
+              key: 'router',
+              type: 'text',
+              required: true,
+            }),
+            new Textbox({
+              label: '颜色',
+              value: e.value.color,
+              placeholder: '请输入颜色',
+              key: 'color',
+              type: 'text',
+              required: true,
+            }),
+            new Treebox({
+              label: '权限级别',
+              placeholder: '点击选择权限级别',
+              type: 'text',
+              key: 'name',
+              required: true,
+              disabled: true
+            }),
+            new Treebox({
+              label: '权限级别',
+              placeholder: '权限级别',
+              type: 'text',
+              key: 'parentCode',
+              parent: 'id',
+              required: false,
+              hidden: true
+            }),
+            new TextArea({
+              value: e.value.remark,
+              label: '备注',
+              placeholder: '想备注的话就写在这里',
+              row: 5,
+              key: 'remark',
+              required: false,
+            }),
+          ];
+        }
+      );
     }
   }
   // tree 数据初始化

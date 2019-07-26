@@ -1,7 +1,17 @@
 <div class="org-agency">
-  <h1>组织管理</h1>
+  <app-tables-popular
+    [tableType]="'tree'"
+    [treeList]="agencyList"
+    [modalTreeList]="agencyTree"
+    [modalTreeTitle]="'请选择组织'"
+    [fields]="agencyFields"
+    [modalTitle]="'权限字段添加'"
+    (deleteChange)="agencyDelete($event)"
+    (addChange)="agencyAdd($event)"
+    (updateChange)="agencyUpdate($event)"
+    (treeSelectChange)="onTreeSelectChang($event)"
+  >
+  </app-tables-popular>
+  <ngx-loading [show]="agencyLoading" [config]="{backdropBorderRadius: '3px'}"></ngx-loading>
+  <app-smart-alert [alertsDismiss]="agencyAlertsDis"></app-smart-alert>
 </div>
-<ngx-loading
-  [show]="orgLoading"
-  [config]="{backdropBorderRadius: '3px'}">
-</ngx-loading>

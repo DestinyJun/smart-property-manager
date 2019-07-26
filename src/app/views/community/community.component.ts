@@ -32,10 +32,10 @@ export class CommunityComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.communityListInit(this.communityPage);
+    // this.communityListInit(this.communityPage);
   }
   // community数据初始化
-  public communityListInit(param): void {
+ /* public communityListInit(param): void {
     this.communityLoading = true;
     this.regionSrv.regionCommunitySearch(param).subscribe(
       (val) => {
@@ -44,31 +44,31 @@ export class CommunityComponent implements OnInit {
         this.communityList = val.data;
       }
     );
-  }
+  }*/
   // community分页操作
-  public communityChange(e): void {
-    this.communityPage.pageNo = e.page;
-    this.communityListInit(this.communityPage);
-  }
+  // public communityChange(e): void {
+  //   this.communityPage.pageNo = e.page;
+  //   this.communityListInit(this.communityPage);
+  // }
   // community删除操作
-  public communityDelete(e): void {
-    const arr = [];
-    e.map((val) => {
-      arr.push({id: val});
-    });
-    this.communityLoading = true;
-    this.regionSrv.regionCommunityDelete({data: arr}).subscribe(
-      (val) => {
-        this.communityLoading = false;
-        this.communityAlertsDis.push({
-          type: 'success',
-          msg: `${val.message}(操作时间: ${new Date().toLocaleTimeString('it-IT', {hour12: false})})`,
-          timeout: 2000
-        });
-        this.communityListInit(this.communityPage);
-      }
-    );
-  }
+  // public communityDelete(e): void {
+  //   const arr = [];
+  //   e.map((val) => {
+  //     arr.push({id: val});
+  //   });
+  //   this.communityLoading = true;
+  //   this.regionSrv.regionCommunityDelete({data: arr}).subscribe(
+  //     (val) => {
+  //       this.communityLoading = false;
+  //       this.communityAlertsDis.push({
+  //         type: 'success',
+  //         msg: `${val.message}(操作时间: ${new Date().toLocaleTimeString('it-IT', {hour12: false})})`,
+  //         timeout: 2000
+  //       });
+  //       this.communityListInit(this.communityPage);
+  //     }
+  //   );
+  // }
   // community新增操作
   public communityAdd(e): void {
     console.log(e);
@@ -93,7 +93,7 @@ export class CommunityComponent implements OnInit {
       );*/
     }
     else {
-      this.regionSrv.regionCountySearch({pageNo: 1, pageSize: 100}).subscribe(
+     /* this.regionSrv.regionCountySearch({pageNo: 1, pageSize: 100}).subscribe(
         (val) => {
           console.log(val);
           this.countyList = val.data.contents;
@@ -154,11 +154,11 @@ export class CommunityComponent implements OnInit {
               src: ''
             }),
           ];
-        });
+        });*/
     }
   }
   // community 修改操作
-  public communityUpdate(e): void {
+  /*public communityUpdate(e): void {
     if (e.saving) {
       let i = null;
       const obj = this.communityUpdateData;
@@ -219,5 +219,5 @@ export class CommunityComponent implements OnInit {
           ];
         });
     }
-  }
+  }*/
 }

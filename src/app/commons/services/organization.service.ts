@@ -8,12 +8,26 @@ import {Observable} from 'rxjs';
 export class OrganizationService {
 
   constructor(
-    private orgHttp: HttpClient,
+    private httpClient: HttpClient,
   ) { }
-  public orgPageSearch(params): Observable<any> {
-    return this.orgHttp.post('/cloud_house_admin/organization/findByPage', params);
+  // 组织管理相关接口
+  public orgAgencyAdd(params): Observable<any> {
+    return this.httpClient.post('/cloud_house_admin/organization/add', params);
   }
-  public orgDelete(params): Observable<any> {
-    return this.orgHttp.post('/cloud_house_admin/organization/deleteByIds', params);
+  public orgAgencyDelete(params): Observable<any> {
+    return this.httpClient.post('/cloud_house_admin/organization/deleteByIds', params);
+  }
+  public orgAgencyUpdate(params): Observable<any> {
+    return this.httpClient.post('/cloud_house_admin/organization/deleteByIds', params);
+  }
+  // 部门管理相关接口
+  public orgDepartmentAdd(params): Observable<any> {
+    return this.httpClient.post('/cloud_house_admin/department/add', params);
+  }
+  public orgDepartmentDelete(params): Observable<any> {
+    return this.httpClient.post('/cloud_house_admin/department/deleteByIds', params);
+  }
+  public orgDepartmentUpdate(params): Observable<any> {
+    return this.httpClient.post('/cloud_house_admin/department/update', params);
   }
 }

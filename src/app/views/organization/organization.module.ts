@@ -6,6 +6,9 @@ import { OrgAgencyComponent } from './org-agency/org-agency.component';
 import { OrgDepartmentComponent } from './org-department/org-department.component';
 import {TablesModule} from '../../commons/components/tables/tables.module';
 import {NgxLoadingModule} from 'ngx-loading';
+import {SmartAlertModule} from '../../commons/components/smart-alert/smart-alert.module';
+import {PaginationModule} from 'ngx-bootstrap';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,7 +19,10 @@ import {NgxLoadingModule} from 'ngx-loading';
     CommonModule,
     OrganizationRoutingModule,
     TablesModule,
-    NgxLoadingModule.forRoot({})
+    NgxLoadingModule.forRoot({}),
+    SmartAlertModule,
+    PaginationModule.forRoot(),
+    FormsModule
   ]
 })
 export class OrganizationModule { }

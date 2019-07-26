@@ -8,46 +8,16 @@ import {Observable} from 'rxjs';
 export class RegionService {
 
   constructor(
-    private orgHttp: HttpClient,
+    private httpClient: HttpClient,
   ) { }
-  // city 相关接口
-  public regionCitySearch(params): Observable<any> {
-    return this.orgHttp.post('/cloud_house_admin/city/findByPage', params);
+  public regionTreeAdd(params): Observable<any> {
+    return this.httpClient.post('/cloud_house_admin/divison/add', params);
   }
-  public regionCityAdd(params): Observable<any> {
-    return this.orgHttp.post('/cloud_house_admin/city/add', params);
+  public regionTreeDelete(params): Observable<any> {
+    return this.httpClient.post('/cloud_house_admin/divison/deleteByIds', params);
   }
-  public regionCityDelete(params): Observable<any> {
-    return this.orgHttp.post('/cloud_house_admin/city/deleteByIds', params);
-  }
-  public regionCityUpdate(params): Observable<any> {
-    return this.orgHttp.post('/cloud_house_admin/city/update', params);
-  }
-  // county相关接口
-  public regionCountySearch(params): Observable<any> {
-    return this.orgHttp.post('/cloud_house_admin/district/findByPage', params);
-  }
-  public regionCountyAdd(params): Observable<any> {
-    return this.orgHttp.post('/cloud_house_admin/district/add', params);
-  }
-  public regionCountyDelete(params): Observable<any> {
-    return this.orgHttp.post('/cloud_house_admin/district/deleteByIds', params);
-  }
-  public regionCountyUpdate(params): Observable<any> {
-    return this.orgHttp.post('/cloud_house_admin/district/update', params);
-  }
-  // community相关接口
-  public regionCommunitySearch(params): Observable<any> {
-    return this.orgHttp.post('/cloud_house_admin/village/findByPage', params);
-  }
-  public regionCommunityAdd(params): Observable<any> {
-    return this.orgHttp.post('/cloud_house_admin/village/add', params);
-  }
-  public regionCommunityDelete(params): Observable<any> {
-    return this.orgHttp.post('/cloud_house_admin/village/deleteByIds', params);
-  }
-  public regionCommunityUpdate(params): Observable<any> {
-    return this.orgHttp.post('/cloud_house_admin/village/update', params);
+  public regionTreeUpdate(params): Observable<any> {
+    return this.httpClient.post('/cloud_house_admin/divison/update', params);
   }
 
 }
