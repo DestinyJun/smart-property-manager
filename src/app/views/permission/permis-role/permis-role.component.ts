@@ -135,7 +135,7 @@ export class PermisRoleComponent implements OnInit {
       );
     }
     else {
-      this.smartPublicSrv.orgTreeSelect({}).subscribe(
+      this.smartPublicSrv.orgTreeSelect().subscribe(
         (val) => {
           this.roleOrgTree = this.treeInit(val.data);
           this.roleFields = [
@@ -205,7 +205,7 @@ export class PermisRoleComponent implements OnInit {
       if ('udt' in this.roleUpdateData) {
         delete this.roleUpdateData['udt'];
       }
-      this.smartPublicSrv.orgTreeSelect({}).subscribe(
+      this.smartPublicSrv.orgTreeSelect().subscribe(
         (val) => {
           this.roleOrgTree = this.treeInit(val.data);
           this.roleFields = [

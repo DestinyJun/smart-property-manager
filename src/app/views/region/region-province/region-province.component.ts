@@ -137,6 +137,8 @@ export class RegionProvinceComponent implements OnInit {
               placeholder: '点击选择所属区域',
               type: 'text',
               key: 'name',
+              parent: 'name',
+              treeType: 'area',
               required: true,
               disabled: true
             }),
@@ -145,6 +147,8 @@ export class RegionProvinceComponent implements OnInit {
               placeholder: '区域flag',
               type: 'text',
               key: 'flag',
+              parent: 'flag',
+              treeType: 'area',
               required: false,
               hidden: true
             }),
@@ -154,6 +158,7 @@ export class RegionProvinceComponent implements OnInit {
               type: 'text',
               key: 'pid',
               parent: 'divisonCode',
+              treeType: 'area',
               required: false,
               hidden: true
             }),
@@ -196,7 +201,6 @@ export class RegionProvinceComponent implements OnInit {
     else {
       this.smartPublicSrv.areaTreeSelect().subscribe(
         (val) => {
-          console.log(val);
           this.provinceAreaTree = this.treeInit(val.data);
           const ignore = ['udt', 'children'];
           for (const item in e.value) {
@@ -233,6 +237,7 @@ export class RegionProvinceComponent implements OnInit {
               placeholder: '点击选择所属区域',
               type: 'text',
               key: 'name',
+              parent: 'name',
               required: true,
               disabled: true
             }),
@@ -242,6 +247,7 @@ export class RegionProvinceComponent implements OnInit {
               placeholder: '区域flag',
               type: 'text',
               key: 'flag',
+              parent: 'flag',
               required: false,
               hidden: true
             }),

@@ -77,7 +77,6 @@ export class TablesPopularComponent implements OnInit, OnChanges{
     let tree = false;
     if (this.fields.length !== 0) {
       if ('modalTreeList' in changes) {
-        console.log('11111');
         tree = true;
       }
       this.form = this.toFormGroup(this.fields);
@@ -90,7 +89,6 @@ export class TablesPopularComponent implements OnInit, OnChanges{
       }
       tree = false;
     }
-    console.log(tree);
     if (this.tbody) {
       this.ids = [];
       this.tableInit();
@@ -254,15 +252,6 @@ export class TablesPopularComponent implements OnInit, OnChanges{
     }
     return obj;
   }
-  /*// 数据联动
-  public onInputChange(e): void {
-    this.fields.map((val, index) => {
-      if (val.key === e.obj.key) {
-        this.fields[index].value = e.value;
-      }
-    });
-    this.form = this.toFormGroup(this.fields);
-  }*/
   // tree数据初始化
   public onTreeSelected(e): void {
     this.treeSelectValue = e;
