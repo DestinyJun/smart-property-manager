@@ -76,14 +76,16 @@
       <div class="modal-body">
         <form class="form-horizontal" role="form" [formGroup]="form" *ngIf="fields">
           <div class="row">
-            <div *ngFor="let field of fields" class="col-6">
-              <!--(inputChange)="onInputChange($event)"-->
-              <app-form-control
-                (treeSelected)="onInputTreeSelected($event)"
-                [formErrors]="formErrors"
-                [form]="form" [field]="field">
-              </app-form-control>
-            </div>
+            <ng-container *ngFor="let field of fields">
+              <div class="col-6" *ngIf="!field.hidden">
+                <!--(inputChange)="onInputChange($event)"-->
+                <app-form-control
+                  (treeSelected)="onInputTreeSelected($event)"
+                  [formErrors]="formErrors"
+                  [form]="form" [field]="field">
+                </app-form-control>
+              </div>
+            </ng-container>
           </div>
         </form>
       </div>

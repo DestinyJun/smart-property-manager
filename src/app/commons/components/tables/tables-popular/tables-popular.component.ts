@@ -24,6 +24,7 @@ export class TablesPopularComponent implements OnInit, OnChanges{
   // tree list
   @Input() treeList: any;
   @Input() tableType: any = 'table';
+  public treeStatus = false;
   // modal
   @Input() modalTitle: any = '基础字段添加';
   @Input() modalTreeTitle: any = '请选择区域树';
@@ -74,20 +75,15 @@ export class TablesPopularComponent implements OnInit, OnChanges{
     this.onValueChanged();
   }
   ngOnChanges(changes: SimpleChanges): void {
-    let tree = false;
+    this.treeStatus = false;
     if (this.fields.length !== 0) {
-      if ('modalTreeList' in changes) {
-        tree = true;
+      if (!('modalTreeList' in changes)) {
+        this.form = this.toFormGroup(this.fields);
+        this.form.valueChanges.subscribe((data) => {
+          this.onValueChanged(data);
+        });
+        this.onValueChanged();
       }
-      this.form = this.toFormGroup(this.fields);
-      this.form.valueChanges.subscribe((data) => {
-        this.onValueChanged(data);
-      });
-      this.onValueChanged();
-      if (!tree) {
-
-      }
-      tree = false;
     }
     if (this.tbody) {
       this.ids = [];
@@ -129,16 +125,26 @@ export class TablesPopularComponent implements OnInit, OnChanges{
         return;
       }
       this.updateChange.emit({saving: false, value: this.cloneObj(this.tbody[this.ids[0]])});
+      this.primaryModal.show();
     }
     else {
+      if (this.treeSelectValue === undefined || this.treeSelectValue === null) {
+        this.tablesAlertsDis.push({
+          type: 'danger',
+          msg: `操作有误，请选中要操作的项再进行操作！`,
+          timeout: 2000
+        });
+        return;
+      }
       this.updateChange.emit({saving: false, value: this.treeSelectValue});
+      this.primaryModal.show();
     }
-    this.primaryModal.show();
   }
   public upDateSaveClick() {
     if (this.form.valid) {
       this.updateChange.emit({saving: true, value: this.form.value});
       this.form.reset();
+      this.treeSelectValue = null;
       this.primaryModal.hide();
     }
   }

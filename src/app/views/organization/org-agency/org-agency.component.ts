@@ -9,8 +9,7 @@ import {
 } from '../../../commons/components/tables/tables-popular/dynamic-form/form-field';
 import {Radiosbox} from '../../../commons/components/tables/tables-popular/dynamic-form/form-field/radiosbox';
 import {SmartPublicService} from '../../../commons/services/smart-public.service';
-import {TreeNode, SelectList} from '../../../commons/components/api';
-import {SelectorListContext} from '@angular/compiler';
+import {TreeNode} from '../../../commons/components/api';
 @Component({
   selector: 'app-org-agency',
   templateUrl: './org-agency.component.html',
@@ -107,9 +106,9 @@ export class OrgAgencyComponent implements OnInit {
   }
   // agency新增操作
   public agencyAdd(e): void {
-    console.log(e);
     if (e) {
-     /* this.agencyLoading = true;
+      console.log(e);
+      this.agencyLoading = true;
       this.orgSrv.orgAgencyAdd(e).subscribe(
         (val) => {
           this.agencyAlertsDis.push({
@@ -120,7 +119,7 @@ export class OrgAgencyComponent implements OnInit {
           this.agencyLoading = false;
           this.agencyListInit();
         }
-      );*/
+      );
     }
     else {
       this.agencyFields = [
@@ -131,7 +130,7 @@ export class OrgAgencyComponent implements OnInit {
           key: 'organizationName',
           required: true,
         }),
-      /*  new Textbox({
+       /* new Textbox({
           label: '公众号openId',
           placeholder: '请输入公众号openId',
           key: 'openId',
@@ -217,7 +216,7 @@ export class OrgAgencyComponent implements OnInit {
           ],
           label: '请选择公司规模:',
           key: 'scale'
-        }),
+        }),*/
         new Dropdownbox({
           value: '有限公司',
           list: [
@@ -227,21 +226,21 @@ export class OrgAgencyComponent implements OnInit {
           ],
           label: '请选择公司类型:',
           key: 'category'
-        }),*/
+        }),
         new Treebox({
           label: '所属组织',
           placeholder: '请选择所属组织',
           type: 'text',
-          key: 'name',
+          key: 'agencyName',
+          parent: 'agencyName',
           treeType: 'agency',
-          required: true,
           disabled: true
         }),
         new Treebox({
-          label: '组织id',
-          placeholder: '组织id',
+          label: '所属组织',
+          placeholder: '所属组织',
           type: 'text',
-          key: 'organizationId',
+          key: 'pid',
           treeType: 'agency',
           parent: 'id',
           required: false,
@@ -251,19 +250,19 @@ export class OrgAgencyComponent implements OnInit {
           label: '所属区域',
           placeholder: '请选择所属区域',
           type: 'text',
-          key: 'name',
+          key: 'areaName',
+          parent: 'areaName',
           treeType: 'area',
-          required: true,
           disabled: true
         }),
         new Treebox({
-          label: '区域code',
-          placeholder: '区域code',
+          label: '所属区域',
+          placeholder: '所属区域',
           type: 'text',
           key: 'divisonCode',
           treeType: 'area',
           parent: 'divisonCode',
-          required: false,
+          required: true,
           hidden: false
         }),
         /*new TextArea({
@@ -405,7 +404,6 @@ export class OrgAgencyComponent implements OnInit {
   }
   // tree init
   public onTreeSelectChang(e): void {
-    console.log(e);
     if (e.treeType === 'agency') {
       this.smartPublicSrv.orgTreeSelect().subscribe(
         (val) => {
@@ -416,9 +414,7 @@ export class OrgAgencyComponent implements OnInit {
     if (e.treeType === 'area') {
       this.smartPublicSrv.areaTreeSelect().subscribe(
         (val) => {
-          console.log(val);
           this.agencyTree = this.areaTreeInit(val.data);
-          console.log(this.agencyTree);
         }
       );
     }
@@ -430,6 +426,8 @@ export class OrgAgencyComponent implements OnInit {
       const childnode: TreeNode = {};
       childnode.id = data[i]['organizationId'];
       childnode.name = data[i]['organizationName'];
+      childnode['agencyName'] = data[i]['organizationName'];
+      childnode['organizationId'] = data[i]['organizationId'];
       childnode['districtCode'] = data[i]['districtCode'];
       childnode['districtName'] = data[i]['districtName'];
       childnode['openId'] = data[i]['openId'];
@@ -467,6 +465,7 @@ export class OrgAgencyComponent implements OnInit {
       const childnode: TreeNode = {};
       childnode.id = data[i]['id'];
       childnode.name = data[i]['divisonName'];
+      childnode['areaName'] = data[i]['divisonName'];
       childnode['divisonCode'] = data[i]['divisonCode'];
       childnode['pid'] = data[i]['pid'];
       childnode['idt'] = data[i]['idt'];

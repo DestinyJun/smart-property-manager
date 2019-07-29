@@ -78,7 +78,7 @@ export class RegionProvinceComponent implements OnInit {
     this.smartPublicSrv.areaTreeSelect().subscribe(
       (val) => {
         this.provinceLoading = false;
-        this.provinceList = this.treeInit(val.data);
+        this.provinceList = this.areaTreeInit(val.data);
       }
     );
   }
@@ -114,57 +114,49 @@ export class RegionProvinceComponent implements OnInit {
       );
     }
     else {
-      this.smartPublicSrv.areaTreeSelect().subscribe(
-        (val) => {
-          this.provinceAreaTree = this.treeInit(val.data);
-          this.provinceFields = [
-            new Textbox({
-              label: '区域名称',
-              placeholder: '请输入区域名称',
-              key: 'divisonName',
-              type: 'text',
-              required: true,
-            }),
-            new Textbox({
-              label: '区域编号',
-              placeholder: '请输入区域编号',
-              type: 'number',
-              key: 'divisonCode',
-              required: true,
-            }),
-            new Treebox({
-              label: '请选择所属区域',
-              placeholder: '点击选择所属区域',
-              type: 'text',
-              key: 'name',
-              parent: 'name',
-              treeType: 'area',
-              required: true,
-              disabled: true
-            }),
-            new Treebox({
-              label: '区域flag',
-              placeholder: '区域flag',
-              type: 'text',
-              key: 'flag',
-              parent: 'flag',
-              treeType: 'area',
-              required: false,
-              hidden: true
-            }),
-            new Treebox({
-              label: '区域pid',
-              placeholder: '请输入区域pid',
-              type: 'text',
-              key: 'pid',
-              parent: 'divisonCode',
-              treeType: 'area',
-              required: false,
-              hidden: true
-            }),
-          ];
-        }
-      );
+      this.provinceFields = [
+        new Textbox({
+          label: '区域名称',
+          placeholder: '请输入区域名称',
+          key: 'divisonName',
+          type: 'text',
+          required: true,
+        }),
+        new Textbox({
+          label: '区域编号',
+          placeholder: '请输入区域编号',
+          type: 'number',
+          key: 'divisonCode',
+          required: true,
+        }),
+        new Treebox({
+          label: '所属区域',
+          placeholder: '点击选择所属区域',
+          type: 'text',
+          key: 'areaName',
+          parent: 'areaName',
+          treeType: 'area',
+          required: true,
+          disabled: true
+        }),
+        new Treebox({
+          label: '所属区域',
+          placeholder: '所属区域',
+          type: 'text',
+          key: 'pid',
+          parent: 'divisonCode',
+          treeType: 'area',
+          required: false,
+          hidden: true
+        }),
+        new Textbox({
+          label: '区域编号',
+          placeholder: '请输入区域编号',
+          type: 'number',
+          key: 'divisonCode',
+          required: true,
+        }),
+      ];
     }
   }
   // province 修改操作
@@ -199,87 +191,83 @@ export class RegionProvinceComponent implements OnInit {
       );
     }
     else {
+      const ignore = ['udt', 'children', 'flag'];
+      for (const item in e.value) {
+        if (e.value.hasOwnProperty(item)) {
+          this.provinceUpdateData[item] = e.value[item];
+        }
+      }
+      for (let i = 0; i < ignore.length ; i++) {
+        if (ignore[i] in this.provinceUpdateData) {
+          delete this.provinceUpdateData[ignore[i]];
+        }
+      }
+      if (this.provinceUpdateData.hasOwnProperty('name')) {
+        this.provinceUpdateData['divisonName'] =  this.provinceUpdateData.name;
+        delete this.provinceUpdateData.name;
+      }
+      this.provinceFields = [
+        new Textbox({
+          label: `区域名称`,
+          value: `${e.value.name}`,
+          placeholder: '请输入新区域名称',
+          key: 'divisonName',
+          required: true,
+        }),
+        new Textbox({
+          label: `区域编码`,
+          value: `${e.value.divisonCode}`,
+          placeholder: '请输入新区域编码',
+          key: 'divisonCode',
+          required: true,
+        }),
+        new Treebox({
+          label: '请选择所属区域',
+          placeholder: '点击选择所属区域',
+          type: 'text',
+          key: 'name',
+          parent: 'name',
+          required: true,
+          disabled: true
+        }),
+        new Treebox({
+          label: '区域pid',
+          value: `${e.value.pid}`,
+          placeholder: '请输入区域pid',
+          type: 'text',
+          key: 'pid',
+          parent: 'divisonCode',
+          required: false,
+          hidden: false
+        }),
+      ];
+    }
+  }
+  // tree init
+  public onTreeSelectChang(e): void {
+    if (e.treeType === 'area') {
       this.smartPublicSrv.areaTreeSelect().subscribe(
         (val) => {
-          this.provinceAreaTree = this.treeInit(val.data);
-          const ignore = ['udt', 'children'];
-          for (const item in e.value) {
-            if (e.value.hasOwnProperty(item)) {
-              this.provinceUpdateData[item] = e.value[item];
-            }
-          }
-          for (let i = 0; i < ignore.length ; i++) {
-            if (ignore[i] in this.provinceUpdateData) {
-              delete this.provinceUpdateData[ignore[i]];
-            }
-          }
-          if (this.provinceUpdateData.hasOwnProperty('name')) {
-            this.provinceUpdateData['divisonName'] =  this.provinceUpdateData.name;
-            delete this.provinceUpdateData.name;
-          }
-          this.provinceFields = [
-            new Textbox({
-              label: `区域名称`,
-              value: `${e.value.name}`,
-              placeholder: '请输入新区域名称',
-              key: 'divisonName',
-              required: true,
-            }),
-            new Textbox({
-              label: `区域编码`,
-              value: `${e.value.divisonCode}`,
-              placeholder: '请输入新区域编码',
-              key: 'divisonCode',
-              required: true,
-            }),
-            new Treebox({
-              label: '请选择所属区域',
-              placeholder: '点击选择所属区域',
-              type: 'text',
-              key: 'name',
-              parent: 'name',
-              required: true,
-              disabled: true
-            }),
-            new Treebox({
-              label: '区域flag',
-              value: `${e.value.flag}`,
-              placeholder: '区域flag',
-              type: 'text',
-              key: 'flag',
-              parent: 'flag',
-              required: false,
-              hidden: true
-            }),
-            new Treebox({
-              label: '区域pid',
-              value: `${e.value.id}`,
-              placeholder: '请输入区域pid',
-              type: 'text',
-              key: 'pid',
-              parent: 'divisonCode',
-              required: false,
-              hidden: true
-            }),
-          ];
+          this.provinceAreaTree = this.areaTreeInit(val.data);
         }
       );
     }
   }
   // tree 数据初始化
-  public treeInit(data): any {
+  public areaTreeInit(data): any {
     const oneChild: TreeNode[] = [];
     for (let i = 0; i < data.length; i++) {
       const childnode: TreeNode = {};
       childnode.id = data[i]['id'];
       childnode.name = data[i]['divisonName'];
+      childnode['areaName'] = data[i]['divisonName'];
       childnode['divisonCode'] = data[i]['divisonCode'];
       childnode['flag'] = data[i]['flag'];
       childnode['idt'] = data[i]['idt'];
       childnode['pid'] = data[i]['pid'];
       childnode['udt'] = data[i]['udt'];
       if (data[i].divisonDTO) {
-        childnode.children = this.treeInit(data[i].divisonDTO);
+        childnode.children = this.areaTreeInit(data[i].divisonDTO);
       }
       else {
         childnode.children = [];
