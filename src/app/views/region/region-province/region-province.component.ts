@@ -77,8 +77,9 @@ export class RegionProvinceComponent implements OnInit {
     this.provinceLoading = true;
     this.smartPublicSrv.areaTreeSelect().subscribe(
       (val) => {
+        console.log(val);
         this.provinceLoading = false;
-        this.provinceList = this.areaTreeInit(val.data);
+        // this.provinceList = this.areaTreeInit(val.data);
       }
     );
   }

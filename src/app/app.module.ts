@@ -1,10 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import {LocationStrategy, HashLocationStrategy} from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+
+
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -42,6 +44,8 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {SmartInterceptor} from './commons/services/smart-interceptor';
 import {NgxLoadingModule} from 'ngx-loading';
 import {FormsModule} from '@angular/forms';
+import {StoreModule} from '@ngrx/store';
+import {counterReducer} from './counter.reducer';
 
 @NgModule({
   imports: [
@@ -60,6 +64,7 @@ import {FormsModule} from '@angular/forms';
     HttpClientModule,
     FormsModule,
     NgxLoadingModule.forRoot({}),
+    StoreModule.forRoot({ count: counterReducer })
   ],
   declarations: [
     AppComponent,
@@ -67,7 +72,7 @@ import {FormsModule} from '@angular/forms';
     P404Component,
     P500Component,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: SmartInterceptor, multi: true},

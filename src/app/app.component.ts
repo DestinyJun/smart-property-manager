@@ -4,9 +4,13 @@ import { Router, NavigationEnd } from '@angular/router';
 @Component({
   // tslint:disable-next-line
   selector: 'body',
-  template: '<router-outlet></router-outlet>'
+  template: `
+    <router-outlet></router-outlet>
+    <!--<ngx-loading [show]="loadingShow" [config]="{backdropBorderRadius: '3px'}"></ngx-loading>-->
+  `
 })
 export class AppComponent implements OnInit {
+  public loadingShow = false;
   constructor(private router: Router) { }
 
   ngOnInit() {

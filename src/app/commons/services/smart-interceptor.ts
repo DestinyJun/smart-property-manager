@@ -9,7 +9,7 @@ export class SmartInterceptor implements HttpInterceptor {
   public clonedRequest: any;
   public http_url: any;
   public skipUrl = [`/cloud_house_authentication/login`];
-  public skipState = [ `1000`, `1005`, `1004`];
+  public skipState = [ `1000`];
   constructor (
     private router: Router,
     private globalSrv: GlobalService
@@ -79,7 +79,7 @@ export class SmartInterceptor implements HttpInterceptor {
         url: this.http_url + req.url,
         headers: req.headers
           .set('Content-type', 'application/json')
-          .set('appkey', environment.appkey)
+          .set('appkey', this.globalSrv.smartSessionGetObject('appkey'))
       });
     }
     return next.handle(this.clonedRequest).pipe(

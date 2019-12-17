@@ -1,13 +1,34 @@
 import { Component, OnInit } from '@angular/core';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
+import {select, Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
+import {decrement, increment, reset} from '../../counter.actions';
+import {DatePipe} from '@angular/common';
 
 @Component({
-  templateUrl: 'dashboard.component.html'
+  templateUrl: 'dashboard.component.html',
+  providers: [DatePipe]
 })
 export class DashboardComponent implements OnInit {
+  count$: Observable<number>;
+  public timer = new Date();
+  constructor(private store: Store<{ count: number }>, private date: DatePipe) {
+    this.count$ = store.pipe(select('count'));
+  }
 
-  radioModel: string = 'Month';
+  increment() {
+    this.store.dispatch(increment());
+  }
+
+  decrement() {
+    this.store.dispatch(decrement());
+  }
+
+  reset() {
+    this.store.dispatch(reset());
+  }
+  public radioModel = 'Month';
 
   // lineChart1
   public lineChart1Data: Array<any> = [
@@ -378,6 +399,10 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.date.transform(new Date(),'yyyy-MM-dd HH:mm:ss'));
+    this.count$.subscribe((value) => {
+      console.log(value);
+    });
     // generate random values for mainChart
     for (let i = 0; i <= this.mainChartElements; i++) {
       this.mainChartData1.push(this.random(50, 200));
