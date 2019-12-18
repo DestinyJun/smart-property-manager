@@ -4,6 +4,8 @@ import {delay, tap, timeout} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {Router} from '@angular/router';
 import {GlobalService} from './global.service';
+import {Store} from '@ngrx/store';
+import {loadingHiddenChange, loadingShowChange} from '../../counter.actions';
 
 export class SmartInterceptor implements HttpInterceptor {
   public clonedRequest: any;
@@ -12,7 +14,8 @@ export class SmartInterceptor implements HttpInterceptor {
   public skipState = [ `1000`];
   constructor (
     private router: Router,
-    private globalSrv: GlobalService
+    private globalSrv: GlobalService,
+    private store: Store<{  count: Number, showLoading: boolean }>
   ) {}
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (req.url.indexOf('cloud_house_authentication') < 0) {
@@ -67,6 +70,7 @@ export class SmartInterceptor implements HttpInterceptor {
     );
   }
   public debug_http(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    this.store.dispatch(loadingShowChange());
     if (this.isSkipUrl(req.url)) {
       this.clonedRequest = req.clone({
         url: this.http_url + req.url,
@@ -86,6 +90,7 @@ export class SmartInterceptor implements HttpInterceptor {
       delay(300),
       tap(
         (event: any) => {
+          this.store.dispatch(loadingHiddenChange());
           if (event.status === 200) {
             if (this.skipState.includes(event.body.status)) {
               return of(event);
@@ -95,6 +100,7 @@ export class SmartInterceptor implements HttpInterceptor {
           }
         },
          (err) => {
+           this.store.dispatch(loadingHiddenChange());
           this.router.navigate(['/login']);
           return EMPTY;
         }

@@ -46,6 +46,8 @@ import {NgxLoadingModule} from 'ngx-loading';
 import {FormsModule} from '@angular/forms';
 import {StoreModule} from '@ngrx/store';
 import {counterReducer} from './counter.reducer';
+import {showReducer} from './show.reducer';
+// import {showReducer} from './show.reducer';
 
 @NgModule({
   imports: [
@@ -64,7 +66,7 @@ import {counterReducer} from './counter.reducer';
     HttpClientModule,
     FormsModule,
     NgxLoadingModule.forRoot({}),
-    StoreModule.forRoot({ count: counterReducer })
+    StoreModule.forRoot({ count: counterReducer, showLoading: showReducer }),
   ],
   declarations: [
     AppComponent,
