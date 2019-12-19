@@ -47,6 +47,8 @@ import {FormsModule} from '@angular/forms';
 import {StoreModule} from '@ngrx/store';
 import {counterReducer} from './counter.reducer';
 import {showReducer} from './show.reducer';
+import {RemindReducer} from './remind.reducer';
+import {SmartAlertModule} from './commons/components/smart-alert/smart-alert.module';
 // import {showReducer} from './show.reducer';
 
 @NgModule({
@@ -65,8 +67,9 @@ import {showReducer} from './show.reducer';
     ChartsModule,
     HttpClientModule,
     FormsModule,
+    SmartAlertModule,
     NgxLoadingModule.forRoot({}),
-    StoreModule.forRoot({ count: counterReducer, showLoading: showReducer }),
+    StoreModule.forRoot({ count: counterReducer, showLoading: showReducer,remindText: RemindReducer }),
   ],
   declarations: [
     AppComponent,

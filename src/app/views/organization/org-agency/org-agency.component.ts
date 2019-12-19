@@ -18,7 +18,6 @@ import {TreeNode} from '../../../commons/components/api';
 export class OrgAgencyComponent implements OnInit {
   public agencyList: any;
   public agencyTree: any;
-  public agencyAreaTree: any;
   public agencyLoading = false;
   public agencyFields: FieldBase<any>[] = [
     /* new Textbox({
@@ -81,20 +80,17 @@ export class OrgAgencyComponent implements OnInit {
   }
   // agency初始化查询
   public agencyListInit(): void {
-    this.agencyLoading = true;
     this.smartPublicSrv.orgTreeSelect().subscribe(
       (val) => {
-        this.agencyLoading = false;
+        console.log(val);
         this.agencyList = this.orgTreeInit(val.data);
       }
     );
   }
   // agency删除操作
   public agencyDelete(e): void {
-    this.agencyLoading = true;
     this.orgSrv.orgAgencyDelete({permitCodes: `${e.agencyCode}`}).subscribe(
       (val) => {
-        this.agencyLoading = false;
         this.agencyAlertsDis.push({
           type: 'success',
           msg: `${val.message}(操作时间: ${new Date().toLocaleTimeString('it-IT', {hour12: false})})`,
@@ -107,8 +103,6 @@ export class OrgAgencyComponent implements OnInit {
   // agency新增操作
   public agencyAdd(e): void {
     if (e) {
-      console.log(e);
-      this.agencyLoading = true;
       this.orgSrv.orgAgencyAdd(e).subscribe(
         (val) => {
           this.agencyAlertsDis.push({
@@ -116,7 +110,6 @@ export class OrgAgencyComponent implements OnInit {
             msg: `${val.message}(操作时间: ${new Date().toLocaleTimeString('it-IT', {hour12: false})})`,
             timeout: 2000
           });
-          this.agencyLoading = false;
           this.agencyListInit();
         }
       );
@@ -129,122 +122,6 @@ export class OrgAgencyComponent implements OnInit {
           type: 'text',
           key: 'organizationName',
           required: true,
-        }),
-       /* new Textbox({
-          label: '公众号openId',
-          placeholder: '请输入公众号openId',
-          key: 'openId',
-          type: 'text',
-          required: true,
-        }),
-        new Textbox({
-          label: '邮编',
-          placeholder: '请输入邮编',
-          key: 'postcode',
-          type: 'text',
-          required: true,
-        }),
-        new Textbox({
-          label: '工商注册号',
-          placeholder: '请输入工商注册号',
-          key: 'regNo',
-          type: 'text',
-          required: true,
-        }),
-        new Textbox({
-          label: '纬度',
-          placeholder: '请输入纬度',
-          key: 'latitude',
-          type: 'text',
-          required: true,
-        }),
-        new Textbox({
-          label: '经度',
-          placeholder: '请输入经度',
-          key: 'longitude',
-          type: 'text',
-          required: true,
-        }),
-        new Textbox({
-          label: '法人',
-          placeholder: '请输入法人',
-          key: 'legalPerson',
-          type: 'text',
-          required: true,
-        }),
-        new Textbox({
-          label: '公司地址',
-          placeholder: '请输入公司地址',
-          key: 'address',
-          type: 'text',
-          required: true,
-        }),
-        new Textbox({
-          label: '成立日期',
-          placeholder: '请输入成立日期',
-          key: 'foundDate',
-          type: 'text',
-          required: true,
-        }),
-        new Textbox({
-          label: '传真',
-          placeholder: '请输入传真',
-          key: 'fax',
-          type: 'text',
-          required: true,
-        }),
-        new Textbox({
-          label: '单位电话',
-          placeholder: '请输入单位电话',
-          key: 'telNumber',
-          type: 'text',
-          required: true,
-        }),
-        new Textbox({
-          label: '邮箱',
-          placeholder: '请输入邮箱',
-          key: 'email',
-          type: 'text',
-          required: true,
-        }),
-        new Dropdownbox({
-          value: '100-500人',
-          list: [
-            {name: '1-100人', value: '1-100人', selected: true},
-            {name: '100-500人', value: '100-500人', selected: false},
-            {name: '大于500人', value: '大于500人', selected: false}
-          ],
-          label: '请选择公司规模:',
-          key: 'scale'
-        }),*/
-        new Dropdownbox({
-          value: '有限公司',
-          list: [
-            {name: '有限公司', value: '有限公司'},
-            {name: '股份公司', value: '股份公司'},
-            {name: '股份有限公司', value: '股份有限公司'}
-          ],
-          label: '请选择公司类型:',
-          key: 'category'
-        }),
-        new Treebox({
-          label: '所属组织',
-          placeholder: '请选择所属组织',
-          type: 'text',
-          key: 'agencyName',
-          parent: 'agencyName',
-          treeType: 'agency',
-          disabled: true
-        }),
-        new Treebox({
-          label: '所属组织',
-          placeholder: '所属组织',
-          type: 'text',
-          key: 'pid',
-          treeType: 'agency',
-          parent: 'id',
-          required: false,
-          hidden: false
         }),
         new Treebox({
           label: '所属区域',
@@ -263,29 +140,140 @@ export class OrgAgencyComponent implements OnInit {
           treeType: 'area',
           parent: 'divisonCode',
           required: true,
-          hidden: false
+          hidden: true
         }),
-        /*new TextArea({
-          value: '',
-          label: '备注',
-          placeholder: '想备注的话就写在这里',
-          row: 5,
-          key: 'remark',
+        new Textbox({
+          label: '公众号openID',
+          placeholder: '请输入公众号openID',
+          type: 'text',
+          key: 'openId',
+          required: true,
+        }),
+        new Textbox({
+          label: '邮编',
+          placeholder: '请输入邮编',
+          type: 'text',
+          key: 'postcode',
+          required: true,
+        }),
+        new Textbox({
+          label: '工商注册号',
+          placeholder: '请输入工商注册号',
+          type: 'text',
+          key: 'postcode',
+          required: true,
+        }),
+        new Textbox({
+          label: '纬度',
+          placeholder: '请输入纬度',
+          type: 'number',
+          key: 'latitude',
+          required: true,
+        }),
+        new Textbox({
+          label: '经度',
+          placeholder: '请输入经度',
+          type: 'number',
+          key: 'longitude',
+          required: true,
+        }),
+        new Textbox({
+          label: '法人',
+          placeholder: '请输入法人',
+          type: 'text',
+          key: 'legalPerson',
+          required: true,
+        }),
+        new Textbox({
+          label: '公司地址',
+          placeholder: '请输入公司地址',
+          type: 'text',
+          key: 'address',
+          required: true,
+        }),
+        new Textbox({
+          label: '成立日期',
+          placeholder: '请输入成立日期',
+          type: 'text',
+          key: 'foundDate',
+          required: true,
+        }),
+        new Textbox({
+          label: '传真',
+          placeholder: '请输入传真',
+          type: 'mobile',
+          key: 'fax',
+          required: true,
+        }),
+        new Textbox({
+          label: '单位电话',
+          placeholder: '请输入单位电话',
+          type: 'mobile',
+          key: 'telNumber',
+          required: true,
+        }),
+        new Textbox({
+          label: '单位邮箱',
+          placeholder: '请输入邮箱',
+          type: 'email',
+          key: 'telNumber',
+          required: true,
+        }),
+        new Textbox({
+          label: '公司规模',
+          placeholder: '请输入公司人数规模',
+          type: 'number',
+          key: 'scale',
+          required: true,
+        }),
+        new Dropdownbox({
+          value: '有限公司',
+          list: [
+            {name: '有限公司', value: '有限公司'},
+            {name: '股份公司', value: '股份公司'},
+            {name: '股份有限公司', value: '股份有限公司'}
+          ],
+          label: '请选择公司类型:',
+          key: 'category'
+        }),
+        new TextArea({
+          label: '公司简介',
+          placeholder: '请输入公司简介',
+          key: 'introduction',
           required: false,
         }),
-        new Radiosbox({
-          value: '1',
-          list: [{name: '菜单权限', type: '1'}, {name: '功能权限', type: '2'}],
-          label: '菜单类型：',
-          key: 'menuagencyFlag'
-        }),*/
+        new Textbox({
+          label: '票据名称',
+          placeholder: '请输入票据名称',
+          type: 'number',
+          key: 'billName',
+          required: true,
+        }),
+        new Treebox({
+          label: '所属组织',
+          placeholder: '请选择所属组织',
+          type: 'text',
+          key: 'agencyName',
+          parent: 'agencyName',
+          treeType: 'agency',
+          disabled: true,
+        }),
+        new Treebox({
+          label: '所属组织',
+          placeholder: '所属组织',
+          type: 'text',
+          key: 'pid',
+          treeType: 'agency',
+          parent: 'id',
+          required: true,
+          hidden: true
+        }),
       ];
     }
   }
   // agency 修改操作
   public agencyUpdate(e): void {
     if (e.saving) {
-      this.agencyLoading = true;
       for (const item in e.value) {
         if (e.value.hasOwnProperty(item)) {
           if (item in this.agencyUpdateData) {
@@ -295,7 +283,6 @@ export class OrgAgencyComponent implements OnInit {
       }
       this.orgSrv.orgAgencyUpdate(this.agencyUpdateData).subscribe(
         (val) => {
-          this.agencyLoading = false;
           if (val.status !== '1000') {
             this.agencyAlertsDis.push({
               type: 'danger',
@@ -331,13 +318,64 @@ export class OrgAgencyComponent implements OnInit {
       }
       this.agencyFields = [
         new Textbox({
-          label: '权限名称',
+          label: '组织名称',
           value: this.agencyUpdateData.title,
-          placeholder: '请输入权限名称',
+          placeholder: '请输入组织名称',
           type: 'text',
-          key: 'title',
+          key: 'organizationName',
           required: true,
         }),
+        new Dropdownbox({
+          value: '有限公司',
+          list: [
+            {name: '有限公司', value: '有限公司'},
+            {name: '股份公司', value: '股份公司'},
+            {name: '股份有限公司', value: '股份有限公司'}
+          ],
+          label: '请选择公司类型:',
+          key: 'category'
+        }),
+        new Treebox({
+          label: '所属组织',
+          placeholder: '请选择所属组织',
+          type: 'text',
+          key: 'agencyName',
+          parent: 'agencyName',
+          treeType: 'agency',
+          disabled: true,
+        }),
+        new Treebox({
+          label: '所属组织',
+          placeholder: '所属组织',
+          type: 'text',
+          key: 'pid',
+          treeType: 'agency',
+          parent: 'id',
+          required: true,
+          hidden: true
+        }),
+        new Treebox({
+          label: '所属区域',
+          placeholder: '请选择所属区域',
+          type: 'text',
+          key: 'areaName',
+          parent: 'areaName',
+          treeType: 'area',
+          disabled: true
+        }),
+        new Treebox({
+          label: '所属区域',
+          placeholder: '所属区域',
+          type: 'text',
+          key: 'divisonCode',
+          treeType: 'area',
+          parent: 'divisonCode',
+          required: true,
+          hidden: true
+        }),
+
+
+
         new Textbox({
           label: '权限编码',
           value: e.value.agencyCode,

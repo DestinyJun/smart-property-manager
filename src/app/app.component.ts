@@ -25,16 +25,19 @@ import {select, Store} from '@ngrx/store';
         <span class="sr-only">Loading...</span>
       </div>
     </div>
+    <app-smart-alert [alertsDismiss]="[remindText | async]"></app-smart-alert>
   `,
 })
 export class AppComponent implements OnInit {
   public showLoading: Observable<Boolean>;
+  public remindText: Observable<Array<any>>;
   public count: Observable<Number>;
   constructor(
     private router: Router,
-    private store: Store<{  count: Number, showLoading: boolean }>) {
+    private store: Store<{  count: Number, showLoading: boolean, remindText: Array<any> }>) {
     this.showLoading = store.pipe(select('showLoading'));
     this.count = store.pipe(select('count'));
+    this.remindText = store.pipe(select('remindText'));
   }
 
   ngOnInit() {

@@ -6,7 +6,7 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./smart-alert.component.scss']
 })
 export class SmartAlertComponent implements OnInit {
-  @Input() alertsDismiss = [];
+  @Input() alertsDismiss = {};
   constructor() { }
 
   ngOnInit() {

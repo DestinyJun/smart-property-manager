@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FieldBase, Textbox, Image, Dropdownbox} from '../../commons/components/tables/tables-popular/dynamic-form/form-field';
-import {RegionService} from '../../commons/services/region.service';
+import {CommunityService} from '../../commons/services/community.service';
 
 @Component({
   selector: 'app-region-community',
@@ -28,74 +28,73 @@ export class CommunityComponent implements OnInit {
   public communityUpdateData: any;
   public communityCurrentPage: number = 1;
   constructor(
-    private regionSrv: RegionService
+    private communitySrv: CommunityService
   ) { }
 
   ngOnInit() {
-    // this.communityListInit(this.communityPage);
+    this.communityListInit(this.communityPage);
   }
   // community数据初始化
- /* public communityListInit(param): void {
-    this.communityLoading = true;
-    this.regionSrv.regionCommunitySearch(param).subscribe(
+  public communityListInit(param): void {
+    this.communitySrv.CommunitySearch(param).subscribe(
       (val) => {
         console.log(val);
-        this.communityLoading = false;
         this.communityList = val.data;
       }
     );
-  }*/
+  }
+
   // community分页操作
-  // public communityChange(e): void {
-  //   this.communityPage.pageNo = e.page;
-  //   this.communityListInit(this.communityPage);
-  // }
+  public communityChange(e): void {
+    this.communityPage.pageNo = e.page;
+    this.communityListInit(this.communityPage);
+  }
+
   // community删除操作
-  // public communityDelete(e): void {
-  //   const arr = [];
-  //   e.map((val) => {
-  //     arr.push({id: val});
-  //   });
-  //   this.communityLoading = true;
-  //   this.regionSrv.regionCommunityDelete({data: arr}).subscribe(
-  //     (val) => {
-  //       this.communityLoading = false;
-  //       this.communityAlertsDis.push({
-  //         type: 'success',
-  //         msg: `${val.message}(操作时间: ${new Date().toLocaleTimeString('it-IT', {hour12: false})})`,
-  //         timeout: 2000
-  //       });
-  //       this.communityListInit(this.communityPage);
-  //     }
-  //   );
-  // }
+  public communityDelete(e): void {
+    const arr = [];
+    e.map((val) => {
+      arr.push({id: val});
+    });
+    this.communityLoading = true;
+    this.communitySrv.communityDelete({data: arr}).subscribe(
+      (val) => {
+        this.communityLoading = false;
+        this.communityAlertsDis.push({
+          type: 'success',
+          msg: `${val.message}(操作时间: ${new Date().toLocaleTimeString('it-IT', {hour12: false})})`,
+          timeout: 2000
+        });
+        this.communityListInit(this.communityPage);
+      }
+    );
+  }
+
   // community新增操作
   public communityAdd(e): void {
     console.log(e);
     const i = e;
     if (e) {
-     /* this.communityLoading = true;
-      this.regionSrv.regionCommunityAdd({
+      this.communitySrv.communityAdd({
         districtName: e.districtName,
         districtCode: e.districtCode,
         cityName: this.countyList[i].cityName,
         cityCode: this.countyList[i].cityCode,
-      }).subscribe(
+      })
+        .subscribe(
         (val) => {
           this.communityAlertsDis.push({
             type: 'success',
             msg: `${val.message}(操作时间: ${new Date().toLocaleTimeString('it-IT', {hour12: false})})`,
             timeout: 2000
           });
-          this.communityLoading = false;
           this.communityListInit(this.communityPage);
         }
-      );*/
+      );
     }
     else {
-     /* this.regionSrv.regionCountySearch({pageNo: 1, pageSize: 100}).subscribe(
+      this.communitySrv.CommunitySearch({pageNo: 1, pageSize: 100}).subscribe(
         (val) => {
-          console.log(val);
           this.countyList = val.data.contents;
           this.communityFields = [
             new Textbox({
@@ -104,10 +103,20 @@ export class CommunityComponent implements OnInit {
               key: 'villageName',
               required: true,
             }),
-            new Textbox({
-              label: '小区编号',
-              placeholder: '请输入小区编号',
-              key: 'villageCode',
+            new Dropdownbox({
+              list: val.data.contents,
+              label: '请选择所属县区',
+              placeholder: '下拉选择县区...',
+              key: 'districtName',
+              optionName: 'districtName',
+              required: true,
+            }),
+            new Dropdownbox({
+              list: val.data.contents,
+              label: '请选择所属组织',
+              placeholder: '下拉选择组织...',
+              key: 'organizationName ',
+              optionName: 'organizationName',
               required: true,
             }),
             new Textbox({
@@ -128,20 +137,11 @@ export class CommunityComponent implements OnInit {
               key: 'publicArea',
               required: true,
             }),
-            new Dropdownbox({
-              list: val.data.contents,
-              label: '请选择所属组织',
-              placeholder: '下拉选择组织...',
-              key: 'organizationName ',
-              optionName: 'organizationName',
-              required: true,
-            }),
-            new Dropdownbox({
-              list: val.data.contents,
-              label: '请选择所属县区',
-              placeholder: '下拉选择县区...',
-              key: 'districtName',
-              optionName: 'districtName',
+
+            new Textbox({
+              label: '小区编号',
+              placeholder: '请输入小区编号',
+              key: 'villageCode',
               required: true,
             }),
             new Textbox({
@@ -150,15 +150,13 @@ export class CommunityComponent implements OnInit {
               type: 'file',
               key: 'upload'
             }),
-            new Image({
-              src: ''
-            }),
           ];
-        });*/
+        });
     }
   }
+
   // community 修改操作
-  /*public communityUpdate(e): void {
+  public communityUpdate(e): void {
     if (e.saving) {
       let i = null;
       const obj = this.communityUpdateData;
@@ -173,7 +171,7 @@ export class CommunityComponent implements OnInit {
         this.communityUpdateData.cityCode = this.countyList[i].cityCode;
       }
       this.communityLoading = true;
-      this.regionSrv.regionCommunityUpdate(this.communityUpdateData).subscribe(
+      this.communitySrv.communityUpdate(this.communityUpdateData).subscribe(
         (val) => {
           this.communityLoading = false;
           this.communityAlertsDis.push({
@@ -190,7 +188,7 @@ export class CommunityComponent implements OnInit {
       if (this.communityUpdateData.hasOwnProperty('udt')) {
         delete this.communityUpdateData.udt;
       }
-      this.regionSrv.regionCitySearch({pageNo: 1, pageSize: 100}).subscribe(
+      this.communitySrv.CommunitySearch({pageNo: 1, pageSize: 100}).subscribe(
         (val) => {
           this.countyList = val.data.contents;
           this.communityFields = [
@@ -219,5 +217,5 @@ export class CommunityComponent implements OnInit {
           ];
         });
     }
-  }*/
+  }
 }

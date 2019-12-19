@@ -13,7 +13,6 @@ export class RegisterModel {
 })
 export class LoginComponent implements OnInit{
   public regModel: RegisterModel = new RegisterModel();
-  public loginLoading = false;
   public loginMsg: any = null;
   constructor (
     private httpClient: HttpClient,
@@ -24,10 +23,8 @@ export class LoginComponent implements OnInit{
   }
   // 登陆逻辑
   public doLogin(): void {
-    this.loginLoading = true;
     this.httpClient.post('/cloud_house_authentication/login', this.regModel).subscribe(
       (val) => {
-        this.loginLoading = false;
         if (val['status'] != 1000) {
           this.loginMsg = val;
           return;

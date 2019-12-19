@@ -1,11 +1,11 @@
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {EMPTY, Observable, of} from 'rxjs';
-import {delay, tap, timeout} from 'rxjs/operators';
+import {delay, tap} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {Router} from '@angular/router';
 import {GlobalService} from './global.service';
 import {Store} from '@ngrx/store';
-import {loadingHiddenChange, loadingShowChange} from '../../counter.actions';
+import {loadingHiddenChange, loadingShowChange, remindChange} from '../../counter.actions';
 
 export class SmartInterceptor implements HttpInterceptor {
   public clonedRequest: any;
@@ -15,7 +15,7 @@ export class SmartInterceptor implements HttpInterceptor {
   constructor (
     private router: Router,
     private globalSrv: GlobalService,
-    private store: Store<{  count: Number, showLoading: boolean }>
+    private store: Store<{  count: Number, showLoading: boolean, remindText: Array<any> }>
   ) {}
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (req.url.indexOf('cloud_house_authentication') < 0) {
@@ -93,10 +93,20 @@ export class SmartInterceptor implements HttpInterceptor {
           this.store.dispatch(loadingHiddenChange());
           if (event.status === 200) {
             if (this.skipState.includes(event.body.status)) {
+              this.store.dispatch(remindChange({data:{
+                  type: 'success',
+                  msg: `${event.body.message}(操作时间: ${new Date().toLocaleTimeString('it-IT', {hour12: false})})`,
+                  timeout: 2000
+                }}));
               return of(event);
+            } else {
+              this.store.dispatch(remindChange({data:{
+                  type: 'danger',
+                  msg: `${event.body.message}(操作时间: ${new Date().toLocaleTimeString('it-IT', {hour12: false})})`,
+                  timeout: 2000
+                }}));
+              return EMPTY;
             }
-            this.router.navigate(['/login']);
-            return EMPTY;
           }
         },
          (err) => {

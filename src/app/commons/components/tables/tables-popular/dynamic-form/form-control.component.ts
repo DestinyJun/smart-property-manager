@@ -18,7 +18,8 @@ export class FormControlComponent  implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnInit() {}
-  ngOnChanges(event: SimpleChanges): void {}
+  ngOnChanges(event: SimpleChanges): void {
+  }
   ngAfterViewInit(): void {
     if (this.field.controlType === 'dropdownbox') {
       if (this.field['list'].length !== 0) {

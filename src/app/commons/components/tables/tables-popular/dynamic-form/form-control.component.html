@@ -2,8 +2,7 @@
   <label class="col-md-4 col-form-label" [for]="field?.key" [hidden]="field?.hidden">{{field?.label}}</label>
   <div class="col-md-8">
     <div [ngSwitch]="field?.controlType">
-      <!--text-->
-      <!-- (input)="onInput($event,field)"-->
+      <!--input-->
       <ng-container *ngSwitchCase="'textbox'">
         <input
           [hidden]="field?.hidden"
@@ -18,11 +17,12 @@
           {{formErrors[field?.key]}}
         </span>
       </ng-container>
+
       <!--textarea-->
       <ng-container *ngSwitchCase="'textarea'">
          <textarea
            [id]="field?.key"
-           [value]="field?.value"
+           [value]="field?.value?field?.value:field?.placeholder"
            rows="{{field?.rows}}"
            class="form-control"
            [ngClass]="{'is-invalid': formErrors.email}"
@@ -30,10 +30,12 @@
            placeholder="{{field?.placeholder}}">
       </textarea>
       </ng-container>
+
      <!--image-->
       <ng-container *ngSwitchCase="'image'" >
         <img [src]="field?.src" alt="无图"/>
       </ng-container>
+
       <!--select-->
       <ng-container *ngSwitchCase="'dropdownbox'">
         <select
@@ -45,6 +47,7 @@
           <option *ngFor="let item of field?.list" value="{{item.value}}">{{item.name}}</option>
         </select>
       </ng-container>
+
       <!--radio-->
       <ng-container *ngSwitchCase="'radiosbox'">
         <div class="form-control">
@@ -54,8 +57,8 @@
           </div>
         </div>
       </ng-container>
+
       <!--tree-->
-      <!-- (input)="onInput($event)"-->
       <ng-container *ngSwitchCase="'treebox'">
         <input
           [hidden]="field?.hidden"

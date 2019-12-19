@@ -12,56 +12,7 @@ import {RegionService} from '../../../commons/services/region.service';
 export class RegionProvinceComponent implements OnInit {
   public provinceList: any;
   public provinceAreaTree: any;
-  public provinceLoading = false;
-  public provinceFields: FieldBase<any>[] = [
-    /* new Textbox({
-     label: '头像:',
-     placeholder: '上传头像',
-     type: 'file',
-     key: 'upload'
-   }),
-   new Textbox({
-     label: '用户名:',
-     placeholder: '用户名',
-     key: 'username'
-   }),
-   new Textbox({
-     label: '常用邮箱:',
-     placeholder: '常用邮箱',
-     key: 'email'
-   }),
-   new Textbox({
-     label: '密码:',
-     type: 'password',
-     placeholder: '密码，至少8位',
-     key: 'password'
-   }),
-   new Textbox({
-     label: '重复密码:',
-     type: 'password',
-     placeholder: '重复密码',
-     key: 'fireword'
-   }),
-   new TextArea({
-     value: '还是到付哈是否',
-     label: '个人简介:',
-     placeholder: '个人简介，最多140字，不能放链接。',
-     rows: 3,
-     key: 'intro'
-   }),
-   new Dropdownbox({
-     value: 1,
-     list: [{name: '公司1', id: 1}, {name: '公司2', id: 2}],
-     label: '请选择组织:',
-     key: 'origami'
-   }),
-   new Radiosbox({
-     value: 0,
-     list: [{name: '是', type: 1}, {name: '否', type: 0}],
-     label: '是否是收费:',
-     key: 'money'
-   })*/
-  ];
+  public provinceFields: FieldBase<any>[] = [];
   public provinceAlertsDis: any = [];
   public provinceUpdateData: any = {};
   constructor(
@@ -74,42 +25,27 @@ export class RegionProvinceComponent implements OnInit {
   }
   // province初始化查询
   public provinceListInit(): void {
-    this.provinceLoading = true;
     this.smartPublicSrv.areaTreeSelect().subscribe(
       (val) => {
-        console.log(val);
-        this.provinceLoading = false;
-        // this.provinceList = this.areaTreeInit(val.data);
+        this.provinceList = this.areaTreeInit(val.data);
       }
     );
   }
+
   // province删除操作
   public provinceDelete(e): void {
-    this.provinceLoading = true;
     this.regionSrv.regionTreeDelete({data: [{id: e.id}]}).subscribe(
-      (val) => {
-        this.provinceLoading = false;
-        this.provinceAlertsDis.push({
-          type: 'success',
-          msg: `${val.message}(操作时间: ${new Date().toLocaleTimeString('it-IT', {hour12: false})})`,
-          timeout: 2000
-        });
+      () => {
         this.provinceListInit();
       }
     );
   }
+
   // province新增操作
   public provinceAdd(e): void {
     if (e) {
-      this.provinceLoading = true;
       this.regionSrv.regionTreeAdd(e).subscribe(
-        (val) => {
-          this.provinceAlertsDis.push({
-            type: 'success',
-            msg: `${val.message}(操作时间: ${new Date().toLocaleTimeString('it-IT', {hour12: false})})`,
-            timeout: 2000
-          });
-          this.provinceLoading = false;
+        () => {
           this.provinceListInit();
         }
       );
@@ -150,20 +86,13 @@ export class RegionProvinceComponent implements OnInit {
           required: false,
           hidden: true
         }),
-        new Textbox({
-          label: '区域编号',
-          placeholder: '请输入区域编号',
-          type: 'number',
-          key: 'divisonCode',
-          required: true,
-        }),
       ];
     }
   }
+
   // province 修改操作
   public provinceUpdate(e): void {
     if (e.saving) {
-      this.provinceLoading = true;
       for (const item in e.value) {
         if (e.value.hasOwnProperty(item)) {
           if (item in this.provinceUpdateData) {
@@ -172,21 +101,7 @@ export class RegionProvinceComponent implements OnInit {
         }
       }
       this.regionSrv.regionTreeUpdate(this.provinceUpdateData).subscribe(
-        (val) => {
-          this.provinceLoading = false;
-          if (val.status !== '1000') {
-            this.provinceAlertsDis.push({
-              type: 'danger',
-              msg: `${val.message}(操作时间: ${new Date().toLocaleTimeString('it-IT', {hour12: false})})`,
-              timeout: 3000
-            });
-          return;
-          }
-          this.provinceAlertsDis.push({
-            type: 'success',
-            msg: `${val.message}(操作时间: ${new Date().toLocaleTimeString('it-IT', {hour12: false})})`,
-            timeout: 2000
-          });
+        () => {
           this.provinceListInit();
         }
       );
@@ -239,11 +154,12 @@ export class RegionProvinceComponent implements OnInit {
           key: 'pid',
           parent: 'divisonCode',
           required: false,
-          hidden: false
+          hidden: true
         }),
       ];
     }
   }
+
   // tree init
   public onTreeSelectChang(e): void {
     if (e.treeType === 'area') {
@@ -254,6 +170,7 @@ export class RegionProvinceComponent implements OnInit {
       );
     }
   }
+
   // tree 数据初始化
   public areaTreeInit(data): any {
     const oneChild: TreeNode[] = [];
