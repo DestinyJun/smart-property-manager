@@ -1,6 +1,6 @@
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {EMPTY, Observable, of} from 'rxjs';
-import {delay, tap} from 'rxjs/operators';
+import {EMPTY, Observable, of, throwError} from 'rxjs';
+import {catchError, delay, tap} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {Router} from '@angular/router';
 import {GlobalService} from './global.service';
@@ -87,9 +87,8 @@ export class SmartInterceptor implements HttpInterceptor {
       });
     }
     return next.handle(this.clonedRequest).pipe(
-      delay(300),
-      tap(
-        (event: any) => {
+      // delay(300), // 定义延时请求
+      tap((event: any) => {
           this.store.dispatch(loadingHiddenChange());
           if (event.status === 200) {
             if (this.skipState.includes(event.body.status)) {
@@ -100,21 +99,21 @@ export class SmartInterceptor implements HttpInterceptor {
                 }}));
               return of(event);
             } else {
-              this.store.dispatch(remindChange({data:{
-                  type: 'danger',
-                  msg: `${event.body.message}(操作时间: ${new Date().toLocaleTimeString('it-IT', {hour12: false})})`,
-                  timeout: 2000
-                }}));
-              return EMPTY;
+              throw event.body;
             }
           }
-        },
-         (err) => {
-           this.store.dispatch(loadingHiddenChange());
-          this.router.navigate(['/login']);
-          return EMPTY;
-        }
-      )
+        }),
+      catchError((error: any) => {
+        this.store.dispatch(loadingHiddenChange());
+        this.store.dispatch(remindChange({data:{
+            type: 'danger',
+            msg: `错误码：${error.status}；错误信息：${error.message}(异常时间: ${new Date().toLocaleTimeString('it-IT', {hour12: false})})`,
+            timeout: 5000
+          }}));
+        // this.router.navigate(['/login']);
+        return EMPTY;
+        // return throwError(error);
+      })
     );
   }
   // is skip url

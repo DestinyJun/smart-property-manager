@@ -94,6 +94,7 @@ export class TablesPopularComponent implements OnInit, OnChanges{
       this.validationInit();
     }
   }
+
   // table初始化
   public tableInit(): void {
     this.check_status = [];
@@ -101,6 +102,7 @@ export class TablesPopularComponent implements OnInit, OnChanges{
       this.check_status.push(false);
     });
   }
+
   // add按钮事件
   public addShowModal(): void {
     this.successModal.show();
@@ -113,6 +115,7 @@ export class TablesPopularComponent implements OnInit, OnChanges{
       this.form.reset();
     }
   }
+
   // update事件
   public updateShowModal(): void{
     if (this.tableType === 'table') {
@@ -148,6 +151,7 @@ export class TablesPopularComponent implements OnInit, OnChanges{
       this.primaryModal.hide();
     }
   }
+
   // delete事件
   public deleteShowModal(): void {
     if (this.tableType === 'table') {
@@ -174,6 +178,7 @@ export class TablesPopularComponent implements OnInit, OnChanges{
     }
     this.dangerModal.hide();
   }
+
   // table 选择
   public theadOnInput(e) {
     this.ids = [];
@@ -201,6 +206,7 @@ export class TablesPopularComponent implements OnInit, OnChanges{
       this.ids = Array.from(set);
     }
   }
+
   // 表单初始化及动态校验
   public toFormGroup(fields: FieldBase<any>[]) {
     const group: any = {};
@@ -248,6 +254,7 @@ export class TablesPopularComponent implements OnInit, OnChanges{
       }
     }
   }
+
   // 遍历赋值操作
   public cloneObj(c: any): any {
     const obj = {};
@@ -258,6 +265,7 @@ export class TablesPopularComponent implements OnInit, OnChanges{
     }
     return obj;
   }
+
   // tree数据初始化
   public onTreeSelected(e): void {
     this.treeSelectValue = e;
