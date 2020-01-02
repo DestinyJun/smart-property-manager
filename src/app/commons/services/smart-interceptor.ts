@@ -95,12 +95,19 @@ export class SmartInterceptor implements HttpInterceptor {
               this.store.dispatch(remindChange({data:{
                   type: 'success',
                   msg: `${event.body.message}(操作时间: ${new Date().toLocaleTimeString('it-IT', {hour12: false})})`,
-                  timeout: 2000
+                  timeout: 3000
                 }}));
               return of(event);
             } else {
               throw event.body;
             }
+          } else if (event.status === 500) {
+            this.store.dispatch(remindChange({data:{
+                type: 'success',
+                msg: `服务器处理失败，请检查网络或联系管理员！(操作时间: ${new Date().toLocaleTimeString('it-IT', {hour12: false})})`,
+                timeout: 3000
+              }}));
+            return EMPTY;
           }
         }),
       catchError((error: any) => {

@@ -1,13 +1,13 @@
 export class FieldBase<T> {
-  value: T;
-  key: string;
-  label: string;
-  controlType: string;
-  parent: string;
-  placeholder: string;
-  required?: boolean;
-  disabled?: boolean;
-  hidden?: boolean;
+  value: T; // 默认值
+  key: string; // 返回对象的key
+  label: string; // label标签的说明
+  controlType: string; // 表单的类型
+  parent: string; // 在树形结构中key的取值字段
+  placeholder: string; // placeholders说明
+  required?: boolean;// 是否必填
+  disabled?: boolean;// 是否是必须参数
+  hidden?: boolean;// 是否隐藏
 
   constructor(options: {
     value?: T,

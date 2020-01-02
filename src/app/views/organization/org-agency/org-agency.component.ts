@@ -392,6 +392,7 @@ export class OrgAgencyComponent implements OnInit {
         }),
         new Treebox({
           label: '所属组织',
+          value: this.agencyUpdateData.pname?this.agencyUpdateData.pname:'请选择所属组织',
           placeholder: '请选择所属组织',
           type: 'text',
           key: 'agencyName',
@@ -458,6 +459,7 @@ export class OrgAgencyComponent implements OnInit {
       childnode['introduction'] = data[i]['introduction'];
       childnode['billName'] = data[i]['billName'];
       childnode['pid'] = data[i]['pid'];
+      childnode['pname'] = data[i]['pname'];
       childnode['idt'] = data[i]['idt'];
       childnode['udt'] = data[i]['udt'];
       if (data[i].organization2DTO) {

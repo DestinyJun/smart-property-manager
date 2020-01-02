@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import {Observable} from 'rxjs';
 import {select, Store} from '@ngrx/store';
@@ -25,19 +25,24 @@ import {select, Store} from '@ngrx/store';
         <span class="sr-only">Loading...</span>
       </div>
     </div>
-    <app-smart-alert [alertsDismiss]="[remindText | async]"></app-smart-alert>
+    <app-smart-alert [alertsDismiss]="remindText"></app-smart-alert>
   `,
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit,AfterViewInit {
   public showLoading: Observable<Boolean>;
-  public remindText: Observable<Array<any>>;
+  public remindText = [];
   public count: Observable<Number>;
   constructor(
+    private cd: ChangeDetectorRef,
     private router: Router,
     private store: Store<{  count: Number, showLoading: boolean, remindText: Array<any> }>) {
     this.showLoading = store.pipe(select('showLoading'));
     this.count = store.pipe(select('count'));
-    this.remindText = store.pipe(select('remindText'));
+    store.pipe(select('remindText')).subscribe((val) => {
+      setTimeout(() => {
+        this.remindText.push(val)
+      },50);
+    })
   }
 
   ngOnInit() {
@@ -47,5 +52,8 @@ export class AppComponent implements OnInit {
       }
       window.scrollTo(0, 0);
     });
+  }
+  ngAfterViewInit() {
+    this.cd.detectChanges();
   }
 }

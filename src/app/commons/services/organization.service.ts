@@ -40,4 +40,9 @@ export class OrganizationService {
   public orgDepartmentUpdate(params): Observable<any> {
     return this.httpClient.post('/cloud_house_admin/department/update', params);
   }
+
+  // 部门查询
+  public orgDepartmentSelect(params): Observable<any> {
+    return this.httpClient.post('/cloud_house_admin/department/findByPage', params);
+  }
 }

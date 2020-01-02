@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FieldBase, Textbox, Image, Dropdownbox} from '../../commons/components/tables/tables-popular/dynamic-form/form-field';
+import {FieldBase, Textbox, Dropdownbox} from '../../commons/components/tables/tables-popular/dynamic-form/form-field';
 import {CommunityService} from '../../commons/services/community.service';
 
 @Component({

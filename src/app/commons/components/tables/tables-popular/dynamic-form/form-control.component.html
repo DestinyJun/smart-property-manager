@@ -44,7 +44,8 @@
           [formControlName]="field?.key"
           (input)="onInput($event)"
           class="form-control">
-          <option *ngFor="let item of field?.list" value="{{item.value}}">{{item.name}}</option>
+          <option [hidden]="field?.value">{{field?.placeholder}}</option>
+          <option *ngFor="let item of field?.list" value="{{item[field?.optionValue]}}" [selected]="field?.value===item[field?.optionValue]">{{item[field?.optionName]}}</option>
         </select>
       </ng-container>
 
